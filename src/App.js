@@ -7,14 +7,24 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <Box variant='styles.root'>
-          <Flex>
+        <Box
+          variant='styles.root'
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(12, 1fr)',
+            gridTemplateRows: '50px 350px 50px',
+          }}
+        >
+          <Flex sx={{ gridColumn: 'span 12' }}>
             <Text>Wantodo</Text>
             <Text>Profile</Text>
           </Flex>
-          <Heading>
-            Hello, World
-          </Heading>
+          <Box sx={{ gridColumn: 'span 2' }}><Text>Sidebar</Text></Box>
+          <Box sx={{ gridColumn: 'span 10' }}>
+            <Heading>
+              Hello, World
+            </Heading>
+          </Box>
         </Box>
       </ThemeProvider>
     );
