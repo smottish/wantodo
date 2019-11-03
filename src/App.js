@@ -12,7 +12,6 @@ const Header = ({onClick, ...props}) => (
 )
 
 const Sidebar = ({open, ...props}) => {
-  console.log(open)
   if (!open) {
     return null
   }
@@ -31,8 +30,15 @@ const Main = ({sidebarOpen, ...props}) => (
 )
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      sidebarOpen: true,
+    }
+  }
+
   render() {
-    const sidebarOpen = true
+    const { sidebarOpen } = this.state
     return (
       <ThemeProvider theme={theme}>
         <Box
@@ -43,9 +49,9 @@ class App extends Component {
             gridTemplateRows: '50px 350px 50px',
           }}
         >
-          <Header sidebarOpen={sidebarOpen}/>
+          <Header onClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
           <Sidebar open={sidebarOpen}/>
-          <Main>
+          <Main sidebarOpen={sidebarOpen}>
             <Heading>
               Hello, World
             </Heading>
