@@ -7,7 +7,7 @@ const Header = ({onClick, ...props}) => (
   <Flex sx={{ gridColumn: 'span 12', backgroundColor: 'blue' }}>
     <Text>Wantodo</Text>
     <Text>Profile</Text>
-    <Button onClick={onClick}>X</Button>
+    <Button onClick={onClick}>&#9776;</Button>
   </Flex>
 )
 
