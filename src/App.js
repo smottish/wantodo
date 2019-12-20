@@ -37,6 +37,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
     height: 'auto',
     top: 'auto',
     left: 'auto',
+    gridColumn: 'span 3',
   }
   
   const mobileProps = {
@@ -73,7 +74,7 @@ const Main = ({sidebarOpen, isMobile, ...props}) => {
   if (isMobile) {
     numCols = '12'
   } else {
-    numCols = sidebarOpen ? '10' : '12'
+    numCols = sidebarOpen ? '9' : '12'
   }
 
   return (
