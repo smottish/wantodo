@@ -31,7 +31,7 @@ const Sidebar = ({open, isMobile, ...props}) => {
     left: '0',
   }
   
-  const styleProps = isMobile ? desktopProps : mobileProps
+  const styleProps = isMobile ? mobileProps : desktopProps
 
   if (!open) {
     styleProps.display = 'none'
@@ -46,11 +46,21 @@ const Sidebar = ({open, isMobile, ...props}) => {
   )
 }
 
-const Main = ({sidebarOpen, ...props}) => (
-  <Box sx={{ gridColumn: `span ${sidebarOpen ? '10' : '12'}`, backgroundColor: 'green' }}>
-    {props.children}
-  </Box>
-)
+const Main = ({sidebarOpen, isMobile, ...props}) => {
+  let numCols
+
+  if (isMobile) {
+    numCols = '12'
+  } else {
+    numCols = sidebarOpen ? '10' : '12'
+  }
+
+  return (
+    <Box sx={{ gridColumn: `span ${numCols}`, backgroundColor: 'green' }}>
+      {props.children}
+    </Box>
+  )
+}
 
 class App extends Component {
   constructor(props) {
@@ -64,12 +74,20 @@ class App extends Component {
     this.onMediaQuery = this.onMediaQuery.bind(this)
   }
   
+  setMobileMode() {
+    this.setState({ isMobile: true, sidebarOpen: false })
+  }
+  
+  setDesktopMode() {
+    this.setState({ isMobile: false, sidebarOpen: true })
+  }
+  
   componentDidMount() {
     this.mql = window.matchMedia('(max-width: 768px)')
     if(this.mql.matches) {
-      this.setState({ isMobile: false, sidebarOpen: true })
+      this.setMobileMode()
     } else {
-      this.setState({ isMobile: true, sidebarOpen: false })
+      this.setDesktopMode()
     }
     this.mql.addListener(this.onMediaQuery)
   }
@@ -80,9 +98,9 @@ class App extends Component {
   
   onMediaQuery(mq) {
     if (mq.matches) {
-      this.setState({ isMobile: false, sidebarOpen: true })
+      this.setMobileMode()
     } else {
-      this.setState({ isMobile: true, sidebarOpen: false })
+      this.setDesktopMode()
     }
   }
 
@@ -100,7 +118,7 @@ class App extends Component {
         >
           <Header menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
           <Sidebar open={sidebarOpen} isMobile={isMobile}/>
-          <Main sidebarOpen={sidebarOpen}>
+          <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
             <Heading>
               Hello, World
             </Heading>
