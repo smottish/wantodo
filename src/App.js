@@ -3,15 +3,26 @@ import { ThemeProvider } from 'emotion-theming';
 import theme from '@rebass/preset';
 import { Heading, Box, Flex, Text, Button } from 'rebass';
 
-const Header = ({onClick, ...props}) => (
+const Header = ({menuClick, ...props}) => (
   <Flex sx={{ gridColumn: 'span 12', backgroundColor: 'blue' }}>
     <Text>Wantodo</Text>
     <Text>Profile</Text>
-    <Button onClick={onClick}>&#9776;</Button>
+    <Button onClick={menuClick}>&#9776;</Button>
   </Flex>
 )
 
 const Sidebar = ({open, ...props}) => {
+    
+  const desktopProps = {
+    display: 'block',
+    position: 'static',
+    width: 'auto',
+    zIndex: 'auto',
+    height: 'auto',
+    top: 'auto',
+    left: 'auto',
+  }
+  
   if (!open) {
     return null
   }
@@ -35,6 +46,8 @@ class App extends Component {
     this.state = {
       sidebarOpen: true,
     }
+    
+    this.mql = window.matchMedia('(max-width: 768px)');
   }
 
   render() {
@@ -49,7 +62,7 @@ class App extends Component {
             gridTemplateRows: '50px 350px 50px',
           }}
         >
-          <Header onClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
+          <Header menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
           <Sidebar open={sidebarOpen}/>
           <Main sidebarOpen={sidebarOpen}>
             <Heading>
