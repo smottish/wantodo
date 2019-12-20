@@ -11,7 +11,7 @@ const Header = ({menuClick, ...props}) => (
   </Flex>
 )
 
-const Sidebar = ({open, isMobile, ...props}) => {
+const Sidebar = ({open, isMobile, onClose, ...props}) => {
     
   const desktopProps = {
     position: 'static',
@@ -41,6 +41,7 @@ const Sidebar = ({open, isMobile, ...props}) => {
 
   return (
     <Box sx={{ gridColumn: 'span 2', backgroundColor: 'red', ...styleProps }}>
+      {isMobile && <Button onClick={onClose}>X</Button>}
       <Text>Sidebar</Text>
     </Box>
   )
@@ -117,7 +118,7 @@ class App extends Component {
           }}
         >
           <Header menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
-          <Sidebar open={sidebarOpen} isMobile={isMobile}/>
+          <Sidebar onClose={() => this.setState({sidebarOpen: false})} open={sidebarOpen} isMobile={isMobile}/>
           <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
             <Heading>
               Hello, World
