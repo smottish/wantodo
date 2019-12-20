@@ -11,10 +11,9 @@ const Header = ({menuClick, ...props}) => (
   </Flex>
 )
 
-const Sidebar = ({open, ...props}) => {
+const Sidebar = ({open, isMobile, ...props}) => {
     
   const desktopProps = {
-    display: 'block',
     position: 'static',
     width: 'auto',
     zIndex: 'auto',
@@ -23,12 +22,25 @@ const Sidebar = ({open, ...props}) => {
     left: 'auto',
   }
   
+  const mobileProps = {
+    position: 'fixed',
+    width: '250px',
+    zIndex: '1',
+    height: '100vw',
+    top: '0',
+    left: '0',
+  }
+  
+  const styleProps = isMobile ? desktopProps : mobileProps
+
   if (!open) {
-    return null
+    styleProps.display = 'none'
+  } else {
+    styleProps.display = 'block'
   }
 
   return (
-    <Box sx={{ gridColumn: 'span 2', backgroundColor: 'red' }}>
+    <Box sx={{ gridColumn: 'span 2', backgroundColor: 'red', ...styleProps }}>
       <Text>Sidebar</Text>
     </Box>
   )
@@ -45,13 +57,37 @@ class App extends Component {
     super(props)
     this.state = {
       sidebarOpen: true,
+      isMobile: false,
     }
     
-    this.mql = window.matchMedia('(max-width: 768px)');
+    this.mql = null;
+    this.onMediaQuery = this.onMediaQuery.bind(this)
+  }
+  
+  componentDidMount() {
+    this.mql = window.matchMedia('(max-width: 768px)')
+    if(this.mql.matches) {
+      this.setState({ isMobile: false, sidebarOpen: true })
+    } else {
+      this.setState({ isMobile: true, sidebarOpen: false })
+    }
+    this.mql.addListener(this.onMediaQuery)
+  }
+  
+  componentWillUnmount() {
+    this.mql.removeListener(this.onMediaQuery)
+  }
+  
+  onMediaQuery(mq) {
+    if (mq.matches) {
+      this.setState({ isMobile: false, sidebarOpen: true })
+    } else {
+      this.setState({ isMobile: true, sidebarOpen: false })
+    }
   }
 
   render() {
-    const { sidebarOpen } = this.state
+    const { sidebarOpen, isMobile } = this.state
     return (
       <ThemeProvider theme={theme}>
         <Box
@@ -63,7 +99,7 @@ class App extends Component {
           }}
         >
           <Header menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
-          <Sidebar open={sidebarOpen}/>
+          <Sidebar open={sidebarOpen} isMobile={isMobile}/>
           <Main sidebarOpen={sidebarOpen}>
             <Heading>
               Hello, World
