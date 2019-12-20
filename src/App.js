@@ -11,10 +11,20 @@ const Header = ({menuClick, ...props}) => (
   </Flex>
 )
 
-const Overlay = ({show}) => (
-  <div style={{
-      display: show ? display: ''
-  }}>
+const Overlay = ({show, onClick}) => (
+  <div
+    style={{
+      display: show ? 'block' : 'none',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      zIndex: 1,
+      backgroundColor: 'rgba(0,0,0,0.5)',
+    }}
+    onClick={onClick}
+  >
   </div>
 )
 
@@ -47,10 +57,13 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
   }
 
   return (
-    <Box sx={{ gridColumn: 'span 2', backgroundColor: 'red', ...styleProps }}>
-      {isMobile && <Button onClick={onClose}>X</Button>}
-      <Text>Sidebar</Text>
-    </Box>
+    <>
+      <Overlay show={open && isMobile} onClick={onClose} />
+      <Box sx={{ gridColumn: 'span 2', backgroundColor: 'red', ...styleProps }}>
+        {isMobile && <Button onClick={onClose}>X</Button>}
+        <Text>Sidebar</Text>
+      </Box>
+    </>
   )
 }
 
@@ -121,7 +134,7 @@ class App extends Component {
           sx={{
             display: 'grid',
             gridTemplateColumns: 'repeat(12, 1fr)',
-            gridTemplateRows: '50px 350px 50px',
+            gridTemplateRows: '50px 1fr',
           }}
         >
           <Header menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
