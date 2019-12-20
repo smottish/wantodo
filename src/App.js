@@ -11,6 +11,13 @@ const Header = ({menuClick, ...props}) => (
   </Flex>
 )
 
+const Overlay = ({show}) => (
+  <div style={{
+      display: show ? display: ''
+  }}>
+  </div>
+)
+
 const Sidebar = ({open, isMobile, onClose, ...props}) => {
     
   const desktopProps = {
