@@ -43,7 +43,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
     position: 'fixed',
     width: '250px',
     zIndex: '1',
-    height: '100vw',
+    height: '100vh',
     top: '0',
     left: '0',
   }
@@ -135,6 +135,7 @@ class App extends Component {
             display: 'grid',
             gridTemplateColumns: 'repeat(12, 1fr)',
             gridTemplateRows: '50px 1fr',
+            height: '100vh',
           }}
         >
           <Header menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
