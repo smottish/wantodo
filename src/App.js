@@ -10,13 +10,21 @@ const CircleIcon = ({ text }) => (
   </svg>
 )
 
-const Header = ({menuClick, ...props}) => (
-  <Flex sx={{ gridColumn: '2', backgroundColor: 'blue' }}>
-    <CircleIcon text={"Wantodo"} />
-    <circleIcon text={"Profile"} />
-    <Button onClick={menuClick}>&#9776;</Button>
-  </Flex>
-)
+const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
+  let gridColumn
+  
+  if (isMobile) {
+    gridColumn = 'span 2'
+  } else {
+    gridColumn = sidebarOpen ? '2' : 'span 2'
+  }
+  return (
+    <Flex justifyContent="space-between" sx={{ gridColumn, backgroundColor: 'blue' }}>
+      <Button onClick={menuClick}>&#9776;</Button>
+      <CircleIcon text={"Profile"} />
+    </Flex>
+  )
+}
 
 const Overlay = ({show, onClick}) => (
   <div
@@ -70,24 +78,26 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
     <>
       <Overlay show={open && isMobile} onClick={onClose} />
       <Box sx={{ backgroundColor: 'red', ...styleProps }}>
-        {isMobile && <Button onClick={onClose}>X</Button>}
-        <Text>Sidebar</Text>
+        <Flex>
+          <CircleIcon text={"Wantodo"} />
+          {isMobile && <Button onClick={onClose}>X</Button>}
+        </Flex>
       </Box>
     </>
   )
 }
 
 const Main = ({sidebarOpen, isMobile, ...props}) => {
-  let col
+  let gridColumn
 
   if (isMobile) {
-    col = 1
+    gridColumn = 'span 2'
   } else {
-    col = sidebarOpen ? 2 : 1
+    gridColumn = sidebarOpen ? '2' : 'span 2'
   }
 
   return (
-    <Box sx={{ gridColumn: `{cols}`, backgroundColor: 'green' }}>
+    <Box sx={{ gridColumn, backgroundColor: 'green' }}>
       {props.children}
     </Box>
   )
@@ -148,7 +158,7 @@ class App extends Component {
             height: '100vh',
           }}
         >
-          <Header menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
+          <Header sidebarOpen={sidebarOpen} isMobile={isMobile} menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
           <Sidebar onClose={() => this.setState({sidebarOpen: false})} open={sidebarOpen} isMobile={isMobile}/>
           <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
             <Heading>
