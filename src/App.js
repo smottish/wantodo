@@ -78,7 +78,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
     <>
       <Overlay show={open && isMobile} onClick={onClose} />
       <Box sx={{ backgroundColor: 'red', ...styleProps }}>
-        <Flex>
+        <Flex justifyContent="space-between">
           <CircleIcon text={"Wantodo"} />
           {isMobile && <Button onClick={onClose}>X</Button>}
         </Flex>
@@ -97,7 +97,7 @@ const Main = ({sidebarOpen, isMobile, ...props}) => {
   }
 
   return (
-    <Box sx={{ gridColumn, backgroundColor: 'green' }}>
+    <Box sx={{ gridColumn, backgroundColor: 'green', padding: '10px' }}>
       {props.children}
     </Box>
   )
