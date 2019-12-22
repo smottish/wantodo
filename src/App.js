@@ -3,10 +3,17 @@ import { ThemeProvider } from 'emotion-theming';
 import theme from '@rebass/preset';
 import { Heading, Box, Flex, Text, Button } from 'rebass';
 
+const CircleIcon = ({ text }) => (
+  <svg width="100" height="100">
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
+    <text x="50%" y="50%" text-anchor="middle" font-family="Arial" dy=".3em">{text}</text>
+  </svg>
+)
+
 const Header = ({menuClick, ...props}) => (
   <Flex sx={{ gridColumn: 'span 12', backgroundColor: 'blue' }}>
-    <Text>Wantodo</Text>
-    <Text>Profile</Text>
+    <CircleIcon text={"Wantodo"} />
+    <circleIcon text={"Profile"} />
     <Button onClick={menuClick}>&#9776;</Button>
   </Flex>
 )
@@ -134,6 +141,7 @@ class App extends Component {
           variant='styles.root'
           sx={{
             display: 'grid',
+            gridTemplateAreas: ['header header', 'sidebar main'],
             gridTemplateColumns: 'repeat(12, 1fr)',
             gridTemplateRows: '50px 1fr',
             height: '100vh',
