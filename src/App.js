@@ -11,7 +11,7 @@ const CircleIcon = ({ text }) => (
 )
 
 const Header = ({menuClick, ...props}) => (
-  <Flex sx={{ gridColumn: 'span 12', backgroundColor: 'blue' }}>
+  <Flex sx={{ gridColumn: '2', backgroundColor: 'blue' }}>
     <CircleIcon text={"Wantodo"} />
     <circleIcon text={"Profile"} />
     <Button onClick={menuClick}>&#9776;</Button>
@@ -44,7 +44,9 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
     height: 'auto',
     top: 'auto',
     left: 'auto',
-    gridColumn: 'span 3',
+    gridColumn: '1',
+    gridRowStart: '1',
+    gridRowEnd: '3',
   }
   
   const mobileProps = {
@@ -76,16 +78,16 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
 }
 
 const Main = ({sidebarOpen, isMobile, ...props}) => {
-  let numCols
+  let col
 
   if (isMobile) {
-    numCols = '12'
+    col = 1
   } else {
-    numCols = sidebarOpen ? '9' : '12'
+    col = sidebarOpen ? 2 : 1
   }
 
   return (
-    <Box sx={{ gridColumn: `span ${numCols}`, backgroundColor: 'green' }}>
+    <Box sx={{ gridColumn: `{cols}`, backgroundColor: 'green' }}>
       {props.children}
     </Box>
   )
@@ -141,7 +143,7 @@ class App extends Component {
           variant='styles.root'
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(12, 1fr)',
+            gridTemplateColumns: '250px 1fr',
             gridTemplateRows: 'auto 1fr',
             height: '100vh',
           }}
