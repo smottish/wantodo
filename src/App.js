@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ThemeProvider } from 'emotion-theming';
 import theme from '@rebass/preset';
-import { Heading, Box, Flex, Text, Button } from 'rebass';
+import { Heading, Box, Flex, Text, Button, Link } from 'rebass';
 
 const CircleIcon = ({ text }) => (
   <svg width="100" height="100">
@@ -77,11 +77,13 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
   return (
     <>
       <Overlay show={open && isMobile} onClick={onClose} />
-      <Box sx={{ backgroundColor: 'red', ...styleProps }}>
+      <Box padding="10px" sx={{ backgroundColor: 'rgb(54, 55, 64)', color: 'rgb(221, 226, 255)', ...styleProps }}>
         <Flex justifyContent="space-between">
           <CircleIcon text={"Wantodo"} />
           {isMobile && <Button onClick={onClose}>X</Button>}
         </Flex>
+        <Link display="block" color="rgb(221, 226, 255)" href="#">Contacts</Link>
+        <Link display="block" color="rgb(221, 226, 255)" href="#">Reports</Link>
       </Box>
     </>
   )
