@@ -3,6 +3,20 @@ import { ThemeProvider } from 'emotion-theming';
 import theme from '@rebass/preset';
 import { Heading, Box, Flex, Text, Button, Link } from 'rebass';
 
+const myTheme = {
+  ...theme,
+  variants: {
+    ...theme.variants,
+    navBlock: {
+      ...theme.variants.nav,
+      display: "block",
+      ':hover': {
+        
+      }
+    }
+  }
+}
+
 const CircleIcon = ({ text }) => (
   <svg width="100" height="100">
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
@@ -82,8 +96,8 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
           <CircleIcon text={"Wantodo"} />
           {isMobile && <Button onClick={onClose}>X</Button>}
         </Flex>
-        <Link display="block" color="rgb(221, 226, 255)" href="#">Contacts</Link>
-        <Link display="block" color="rgb(221, 226, 255)" href="#">Reports</Link>
+        <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Contacts</Link>
+        <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Reports</Link>
       </Box>
     </>
   )
@@ -150,7 +164,7 @@ class App extends Component {
   render() {
     const { sidebarOpen, isMobile } = this.state
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={myTheme}>
         <Box
           variant='styles.root'
           sx={{
