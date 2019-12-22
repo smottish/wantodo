@@ -67,7 +67,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
   return (
     <>
       <Overlay show={open && isMobile} onClick={onClose} />
-      <Box sx={{ gridColumn: 'span 2', backgroundColor: 'red', ...styleProps }}>
+      <Box sx={{ backgroundColor: 'red', ...styleProps }}>
         {isMobile && <Button onClick={onClose}>X</Button>}
         <Text>Sidebar</Text>
       </Box>
@@ -141,9 +141,8 @@ class App extends Component {
           variant='styles.root'
           sx={{
             display: 'grid',
-            gridTemplateAreas: ['header header', 'sidebar main'],
             gridTemplateColumns: 'repeat(12, 1fr)',
-            gridTemplateRows: '50px 1fr',
+            gridTemplateRows: 'auto 1fr',
             height: '100vh',
           }}
         >
