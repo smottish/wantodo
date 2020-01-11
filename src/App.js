@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { ThemeProvider } from 'emotion-theming';
 import theme from '@rebass/preset';
 import { Heading, Box, Flex, Text, Button, Link } from 'rebass';
