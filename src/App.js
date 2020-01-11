@@ -1,10 +1,16 @@
-import React, { Component, useContext } from 'react';
-import { ThemeProvider } from 'emotion-theming';
+import React, { Component } from 'react';
+import { ThemeProvider, useTheme } from 'emotion-theming';
 import theme from '@rebass/preset';
 import { Heading, Box, Flex, Text, Button, Link } from 'rebass';
 
 const myTheme = {
   ...theme,
+  colors: {
+    ...theme.colors,
+    muted: '#f8f8fc',
+    lightGray: '#e8e8e8',
+    darkGray: 'rgb(54, 55, 64)',
+  },
   variants: {
     ...theme.variants,
     navBlock: {
@@ -26,14 +32,16 @@ const CircleIcon = ({ text }) => (
 
 const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
   let gridColumn
+  const theme = useTheme()
   
   if (isMobile) {
     gridColumn = 'span 2'
   } else {
     gridColumn = sidebarOpen ? '2' : 'span 2'
   }
+  console.log(theme.colors.muted)
   return (
-    <Flex justifyContent={isMobile ? "space-between" : "flex-end"} sx={{ gridColumn, backgroundColor: '#F8F8FC', borderBottom: '1px solid #E8E8E8' }}>
+    <Flex justifyContent={isMobile ? "space-between" : "flex-end"} sx={{ gridColumn, backgroundColor: `${theme.colors.muted}`, borderBottom: `1px solid ${theme.colors.lightGray}` }}>
       {isMobile && <Button onClick={menuClick}>&#9776;</Button>}
       <CircleIcon text={"Profile"} />
     </Flex>
@@ -58,6 +66,8 @@ const Overlay = ({show, onClick}) => (
 )
 
 const Sidebar = ({open, isMobile, onClose, ...props}) => {
+  
+  const theme = useTheme()
     
   const desktopProps = {
     position: 'static',
@@ -91,7 +101,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
   return (
     <>
       <Overlay show={open && isMobile} onClick={onClose} />
-      <Box padding="10px" sx={{ backgroundColor: 'rgb(54, 55, 64)', color: 'rgb(221, 226, 255)', ...styleProps }}>
+      <Box padding="10px" sx={{ backgroundColor: `${theme.colors.darkGray}`, color: 'rgb(221, 226, 255)', ...styleProps }}>
         <Flex justifyContent="space-between">
           <CircleIcon text={"Wantodo"} />
           {isMobile && <Button onClick={onClose}>X</Button>}
@@ -105,6 +115,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
 
 const Main = ({sidebarOpen, isMobile, ...props}) => {
   let gridColumn
+  const them = useTheme()
 
   if (isMobile) {
     gridColumn = 'span 2'
@@ -113,7 +124,7 @@ const Main = ({sidebarOpen, isMobile, ...props}) => {
   }
 
   return (
-    <Box sx={{ gridColumn, backgroundColor: '#F8F8FC', padding: '10px' }}>
+    <Box sx={{ gridColumn, backgroundColor: `${theme.colors.muted}`, padding: '10px' }}>
       {props.children}
     </Box>
   )
