@@ -33,7 +33,7 @@ const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
     gridColumn = sidebarOpen ? '2' : 'span 2'
   }
   return (
-    <Flex justifyContent="space-between" sx={{ gridColumn, backgroundColor: 'blue' }}>
+    <Flex justifyContent="space-between" sx={{ gridColumn, backgroundColor: '#F8F8FC', borderBottom: '1px solid #E8E8E8' }}>
       <Button onClick={menuClick}>&#9776;</Button>
       <CircleIcon text={"Profile"} />
     </Flex>
