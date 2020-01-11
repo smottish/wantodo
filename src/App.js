@@ -113,7 +113,7 @@ const Main = ({sidebarOpen, isMobile, ...props}) => {
   }
 
   return (
-    <Box sx={{ gridColumn, backgroundColor: 'green', padding: '10px' }}>
+    <Box sx={{ gridColumn, backgroundColor: '#F8F8FC', padding: '10px' }}>
       {props.children}
     </Box>
   )
