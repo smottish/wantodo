@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ThemeProvider, useTheme } from 'emotion-theming';
 import theme from '@rebass/preset';
 import { Heading, Box, Flex, Text, Button, Link } from 'rebass';
-import { User } from 'feather'
+import { User } from 'react-feather';
 
 const myTheme = {
   ...theme,
@@ -70,12 +70,15 @@ const SidebarItem = ({ onClick, text }) => {
   
   return (
     <Flex
-      allignItems={"center"}
+      alignItems={"center"}
       onClick={onClick}
-      height={'52px'}
+      height={'56px'}
+      paddingLeft={'32px'}
+      paddingRight={'32px'}
+      cursor={'pointer'}
     >
       <User />
-      <span>{text}</span>
+      <span style={{ marginLeft: '24px' }}>{text}</span>
     </Flex>
   )
 }
@@ -116,7 +119,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
   return (
     <>
       <Overlay show={open && isMobile} onClick={onClose} />
-      <Box padding="10px" sx={{ backgroundColor: `${theme.colors.darkGray}`, color: 'rgb(221, 226, 255)', ...styleProps }}>
+      <Box sx={{ backgroundColor: `${theme.colors.darkGray}`, color: 'rgb(221, 226, 255)', ...styleProps }}>
         <Flex justifyContent="space-between">
           <CircleIcon text={"Wantodo"} />
           {isMobile && <Button onClick={onClose}>X</Button>}
