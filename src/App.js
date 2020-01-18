@@ -31,6 +31,13 @@ const CircleIcon = ({ text }) => (
   </svg>
 )
 
+// TODO: 
+const MenuButton = ({ onClick }) => (
+  <div>
+    X
+  </div>
+)
+
 const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
   let gridColumn
   const theme = useTheme()
@@ -132,7 +139,7 @@ const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...
       <Box sx={{ backgroundColor: `${theme.colors.darkGray}`, color: 'rgb(221, 226, 255)', ...styleProps }}>
         <Flex justifyContent="space-between">
           <CircleIcon text={"Wantodo"} />
-          {isMobile && <Button onClick={onClose}>X</Button>}
+          {isMobile && <Button onClick={onClose}>&times;</Button>}
         </Flex>
         {items.map(({key, ...props}) => <SidebarItem {...props} selected={selected === key} onClick={ev => onSideBarSelect(ev, key)}/>)}
       </Box>
@@ -202,7 +209,17 @@ class App extends Component {
   }
   
   onSideBarSelect(ev, key) {
-    this.setState({ sidebarSelected: key })
+    let newState = {
+      sidebarSelected: key
+    }
+    
+    if (this.state.isMobile) {
+      newState = {
+        ...newState,
+        sidebarOpen: false,
+      }
+    }
+    this.setState(newState)
   }
 
   render() {
