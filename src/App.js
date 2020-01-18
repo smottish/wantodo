@@ -65,6 +65,19 @@ const Overlay = ({show, onClick}) => (
   </div>
 )
 
+const SidebarItem = ({ onClick, text }) => {
+  
+  return (
+    <Flex
+      allignItems={"center"}
+      onClick={onClick}
+      height={'52px'}
+    >
+      {text}
+    </Flex>
+  )
+}
+
 const Sidebar = ({open, isMobile, onClose, ...props}) => {
   
   const theme = useTheme()
