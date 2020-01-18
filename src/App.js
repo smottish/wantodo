@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ThemeProvider, useTheme } from 'emotion-theming';
 import theme from '@rebass/preset';
 import { Heading, Box, Flex, Text, Button, Link } from 'rebass';
+import { User } from 'feather'
 
 const myTheme = {
   ...theme,
@@ -73,7 +74,8 @@ const SidebarItem = ({ onClick, text }) => {
       onClick={onClick}
       height={'52px'}
     >
-      {text}
+      <User />
+      <span>{text}</span>
     </Flex>
   )
 }
@@ -119,6 +121,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
           <CircleIcon text={"Wantodo"} />
           {isMobile && <Button onClick={onClose}>X</Button>}
         </Flex>
+        <SidebarItem text="Contacts" onClick={ev => alert('clicked')} />
         <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Contacts</Link>
         <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Reports</Link>
       </Box>
@@ -128,7 +131,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
 
 const Main = ({sidebarOpen, isMobile, ...props}) => {
   let gridColumn
-  const them = useTheme()
+  const theme = useTheme()
 
   if (isMobile) {
     gridColumn = 'span 2'

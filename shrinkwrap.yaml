@@ -3,6 +3,7 @@ dependencies:
   emotion-theming: 10.0.19
   react: 16.11.0
   react-dom: 16.11.0
+  react-feather: 2.0.3
   react-scripts: 3.2.0
   rebass: 4.0.7
 packages:
@@ -9183,6 +9184,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-bOUvMWFQVk5oz8Ded9Xb7WVdEi3QGLC8tH7HmYP0Fdp4Bn3qw0tRFmr5TW6mvahzvmrK4a6bqWGfCevBflP+Xw==
+  /react-feather/2.0.3:
+    dependencies:
+      prop-types: 15.7.2
+    dev: false
+    peerDependencies:
+      react: ^16.8.6
+    resolution:
+      integrity: sha512-XVjtxIyMxb2RFlqC2APoB/IZvXKDW9uLN1c264XEeZNYe8jIxjQVQpeTo3nxtHiLTgMfgf0ZYxJC6HwmY8+9BA==
   /react-is/16.11.0:
     dev: false
     resolution:
@@ -11430,5 +11439,6 @@ specifiers:
   emotion-theming: ^10.0.19
   react: ^16.11.0
   react-dom: ^16.10.2
+  react-feather: ^2.0.3
   react-scripts: ^3.2.0
   rebass: ^4.0.7
