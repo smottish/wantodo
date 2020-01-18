@@ -21,7 +21,17 @@ const myTheme = {
         
       }
     }
-  }
+  },
+  buttons: {
+    ...theme.buttons,
+    transparent: {
+      variant: 'buttons.primary',
+      borderRadius: 0,
+      bg: 'transparent',
+      color: 'black',
+      cursor: 'pointer',
+    }
+  },
 }
 
 const CircleIcon = ({ text }) => (
@@ -29,13 +39,6 @@ const CircleIcon = ({ text }) => (
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
     <text x="50%" y="50%" text-anchor="middle" font-family="Arial" dy=".3em">{text}</text>
   </svg>
-)
-
-// TODO: 
-const MenuButton = ({ onClick }) => (
-  <div>
-    X
-  </div>
 )
 
 const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
@@ -49,7 +52,7 @@ const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
   }
   return (
     <Flex justifyContent={isMobile ? "space-between" : "flex-end"} sx={{ gridColumn, backgroundColor: `${theme.colors.muted}`, borderBottom: `1px solid ${theme.colors.lightGray}` }}>
-      {isMobile && <Button onClick={menuClick}>&#9776;</Button>}
+      {isMobile && <Button variant='transparent' onClick={menuClick}>&#9776;</Button>}
       <CircleIcon text={"Profile"} />
     </Flex>
   )
@@ -139,7 +142,7 @@ const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...
       <Box sx={{ backgroundColor: `${theme.colors.darkGray}`, color: 'rgb(221, 226, 255)', ...styleProps }}>
         <Flex justifyContent="space-between">
           <CircleIcon text={"Wantodo"} />
-          {isMobile && <Button onClick={onClose}>&times;</Button>}
+          {isMobile && <Button sx={{color: theme.colors.gray }} variant='transparent' onClick={onClose}>&times;</Button>}
         </Flex>
         {items.map(({key, ...props}) => <SidebarItem {...props} selected={selected === key} onClick={ev => onSideBarSelect(ev, key)}/>)}
       </Box>
