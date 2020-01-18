@@ -40,7 +40,6 @@ const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
   } else {
     gridColumn = sidebarOpen ? '2' : 'span 2'
   }
-  console.log(theme.colors.muted)
   return (
     <Flex justifyContent={isMobile ? "space-between" : "flex-end"} sx={{ gridColumn, backgroundColor: `${theme.colors.muted}`, borderBottom: `1px solid ${theme.colors.lightGray}` }}>
       {isMobile && <Button onClick={menuClick}>&#9776;</Button>}
@@ -66,10 +65,14 @@ const Overlay = ({show, onClick}) => (
   </div>
 )
 
-const SidebarItem = ({ onClick, text }) => {
-  
+const SidebarItem = ({ onClick, text, selected }) => {
+  // TODO: move styling below into a variant (maybe a selected an unselected variant)
+  const theme = useTheme()
+  const selectedProps = selected ? {
+    backgroundColor: 'rgba(221, 226, 255, 0.08)',
+    borderLeft: `5px solid ${theme.colors.gray}`,
+  } : {}
   return (
-    // TODO: move styling below into a variant
     <Flex
       alignItems={"center"}
       onClick={onClick}
@@ -77,6 +80,7 @@ const SidebarItem = ({ onClick, text }) => {
       paddingLeft={'32px'}
       paddingRight={'32px'}
       sx={{
+        ...selectedProps,
         cursor: 'pointer',
         ':hover': {
           backgroundColor: 'rgba(221, 226, 255, 0.08)',
@@ -130,7 +134,7 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
           <CircleIcon text={"Wantodo"} />
           {isMobile && <Button onClick={onClose}>X</Button>}
         </Flex>
-        <SidebarItem text="Contacts" onClick={ev => alert('clicked')} />
+        <SidebarItem selected={true} text="Contacts" onClick={ev => alert('clicked')} />
         <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Contacts</Link>
         <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Reports</Link>
       </Box>
