@@ -65,7 +65,7 @@ const Overlay = ({show, onClick}) => (
   </div>
 )
 
-const SidebarItem = ({ onClick, text, selected }) => {
+const SidebarItem = ({ onClick, text, selected, Icon, }) => {
   // TODO: move styling below into a variant (maybe a selected an unselected variant)
   const theme = useTheme()
   const selectedProps = selected ? {
@@ -87,13 +87,13 @@ const SidebarItem = ({ onClick, text, selected }) => {
         }
       }}
     >
-      <User />
+      <Icon/>
       <span style={{ marginLeft: '24px' }}>{text}</span>
     </Flex>
   )
 }
 
-const Sidebar = ({open, isMobile, onClose, ...props}) => {
+const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, ...props}) => {
   
   const theme = useTheme()
     
@@ -134,7 +134,8 @@ const Sidebar = ({open, isMobile, onClose, ...props}) => {
           <CircleIcon text={"Wantodo"} />
           {isMobile && <Button onClick={onClose}>X</Button>}
         </Flex>
-        <SidebarItem selected={true} text="Contacts" onClick={ev => alert('clicked')} />
+        {items.map(({Icon, text, key}) => <SidebarItem Icon={Icon} />)}
+        <SidebarItem Icon={User} selected={true} text="Contacts" onClick={ev => alert('clicked')} />
         <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Contacts</Link>
         <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Reports</Link>
       </Box>
@@ -169,6 +170,7 @@ class App extends Component {
     
     this.mql = null;
     this.onMediaQuery = this.onMediaQuery.bind(this)
+    this.onSideBarSelect = this.onSideBarSelect.bind(this)
   }
   
   setMobileMode() {
@@ -200,9 +202,17 @@ class App extends Component {
       this.setDesktopMode()
     }
   }
+  
+  onSideBarSelect(key) {
+    alert(key)
+  }
 
   render() {
     const { sidebarOpen, isMobile } = this.state
+    const sidebarItems = [
+      { Icon: User, text: 'Contacts', key: 'contacts' },
+      { Icon: User, text: 'Reports', key: 'reports' },
+    ]
     return (
       <ThemeProvider theme={myTheme}>
         <Box
@@ -215,7 +225,7 @@ class App extends Component {
           }}
         >
           <Header sidebarOpen={sidebarOpen} isMobile={isMobile} menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
-          <Sidebar onClose={() => this.setState({sidebarOpen: false})} open={sidebarOpen} isMobile={isMobile}/>
+          <Sidebar items={sidebarItems} onSideBarSelect={this.onSideBarSelect} onClose={() => this.setState({sidebarOpen: false})} open={sidebarOpen} isMobile={isMobile}/>
           <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
             <Heading>
               Hello, World
