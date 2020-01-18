@@ -69,13 +69,19 @@ const Overlay = ({show, onClick}) => (
 const SidebarItem = ({ onClick, text }) => {
   
   return (
+    // TODO: move styling below into a variant
     <Flex
       alignItems={"center"}
       onClick={onClick}
       height={'56px'}
       paddingLeft={'32px'}
       paddingRight={'32px'}
-      cursor={'pointer'}
+      sx={{
+        cursor: 'pointer',
+        ':hover': {
+          backgroundColor: 'rgba(221, 226, 255, 0.08)',
+        }
+      }}
     >
       <User />
       <span style={{ marginLeft: '24px' }}>{text}</span>
