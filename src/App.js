@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ThemeProvider, useTheme } from 'emotion-theming';
 import theme from '@rebass/preset';
 import { Heading, Box, Flex, Text, Button, Link } from 'rebass';
-import { User } from 'react-feather';
+import { User, PieChart } from 'react-feather';
 
 const myTheme = {
   ...theme,
@@ -93,7 +93,7 @@ const SidebarItem = ({ onClick, text, selected, Icon, }) => {
   )
 }
 
-const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, ...props}) => {
+const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...props}) => {
   
   const theme = useTheme()
     
@@ -134,10 +134,7 @@ const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, ...props}) =>
           <CircleIcon text={"Wantodo"} />
           {isMobile && <Button onClick={onClose}>X</Button>}
         </Flex>
-        {items.map(({Icon, text, key}) => <SidebarItem Icon={Icon} />)}
-        <SidebarItem Icon={User} selected={true} text="Contacts" onClick={ev => alert('clicked')} />
-        <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Contacts</Link>
-        <Link variant="navBlock" color="rgb(221, 226, 255)" href="#">Reports</Link>
+        {items.map(({key, ...props}) => <SidebarItem {...props} selected={selected === key} onClick={ev => onSideBarSelect(ev, key)}/>)}
       </Box>
     </>
   )
@@ -166,6 +163,7 @@ class App extends Component {
     this.state = {
       sidebarOpen: true,
       isMobile: false,
+      sidebarSelected: '',
     }
     
     this.mql = null;
@@ -203,15 +201,15 @@ class App extends Component {
     }
   }
   
-  onSideBarSelect(key) {
-    alert(key)
+  onSideBarSelect(ev, key) {
+    this.setState({ sidebarSelected: key })
   }
 
   render() {
     const { sidebarOpen, isMobile } = this.state
     const sidebarItems = [
       { Icon: User, text: 'Contacts', key: 'contacts' },
-      { Icon: User, text: 'Reports', key: 'reports' },
+      { Icon: PieChart, text: 'Reports', key: 'reports' },
     ]
     return (
       <ThemeProvider theme={myTheme}>
@@ -225,7 +223,7 @@ class App extends Component {
           }}
         >
           <Header sidebarOpen={sidebarOpen} isMobile={isMobile} menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
-          <Sidebar items={sidebarItems} onSideBarSelect={this.onSideBarSelect} onClose={() => this.setState({sidebarOpen: false})} open={sidebarOpen} isMobile={isMobile}/>
+          <Sidebar selected={this.state.sidebarSelected} items={sidebarItems} onSideBarSelect={this.onSideBarSelect} onClose={() => this.setState({sidebarOpen: false})} open={sidebarOpen} isMobile={isMobile}/>
           <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
             <Heading>
               Hello, World
