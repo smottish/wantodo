@@ -52,7 +52,7 @@ const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
   }
   return (
     <Flex justifyContent={isMobile ? "space-between" : "flex-end"} sx={{ gridColumn, backgroundColor: `${theme.colors.muted}`, borderBottom: `1px solid ${theme.colors.lightGray}` }}>
-      {isMobile && <Button variant='transparent' onClick={menuClick}>&#9776;</Button>}
+      {isMobile && <Button fontSize={4} variant='transparent' onClick={menuClick}>&#9776;</Button>}
       <CircleIcon text={"Profile"} />
     </Flex>
   )
@@ -142,7 +142,7 @@ const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...
       <Box sx={{ backgroundColor: `${theme.colors.darkGray}`, color: 'rgb(221, 226, 255)', ...styleProps }}>
         <Flex justifyContent="space-between">
           <CircleIcon text={"Wantodo"} />
-          {isMobile && <Button sx={{color: theme.colors.gray }} variant='transparent' onClick={onClose}>&times;</Button>}
+          {isMobile && <Button fontSize={5} sx={{ color: theme.colors.gray }} variant='transparent' onClick={onClose}>&times;</Button>}
         </Flex>
         {items.map(({key, ...props}) => <SidebarItem {...props} selected={selected === key} onClick={ev => onSideBarSelect(ev, key)}/>)}
       </Box>
