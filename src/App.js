@@ -55,9 +55,19 @@ const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
     gridColumn = sidebarOpen ? '2' : 'span 2'
   }
   return (
-    <Flex alignItems='center' justifyContent={isMobile ? "space-between" : "flex-end"} sx={{ gridColumn, backgroundColor: `${theme.colors.muted}`, borderBottom: `1px solid ${theme.colors.lightGray}` }}>
-      {isMobile && <Button fontSize={4} variant='transparent' onClick={menuClick}>&#9776;</Button>}
-      <User />
+    <Flex
+      alignItems='center'
+      justifyContent={isMobile ? "space-between" : "flex-end"}
+      sx={{
+          gridColumn,
+          backgroundColor: `${theme.colors.muted}`,
+          borderBottom: `1px solid ${theme.colors.lightGray}`,
+          padding: '5px',
+      }}>
+        {isMobile && <Button fontSize={4} variant='transparent' onClick={menuClick}>&#9776;</Button>}
+        <Button variant='transparent' sx={{border: '2px solid black', borderRadius: '50%'}}>
+          <User size={32}/>
+        </Button>
     </Flex>
   )
 }
