@@ -30,11 +30,14 @@ const myTheme = {
       bg: 'transparent',
       color: 'black',
       cursor: 'pointer',
+    },
+    transparentNoOutline: {
+      variant: 'buttons.transparent',
       ':focus': {
         outline: 'none',
       },
       '-webkit-tap-highlight-color': 'transparent',
-    }
+    },
   },
 }
 
@@ -64,8 +67,8 @@ const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
           borderBottom: `1px solid ${theme.colors.lightGray}`,
           padding: '5px',
       }}>
-        {isMobile && <Button fontSize={4} variant='transparent' onClick={menuClick}>&#9776;</Button>}
-        <Button variant='transparent' sx={{border: '2px solid black', borderRadius: '50%'}}>
+        {isMobile && <Button fontSize={4} variant='transparentNoOutline' onClick={menuClick}>&#9776;</Button>}
+        <Button variant='transparent' sx={{width: '38px', height: '38px', padding: 0, border: '2px solid black', borderRadius: '50%'}}>
           <User size={32}/>
         </Button>
     </Flex>
@@ -156,7 +159,7 @@ const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...
       <Box sx={{ backgroundColor: `${theme.colors.darkGray}`, color: 'rgb(221, 226, 255)', ...styleProps }}>
         <Flex justifyContent="space-between">
           <CircleIcon text={"Wantodo"} />
-          {isMobile && <Button fontSize={5} sx={{ color: theme.colors.gray }} variant='transparent' onClick={onClose}>&times;</Button>}
+          {isMobile && <Button fontSize={5} sx={{ color: theme.colors.gray }} variant='transparentNoOutline' onClick={onClose}>&times;</Button>}
         </Flex>
         {items.map(({key, ...props}) => <SidebarItem {...props} selected={selected === key} onClick={ev => onSideBarSelect(ev, key)}/>)}
       </Box>
