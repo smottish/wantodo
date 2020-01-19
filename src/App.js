@@ -30,6 +30,10 @@ const myTheme = {
       bg: 'transparent',
       color: 'black',
       cursor: 'pointer',
+      ':focus': {
+        outline: 'none',
+      },
+      '-webkit-tap-highlight-color': 'transparent',
     }
   },
 }
@@ -51,9 +55,9 @@ const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
     gridColumn = sidebarOpen ? '2' : 'span 2'
   }
   return (
-    <Flex justifyContent={isMobile ? "space-between" : "flex-end"} sx={{ gridColumn, backgroundColor: `${theme.colors.muted}`, borderBottom: `1px solid ${theme.colors.lightGray}` }}>
+    <Flex alignItems='center' justifyContent={isMobile ? "space-between" : "flex-end"} sx={{ gridColumn, backgroundColor: `${theme.colors.muted}`, borderBottom: `1px solid ${theme.colors.lightGray}` }}>
       {isMobile && <Button fontSize={4} variant='transparent' onClick={menuClick}>&#9776;</Button>}
-      <CircleIcon text={"Profile"} />
+      <User />
     </Flex>
   )
 }
