@@ -5,6 +5,8 @@ import { Heading, Box, Flex, Button } from 'rebass';
 import { User, PieChart } from 'react-feather';
 import Sidebar from './Sidebar'
 
+const MOBILE_BREAKPOINT = 768
+
 const myTheme = {
   ...theme,
   colors: {
@@ -116,7 +118,7 @@ class App extends Component {
   }
   
   componentDidMount() {
-    this.mql = window.matchMedia('(max-width: 768px)')
+    this.mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
     if(this.mql.matches) {
       this.setMobileMode()
     } else {
@@ -175,7 +177,7 @@ class App extends Component {
             onSelect={this.onSideBarSelect}
             onClose={() => this.setState({sidebarOpen: false})}
             isOpen={sidebarOpen}
-            breakPoint={768}
+            breakPoint={MOBILE_BREAKPOINT}
             logo={<CircleIcon text={"Wantodo"} />}
           />
           <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>

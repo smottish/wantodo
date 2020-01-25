@@ -61,6 +61,6 @@ MediaQuery.defaultProps = {
 
 with something like this:
 
-const MyWrappedComponent = withMediaQuery(query, onChange MyComponent)
+const MyWrappedComponent = withMediaQuery(query, onChange, MyComponent)
 */
 export default MediaQuery
