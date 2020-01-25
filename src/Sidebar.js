@@ -67,6 +67,7 @@ Sidebar.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
+  breakPoint: PropTypes.number,
 }
 
 const SidebarWithTheme = withTheme(Sidebar)
