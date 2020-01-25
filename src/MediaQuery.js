@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types';
 
+// todo: support more than one query
 class MediaQuery extends Component {
   constructor() {
     super()
@@ -30,10 +31,12 @@ class MediaQuery extends Component {
   
   onMediaQuery(mq) {
     const matches = mq.matches
-    this.setState({ matches })
+
     if ((matches !== this.state.matches) && this.props.onChange) {
       this.props.onChange(matches)
     }
+    
+    this.setState({ matches })
   }
   
   render() {
@@ -42,8 +45,12 @@ class MediaQuery extends Component {
 }
 
 MediaQuery.propTypes = {
-  query: PropTypes.string,
+  query: PropTypes.string.isRequired,
   onChange: PropTypes.func,
+}
+
+MediaQuery.defaultProps = {
+  onChange: null,
 }
 
 export default MediaQuery

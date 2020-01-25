@@ -33,10 +33,12 @@ const SidebarItem = ({ onClick, text, selected, icon, }) => {
   )
 }
 
+// todo: allow desktop and mobile props to be overridden
+
 const Sidebar = ({isOpen, isMobile, onClose, items, onSelect, selected, logo, ...props}) => {
-  
+
   const theme = useTheme()
-    
+
   const desktopProps = {
     position: 'static',
     width: 'auto',
@@ -48,7 +50,7 @@ const Sidebar = ({isOpen, isMobile, onClose, items, onSelect, selected, logo, ..
     gridRowStart: '1',
     gridRowEnd: '3',
   }
-  
+
   const mobileProps = {
     position: 'fixed',
     width: '250px',
@@ -57,7 +59,7 @@ const Sidebar = ({isOpen, isMobile, onClose, items, onSelect, selected, logo, ..
     top: '0',
     left: '0',
   }
-  
+ 
   const styleProps = isMobile ? mobileProps : desktopProps
 
   if (!isOpen) {
