@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { useTheme } from 'emotion-theming';
+import { withTheme } from 'emotion-theming';
 
 class Sidebar extends Component {
-  
-  const theme = useTheme()
     
   const desktopProps = {
     position: 'static',
@@ -48,4 +46,27 @@ class Sidebar extends Component {
   )
 }
 
-{open, isMobile, onClose, items, onSideBarSelect, selected, ...props}
+Sidebar.propTypes = {
+  theme: PropTypes.shape({
+    colors: PropTypes.object,
+  }),
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      icon: PropTypes.insanceOf(Component),
+      text: PropTypes.string,
+      key: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ]),
+    })
+  ),
+  onSelect: PropTypes.func,
+  selected: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+}
+
+const SidebarWithTheme = withTheme(Sidebar)
