@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { ThemeProvider, useTheme } from 'emotion-theming';
 import theme from '@rebass/preset';
-import { Heading, Box, Flex, Text, Button, Link } from 'rebass';
+import { Heading, Box, Flex, Button } from 'rebass';
 import { User, PieChart } from 'react-feather';
+import Sidebar from './Sidebar'
 
 const myTheme = {
   ...theme,
@@ -75,6 +76,7 @@ const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
   )
 }
 
+/*
 const Overlay = ({show, onClick}) => (
   <div
     style={{
@@ -91,6 +93,7 @@ const Overlay = ({show, onClick}) => (
   >
   </div>
 )
+
 
 const SidebarItem = ({ onClick, text, selected, Icon, }) => {
   // TODO: move styling below into a variant (maybe a selected an unselected variant)
@@ -119,6 +122,7 @@ const SidebarItem = ({ onClick, text, selected, Icon, }) => {
     </Flex>
   )
 }
+
 
 const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...props}) => {
   
@@ -166,6 +170,7 @@ const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...
     </>
   )
 }
+*/
 
 const Main = ({sidebarOpen, isMobile, ...props}) => {
   let gridColumn
@@ -245,8 +250,8 @@ class App extends Component {
   render() {
     const { sidebarOpen, isMobile } = this.state
     const sidebarItems = [
-      { Icon: User, text: 'Contacts', key: 'contacts' },
-      { Icon: PieChart, text: 'Reports', key: 'reports' },
+      { icon: <User/>, text: 'Contacts', key: 'contacts' },
+      { icon: <PieChart/>, text: 'Reports', key: 'reports' },
     ]
     return (
       <ThemeProvider theme={myTheme}>
@@ -260,7 +265,15 @@ class App extends Component {
           }}
         >
           <Header sidebarOpen={sidebarOpen} isMobile={isMobile} menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
-          <Sidebar selected={this.state.sidebarSelected} items={sidebarItems} onSideBarSelect={this.onSideBarSelect} onClose={() => this.setState({sidebarOpen: false})} open={sidebarOpen} isMobile={isMobile}/>
+          <Sidebar
+            selected={this.state.sidebarSelected}
+            items={sidebarItems}
+            onSelect={this.onSideBarSelect}
+            onClose={() => this.setState({sidebarOpen: false})}
+            isOpen={sidebarOpen}
+            breakPoint={768}
+            logo={<CircleIcon text={"Wantodo"} />}
+          />
           <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
             <Heading>
               Hello, World

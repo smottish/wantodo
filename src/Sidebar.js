@@ -5,6 +5,34 @@ import { Box, Flex, Button } from 'rebass'
 import MediaQuery from './MediaQuery'
 import Overlay from './Overlay'
 
+const SidebarItem = ({ onClick, text, selected, icon, }) => {
+  // TODO: move styling below into a variant (maybe a selected an unselected variant)
+  const theme = useTheme()
+  const selectedProps = selected ? {
+    backgroundColor: 'rgba(221, 226, 255, 0.08)',
+    borderLeft: `5px solid ${theme.colors.gray}`,
+  } : {}
+  return (
+    <Flex
+      alignItems={"center"}
+      onClick={onClick}
+      height={'56px'}
+      paddingLeft={'32px'}
+      paddingRight={'32px'}
+      sx={{
+        ...selectedProps,
+        cursor: 'pointer',
+        ':hover': {
+          backgroundColor: 'rgba(221, 226, 255, 0.08)',
+        }
+      }}
+    >
+      {icon}
+      <span style={{ marginLeft: '24px' }}>{text}</span>
+    </Flex>
+  )
+}
+
 const Sidebar = ({isOpen, isMobile, onClose, items, onSelect, selected, logo, ...props}) => {
   
   const theme = useTheme()
@@ -57,7 +85,7 @@ Sidebar.propTypes = {
   onClose: PropTypes.func,
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      icon: PropTypes.insanceOf(Component),
+      icon: PropTypes.instanceOf(Component),
       text: PropTypes.string,
       key: PropTypes.oneOfType([
         PropTypes.string,

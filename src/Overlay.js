@@ -1,6 +1,7 @@
 import React from 'react'
 
-export const Overlay = ({show, onClick}) => (
+// todo: add style prop or ...props to override default style
+const Overlay = ({show, onClick}) => (
   <div
     style={{
       display: show ? 'block' : 'none',
@@ -16,3 +17,5 @@ export const Overlay = ({show, onClick}) => (
   >
   </div>
 )
+
+export default Overlay
