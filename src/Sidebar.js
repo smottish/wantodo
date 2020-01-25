@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { useTheme } from 'emotion-theming';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { useTheme } from 'emotion-theming'
+import { Box, Flex, Button } from 'rebass'
 import MediaQuery from './MediaQuery'
+import Overlay from './Overlay'
 
-const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...props}) => {
+const Sidebar = ({isOpen, isMobile, onClose, items, onSelect, selected, logo, ...props}) => {
   
   const theme = useTheme()
     
@@ -30,7 +32,7 @@ const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...
   
   const styleProps = isMobile ? mobileProps : desktopProps
 
-  if (!open) {
+  if (!isOpen) {
     styleProps.display = 'none'
   } else {
     styleProps.display = 'block'
@@ -38,22 +40,19 @@ const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...
 
   return (
     <>
-      <Overlay show={open && isMobile} onClick={onClose} />
+      <Overlay show={isOpen && isMobile} onClick={onClose} />
       <Box sx={{ backgroundColor: `${theme.colors.darkGray}`, color: 'rgb(221, 226, 255)', ...styleProps }}>
         <Flex justifyContent="space-between">
-          <CircleIcon text={"Wantodo"} />
+          {logo}
           {isMobile && <Button fontSize={5} sx={{ color: theme.colors.gray }} variant='transparentNoOutline' onClick={onClose}>&times;</Button>}
         </Flex>
-        {items.map(({key, ...props}) => <SidebarItem {...props} selected={selected === key} onClick={ev => onSideBarSelect(ev, key)}/>)}
+        {items.map(({key, ...props}) => <SidebarItem {...props} selected={selected === key} onClick={ev => onSelect(ev, key)}/>)}
       </Box>
     </>
   )
 }
 
 Sidebar.propTypes = {
-  theme: PropTypes.shape({
-    colors: PropTypes.object,
-  }),
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   items: PropTypes.arrayOf(
@@ -71,15 +70,34 @@ Sidebar.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
-  breakPoint: PropTypes.number,
+  isMobile: PropTypes.bool,
+  logo: PropTypes.instanceOf(Component),
+}
+
+Sidebar.defaultProps = {
+  isOpen: true,
+  onClose: () => {},
+  items: [],
+  onSelect: () => {},
+  selected: '',
+  isMobile: false,
+  logo: null,
 }
 
 const SidebarWrapper = ({breakPoint, ...props}) => {
   return (
-    <MediaQuery query={`(max-width: {}px)`}>
-      {matches => <Sidebar matches={matches} {...props} />}
+    <MediaQuery query={`(max-width: ${breakPoint}px)`}>
+      {matches => <Sidebar isMobile={matches} {...props} />}
     </MediaQuery>
   )
+}
+
+SidebarWrapper.propTypes = {
+  breakPoint: PropTypes.number,
+}
+
+SidebarWrapper.defaultProps = {
+  breakPoint: 768,
 }
 
 export default SidebarWrapper
