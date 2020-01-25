@@ -53,4 +53,14 @@ MediaQuery.defaultProps = {
   onChange: null,
 }
 
+/* todo (maybe): add withMediaQuery HOC so that we can replace the following code
+
+<MediaQuery query={query} onChange={onChange}>
+    {matches => { ... }}
+</MediaQuery>
+
+with something like this:
+
+const MyWrappedComponent = withMediaQuery(query, onChange MyComponent)
+*/
 export default MediaQuery

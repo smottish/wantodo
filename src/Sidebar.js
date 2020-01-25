@@ -5,6 +5,7 @@ import { Box, Flex, Button } from 'rebass'
 import MediaQuery from './MediaQuery'
 import Overlay from './Overlay'
 
+// todo: add prop types
 const SidebarItem = ({ onClick, text, selected, icon, }) => {
   // TODO: move styling below into a variant (maybe a selected an unselected variant)
   const theme = useTheme()
@@ -34,7 +35,8 @@ const SidebarItem = ({ onClick, text, selected, icon, }) => {
 }
 
 // todo: allow desktop and mobile props to be overridden
-
+// todo: allow more style props, like backgroundColor, to be overridden / themed
+// (e.g. maybe add sidebarBackgroundColor to the theme)
 const Sidebar = ({isOpen, isMobile, onClose, items, onSelect, selected, logo, ...props}) => {
 
   const theme = useTheme()
