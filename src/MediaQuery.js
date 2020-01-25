@@ -62,5 +62,29 @@ MediaQuery.defaultProps = {
 with something like this:
 
 const MyWrappedComponent = withMediaQuery(query, onChange, MyComponent)
+
+Or create a HOC so that all the above logic gets injected
+into the wrapped component. E.g. something like this:
+
+function withMediaQuery(..., WrappedComponent) {
+  // or return class extends MediaComponent
+  return class extends Component {
+    ...same as MediaQuery above (if not inheriting)?...
+    
+    render() {
+      return <WrappedComponent
+        matches={this.state.matches}
+        onChange={this.props.onChange}
+        {...this.props}
+      />
+    }
+  }
+}
+
+Then instead of wrapping component with <MediaQuery> we'd just do this:
+
+const WrappedComponent = withMediaQuery(..., MyComponent)
+
+And then MyComponent will have a matches and onChange prop to render accordingly
 */
 export default MediaQuery
