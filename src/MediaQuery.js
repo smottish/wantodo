@@ -63,12 +63,10 @@ with something like this:
 
 const MyWrappedComponent = withMediaQuery(query, onChange, MyComponent)
 
-Or create a HOC so that all the above logic gets injected
-into the wrapped component. E.g. something like this:
+E.g. something like this:
 
 function withMediaQuery(..., WrappedComponent) {
-  // or return class extends MediaComponent
-  return class extends Component {
+  return class extends Component { // or return class extends MediaComponent
     ...same as MediaQuery above (if not inheriting)?...
     
     render() {
@@ -85,6 +83,6 @@ Then instead of wrapping component with <MediaQuery> we'd just do this:
 
 const WrappedComponent = withMediaQuery(..., MyComponent)
 
-And then MyComponent will have a matches and onChange prop to render accordingly
+And then MyComponent will have a matches and onChange prop it can use to render accordingly
 */
 export default MediaQuery
