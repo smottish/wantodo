@@ -1,6 +1,7 @@
+import React, { Component } from 'react';
 import { useTheme } from 'emotion-theming';
 
-const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...props}) => {
+class Sidebar extends Component {
   
   const theme = useTheme()
     
@@ -46,3 +47,5 @@ const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...
     </>
   )
 }
+
+{open, isMobile, onClose, items, onSideBarSelect, selected, ...props}
