@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { withTheme } from 'emotion-theming';
+import PropTypes from 'prop-types';
+import { useTheme } from 'emotion-theming';
+import MediaQuery from './MediaQuery'
 
-class Sidebar extends Component {
+const Sidebar = ({open, isMobile, onClose, items, onSideBarSelect, selected, ...props}) => {
+  
+  const theme = useTheme()
     
   const desktopProps = {
     position: 'static',
@@ -70,4 +74,12 @@ Sidebar.propTypes = {
   breakPoint: PropTypes.number,
 }
 
-const SidebarWithTheme = withTheme(Sidebar)
+const SidebarWrapper = ({breakPoint, ...props}) => {
+  return (
+    <MediaQuery query={`(max-width: {}px)`}>
+      {matches => <Sidebar matches={matches} {...props} />}
+    </MediaQuery>
+  )
+}
+
+export default SidebarWrapper

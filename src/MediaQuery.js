@@ -23,11 +23,20 @@ class MediaQuery extends Component {
     this.mql = mql
   }
   
+  componentWillUnmount() {
+    this.mql.removeListener(this.onMediaQuery)
+  }
+  
   onMediaQuery(mq) {
-    this.setState({ matches: mq.matches })
-    if ((mq.matches !== this.state.matches) && this.props.onChange) {
-      this.props.onChange(mq.matches)
+    const matches = mq.matches
+    this.setState({ matches })
+    if ((matches !== this.state.matches) && this.props.onChange) {
+      this.props.onChange(matches)
     }
+  }
+  
+  render() {
+    return this.props.children(this.state.matches)
   }
 }
 
@@ -35,3 +44,5 @@ MediaQuery.propTypes = {
   query: PropTypes.string,
   onChange: PropTypes.func,
 }
+
+export default MediaQuery
