@@ -145,11 +145,10 @@ class App extends Component {
   render() {
     const { sidebarOpen, isMobile } = this.state
     const sidebarItems = [
-      { icon: Home, text: 'Home', key: 'home' },
-      { icon: CheckSquare, text: 'My Wants', key: 'wants' },
-      { icon: User, text: 'Profile', key: 'profile' },
+      { icon: <Home />, text: 'Home', key: 'home' },
+      { icon: <CheckSquare/>, text: 'My Wants', key: 'wants' },
+      { icon: <User/>, text: 'Profile', key: 'profile' },
     ]
-    const Logo = () => (<CircleIcon text={"Wantodo"} />)
     let gridColumn
     
     if (isMobile) {
@@ -186,7 +185,7 @@ class App extends Component {
               onClose={() => this.setState({sidebarOpen: false})}
               isOpen={sidebarOpen}
               breakPoint={MOBILE_BREAKPOINT}
-              logo={Logo}
+              logo={<CircleIcon text={"Wantodo"} />}
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
               <Heading>Test</Heading>
