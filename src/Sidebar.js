@@ -6,7 +6,7 @@ import MediaQuery from './MediaQuery'
 import Overlay from './Overlay'
 
 // todo: add prop types
-const SidebarItem = ({ onClick, text, selected, icon, }) => {
+const SidebarItem = ({ onClick, text, selected, icon }) => {
   // TODO: move styling below into a variant (maybe a selected an unselected variant)
   const theme = useTheme()
   const selectedProps = selected ? {
@@ -78,7 +78,7 @@ const Sidebar = ({isOpen, isMobile, onClose, items, onSelect, selected, logo, ..
           {logo}
           {isMobile && <Button fontSize={5} sx={{ color: theme.colors.gray }} variant='transparentNoOutline' onClick={onClose}>&times;</Button>}
         </Flex>
-        {items.map(({key, ...props}) => <SidebarItem {...props} selected={selected === key} onClick={ev => onSelect(ev, key)}/>)}
+        {items.map(({key, ...props}) => <SidebarItem key={key} {...props} selected={selected === key} onClick={ev => onSelect(ev, key)}/>)}
       </Box>
     </>
   )

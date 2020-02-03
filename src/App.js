@@ -49,8 +49,8 @@ const myTheme = {
 
 const CircleIcon = ({ text }) => (
   <svg width="100" height="100">
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="4" fill="white" />
-    <text x="50%" y="50%" text-anchor="middle" font-family="Arial" dy=".3em">{text}</text>
+    <circle cx="50" cy="50" r="40" stroke="black" strokeWidth="4" fill="white" />
+    <text x="50%" y="50%" textAnchor="middle" fontFamily="Arial" dy=".3em">{text}</text>
   </svg>
 )
 
@@ -78,11 +78,11 @@ const PlaceholderPage = ({ title }) => (
 )
 
 // TODO: Implement profile and wants containers/pages
-const ProfileContainer = (
+const ProfileContainer = () => (
   <PlaceholderPage title={"Profile"}/>
 )
 
-const WantsContainer = (
+const WantsContainer = () => (
   <PlaceholderPage title={"My Wants"}/>
 )
 
@@ -188,8 +188,7 @@ class App extends Component {
               logo={<CircleIcon text={"Wantodo"} />}
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
-              <Heading>Test</Heading>
-              { /*this.renderCurrentPage()*/ }
+              { this.renderCurrentPage() }
             </Main>
           </Box>
         )}
