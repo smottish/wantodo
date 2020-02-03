@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTheme } from 'emotion-theming';
+import { Flex, Button } from 'rebass';
+import { User } from 'react-feather';
 
 // TODO: Pass in props for Avatar / Profile menu/button
 const Header = ({onMenuClick, showMenuButton, sx, ...props}) => {

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { ThemeProvider, useTheme } from 'emotion-theming';
 import theme from '@rebass/preset';
-import { Heading, Box, Flex, Button } from 'rebass';
+import { Heading, Box } from 'rebass';
 import { User, PieChart } from 'react-feather';
-import Sidebar from './Sidebar'
+import Sidebar from './Sidebar';
+import Header from './Header';
 import MediaQuery from './MediaQuery';
 
 const MOBILE_BREAKPOINT = 768
@@ -51,28 +52,6 @@ const CircleIcon = ({ text }) => (
     <text x="50%" y="50%" text-anchor="middle" font-family="Arial" dy=".3em">{text}</text>
   </svg>
 )
-
-const HeaderWrapper = ({onMenuClick, showMenuButton, sidebarOpen, sx, ...props}) => {
-  const theme = useTheme()
-  
-  return (
-    <Flex
-      alignItems='center'
-      justifyContent={showMenuButton ? "space-between" : "flex-end"}
-      sx={{
-          ...sx,
-          backgroundColor: `${theme.colors.muted}`,
-          borderBottom: `1px solid ${theme.colors.lightGray}`,
-          padding: '5px',
-      }}>
-        {showMenuButton && <Button fontSize={4} variant='transparentNoOutline' onClick={onMenuClick}>&#9776;</Button>}
-        <Button variant='transparent' sx={{width: '38px', height: '38px', padding: 0, border: '2px solid black', borderRadius: '50%'}}>
-          <User size={32}/>
-        </Button>
-    </Flex>
-  )
-}
-
 
 const Main = ({sidebarOpen, isMobile, ...props}) => {
   let gridColumn
