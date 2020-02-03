@@ -51,34 +51,28 @@ const CircleIcon = ({ text }) => (
     <text x="50%" y="50%" text-anchor="middle" font-family="Arial" dy=".3em">{text}</text>
   </svg>
 )
-/*
-const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
-  let gridColumn
+
+const HeaderWrapper = ({onMenuClick, showMenuButton, sidebarOpen, sx, ...props}) => {
   const theme = useTheme()
   
-  if (isMobile) {
-    gridColumn = 'span 2'
-  } else {
-    gridColumn = sidebarOpen ? '2' : 'span 2'
-  }
   return (
     <Flex
       alignItems='center'
       justifyContent={isMobile ? "space-between" : "flex-end"}
       sx={{
-          gridColumn,
+          ...sx,
           backgroundColor: `${theme.colors.muted}`,
           borderBottom: `1px solid ${theme.colors.lightGray}`,
           padding: '5px',
       }}>
-        {isMobile && <Button fontSize={4} variant='transparentNoOutline' onClick={menuClick}>&#9776;</Button>}
+        {showMenuButton && <Button fontSize={4} variant='transparentNoOutline' onClick={onMenuClick}>&#9776;</Button>}
         <Button variant='transparent' sx={{width: '38px', height: '38px', padding: 0, border: '2px solid black', borderRadius: '50%'}}>
           <User size={32}/>
         </Button>
     </Flex>
   )
 }
-*/
+
 
 const Main = ({sidebarOpen, isMobile, ...props}) => {
   let gridColumn
@@ -146,6 +140,14 @@ class App extends Component {
       { icon: <User/>, text: 'Contacts', key: 'contacts' },
       { icon: <PieChart/>, text: 'Reports', key: 'reports' },
     ]
+    let gridColumn
+    
+    if (isMobile) {
+      gridColumn = 'span 2'
+    } else {
+      gridColumn = sidebarOpen ? '2' : 'span 2'
+    }
+
     return (
       <ThemeProvider theme={myTheme}>
         <MediaQuery
@@ -162,7 +164,12 @@ class App extends Component {
               height: '100vh',
             }}
           >
-            <Header sidebarOpen={sidebarOpen} isMobile={isMobile} menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
+            <HeaderWrapper
+              sidebarOpen={sidebarOpen}
+              showMenuButton={isMobile}
+              menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}
+              sx={{ gridColumn }}
+            />
             <Sidebar
               selected={this.state.sidebarSelected}
               items={sidebarItems}
