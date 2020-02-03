@@ -58,7 +58,7 @@ const HeaderWrapper = ({onMenuClick, showMenuButton, sidebarOpen, sx, ...props})
   return (
     <Flex
       alignItems='center'
-      justifyContent={isMobile ? "space-between" : "flex-end"}
+      justifyContent={showMenuButton ? "space-between" : "flex-end"}
       sx={{
           ...sx,
           backgroundColor: `${theme.colors.muted}`,
@@ -164,10 +164,9 @@ class App extends Component {
               height: '100vh',
             }}
           >
-            <HeaderWrapper
-              sidebarOpen={sidebarOpen}
+            <Header
               showMenuButton={isMobile}
-              menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}
+              onMenuClick={() => this.setState({sidebarOpen: !sidebarOpen})}
               sx={{ gridColumn }}
             />
             <Sidebar
