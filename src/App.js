@@ -4,6 +4,7 @@ import theme from '@rebass/preset';
 import { Heading, Box, Flex, Button } from 'rebass';
 import { User, PieChart } from 'react-feather';
 import Sidebar from './Sidebar'
+import MediaQuery from './MediaQuery';
 
 const MOBILE_BREAKPOINT = 768
 
@@ -50,7 +51,7 @@ const CircleIcon = ({ text }) => (
     <text x="50%" y="50%" text-anchor="middle" font-family="Arial" dy=".3em">{text}</text>
   </svg>
 )
-
+/*
 const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
   let gridColumn
   const theme = useTheme()
@@ -77,6 +78,7 @@ const Header = ({menuClick, isMobile, sidebarOpen, ...props}) => {
     </Flex>
   )
 }
+*/
 
 const Main = ({sidebarOpen, isMobile, ...props}) => {
   let gridColumn
@@ -103,9 +105,8 @@ class App extends Component {
       isMobile: false,
       sidebarSelected: '',
     }
-    
-    this.mql = null;
-    this.onMediaQuery = this.onMediaQuery.bind(this)
+
+    this.onBreakPointMatch = this.onBreakPointMatch.bind(this)
     this.onSideBarSelect = this.onSideBarSelect.bind(this)
   }
   
@@ -117,22 +118,8 @@ class App extends Component {
     this.setState({ isMobile: false, sidebarOpen: true })
   }
   
-  componentDidMount() {
-    this.mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
-    if(this.mql.matches) {
-      this.setMobileMode()
-    } else {
-      this.setDesktopMode()
-    }
-    this.mql.addListener(this.onMediaQuery)
-  }
-  
-  componentWillUnmount() {
-    this.mql.removeListener(this.onMediaQuery)
-  }
-  
-  onMediaQuery(mq) {
-    if (mq.matches) {
+  onBreakPointMatch(matches) {
+    if (matches) {
       this.setMobileMode()
     } else {
       this.setDesktopMode()
@@ -161,31 +148,38 @@ class App extends Component {
     ]
     return (
       <ThemeProvider theme={myTheme}>
-        <Box
-          variant='styles.root'
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: '250px 1fr',
-            gridTemplateRows: 'auto 1fr',
-            height: '100vh',
-          }}
+        <MediaQuery
+          query={`(max-width: ${MOBILE_BREAKPOINT}px)`}
+          onChange={this.onBreakPointMatch}
         >
-          <Header sidebarOpen={sidebarOpen} isMobile={isMobile} menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
-          <Sidebar
-            selected={this.state.sidebarSelected}
-            items={sidebarItems}
-            onSelect={this.onSideBarSelect}
-            onClose={() => this.setState({sidebarOpen: false})}
-            isOpen={sidebarOpen}
-            breakPoint={MOBILE_BREAKPOINT}
-            logo={<CircleIcon text={"Wantodo"} />}
-          />
-          <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
-            <Heading>
-              Hello, World
-            </Heading>
-          </Main>
-        </Box>
+        {() => (
+          <Box
+            variant='styles.root'
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: '250px 1fr',
+              gridTemplateRows: 'auto 1fr',
+              height: '100vh',
+            }}
+          >
+            <Header sidebarOpen={sidebarOpen} isMobile={isMobile} menuClick={() => this.setState({sidebarOpen: !sidebarOpen})}/>
+            <Sidebar
+              selected={this.state.sidebarSelected}
+              items={sidebarItems}
+              onSelect={this.onSideBarSelect}
+              onClose={() => this.setState({sidebarOpen: false})}
+              isOpen={sidebarOpen}
+              breakPoint={MOBILE_BREAKPOINT}
+              logo={<CircleIcon text={"Wantodo"} />}
+            />
+            <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
+              <Heading>
+                Hello, World
+              </Heading>
+            </Main>
+          </Box>
+        )}
+        </MediaQuery>
       </ThemeProvider>
     );
   }
