@@ -71,21 +71,26 @@ const Main = ({sidebarOpen, isMobile, ...props}) => {
   )
 }
 
-const PlaceHolderPage = ({ title }) => (
+const PlaceholderPage = ({ title }) => (
   <>
     <Heading>{title}</Heading>
   </>
 )
 
+// TODO: Implement profile and wants containers/pages
 const ProfileContainer = (
-  <>
-  </>
+  <PlaceholderPage title={"Profile"}/>
+)
+
+const WantsContainer = (
+  <PlaceholderPage title={"My Wants"}/>
 )
 
 const pages = {
   home: HomeContainer,
-  profile: PlaceHolderPage,
-  wants: PlaceHolderPage,
+  profile: ProfileContainer,
+  wants: WantsContainer,
+  default: HomeContainer
 }
 
 class App extends Component {
@@ -132,17 +137,19 @@ class App extends Component {
   }
   
   renderCurrentPage() {
-    const Page = pages[this.state.sidebarSelected]
+    const page = this.state.sidebarSelected || 'default'
+    const Page = pages[page]
     return <Page/>
   }
 
   render() {
     const { sidebarOpen, isMobile } = this.state
     const sidebarItems = [
-      { icon: <Home/>, text: 'Home', key: 'home' },
-      { icon: <CheckSquare />, text: 'My Wants', key: 'wants' },
-      { icon: <User/>, text: 'Profile', key: 'profile' },
+      { icon: Home, text: 'Home', key: 'home' },
+      { icon: CheckSquare, text: 'My Wants', key: 'wants' },
+      { icon: User, text: 'Profile', key: 'profile' },
     ]
+    const Logo = () => (<CircleIcon text={"Wantodo"} />)
     let gridColumn
     
     if (isMobile) {
@@ -179,10 +186,11 @@ class App extends Component {
               onClose={() => this.setState({sidebarOpen: false})}
               isOpen={sidebarOpen}
               breakPoint={MOBILE_BREAKPOINT}
-              logo={<CircleIcon text={"Wantodo"} />}
+              logo={Logo}
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
-              { this.renderCurrentPage() }
+              <Heading>Test</Heading>
+              { /*this.renderCurrentPage()*/ }
             </Main>
           </Box>
         )}

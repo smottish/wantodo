@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react';
 import PropTypes from 'prop-types'
 import { useTheme } from 'emotion-theming'
 import { Box, Flex, Button } from 'rebass'
@@ -28,7 +28,7 @@ const SidebarItem = ({ onClick, text, selected, icon, }) => {
         }
       }}
     >
-      {icon}
+      <icon/>
       <span style={{ marginLeft: '24px' }}>{text}</span>
     </Flex>
   )
@@ -75,7 +75,7 @@ const Sidebar = ({isOpen, isMobile, onClose, items, onSelect, selected, logo, ..
       <Overlay show={isOpen && isMobile} onClick={onClose} />
       <Box sx={{ backgroundColor: `${theme.colors.darkGray}`, color: 'rgb(221, 226, 255)', ...styleProps }}>
         <Flex justifyContent="space-between">
-          {logo}
+          <logo/>
           {isMobile && <Button fontSize={5} sx={{ color: theme.colors.gray }} variant='transparentNoOutline' onClick={onClose}>&times;</Button>}
         </Flex>
         {items.map(({key, ...props}) => <SidebarItem {...props} selected={selected === key} onClick={ev => onSelect(ev, key)}/>)}
@@ -89,7 +89,7 @@ Sidebar.propTypes = {
   onClose: PropTypes.func,
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      icon: PropTypes.instanceOf(Component),
+      icon: PropTypes.elementType,
       text: PropTypes.string,
       key: PropTypes.oneOfType([
         PropTypes.string,
@@ -103,7 +103,7 @@ Sidebar.propTypes = {
     PropTypes.number
   ]),
   isMobile: PropTypes.bool,
-  logo: PropTypes.instanceOf(Component),
+  logo: PropTypes.elementType,
 }
 
 Sidebar.defaultProps = {

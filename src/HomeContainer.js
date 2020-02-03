@@ -5,7 +5,7 @@ class HomeContainer extends Component {
   render() {
     return (
       <>
-        <Heading>My Wants</Heading>
+        <Heading>What should I do?</Heading>
       </>
     )
   }
