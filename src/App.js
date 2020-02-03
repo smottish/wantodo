@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { ThemeProvider, useTheme } from 'emotion-theming';
 import theme from '@rebass/preset';
 import { Heading, Box } from 'rebass';
-import { User, PieChart } from 'react-feather';
+import { User, Home, CheckSquare } from 'react-feather';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import HomeContainer from './HomeContainer';
 import MediaQuery from './MediaQuery';
 
 const MOBILE_BREAKPOINT = 768
@@ -70,6 +71,23 @@ const Main = ({sidebarOpen, isMobile, ...props}) => {
   )
 }
 
+const PlaceHolderPage = ({ title }) => (
+  <>
+    <Heading>{title}</Heading>
+  </>
+)
+
+const ProfileContainer = (
+  <>
+  </>
+)
+
+const pages = {
+  home: HomeContainer,
+  profile: PlaceHolderPage,
+  wants: PlaceHolderPage,
+}
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -112,12 +130,18 @@ class App extends Component {
     }
     this.setState(newState)
   }
+  
+  renderCurrentPage() {
+    const Page = pages[this.state.sidebarSelected]
+    return <Page/>
+  }
 
   render() {
     const { sidebarOpen, isMobile } = this.state
     const sidebarItems = [
-      { icon: <User/>, text: 'Contacts', key: 'contacts' },
-      { icon: <PieChart/>, text: 'Reports', key: 'reports' },
+      { icon: <Home/>, text: 'Home', key: 'home' },
+      { icon: <CheckSquare />, text: 'My Wants', key: 'wants' },
+      { icon: <User/>, text: 'Profile', key: 'profile' },
     ]
     let gridColumn
     
@@ -158,9 +182,7 @@ class App extends Component {
               logo={<CircleIcon text={"Wantodo"} />}
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
-              <Heading>
-                Hello, World
-              </Heading>
+              { this.renderCurrentPage() }
             </Main>
           </Box>
         )}
