@@ -1,4 +1,5 @@
 dependencies:
+  '@rebass/forms': 4.0.6
   '@rebass/preset': 4.0.5
   emotion-theming: 10.0.19
   react: 16.11.0
@@ -1905,6 +1906,12 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
+  /@rebass/forms/4.0.6:
+    dependencies:
+      reflexbox: 4.0.6
+    dev: false
+    resolution:
+      integrity: sha512-20dHAlb5V0Na2HxCr73Jjoc4hD1ElimmlBpQtclXMoXUsjJ7ORdCNL1S9R54MX5f7iU2VrLGHU42eL7+nONNPQ==
   /@rebass/preset/4.0.5:
     dev: false
     resolution:
@@ -11435,6 +11442,7 @@ registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
+  '@rebass/forms': ^4.0.6
   '@rebass/preset': ^4.0.5
   emotion-theming: ^10.0.19
   react: ^16.11.0
