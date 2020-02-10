@@ -9,7 +9,8 @@
     "rebass": "^4.0.7",
     "@rebass/preset": "^4.0.5",
     "emotion-theming": "^10.0.19",
-    "react-feather": "^2.0.3"
+    "react-feather": "^2.0.3",
+    "@rebass/forms": "^4.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
