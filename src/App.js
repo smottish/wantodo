@@ -17,6 +17,7 @@ const myTheme = {
     muted: '#f8f8fc',
     lightGray: '#e8e8e8',
     darkGray: 'rgb(54, 55, 64)',
+    primary: 'rgb(54, 55, 64)',
   },
   variants: {
     ...theme.variants,
