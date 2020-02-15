@@ -19,10 +19,14 @@ class HomeContainer extends Component {
       <>
         <Flex justifyContent='center'><Heading>I want to...</Heading></Flex>
         <Flex justifyContent='center'>
-          <Box width={[1, 1, 2/3]} marginRight="5px">
-            <Input defaultValue='Enter something you want to do!' onChange={this.onChangeWant}/>
+          <Box width={[1, 1, 2/3]}>
+            <Box sx={{ display: 'inline-block' }} width={[9/10, 9/10, 8/10]}>
+              <Input defaultValue='Enter something you want to do!' onChange={this.onChangeWant}/>
+            </Box>
+            <Box paddingLeft="5px" sx={{ display: 'inline-block' }} width={[1/10, 1/10, 2/10]}>
+              <Button width="100%">Add</Button>
+            </Box>
           </Box>
-          <Button>Add</Button>
         </Flex>
         <Flex marginTop="5px" justifyContent='center'>
           <Box width={[1, 1, 2/3]}>
