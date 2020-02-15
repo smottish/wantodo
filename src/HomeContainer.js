@@ -19,9 +19,14 @@ class HomeContainer extends Component {
       <>
         <Flex justifyContent='center'><Heading>I want to...</Heading></Flex>
         <Flex justifyContent='center'>
-          <Box width={[1, 1, 2/3]}>
+          <Box width={[1, 1, 2/3]} marginRight="5px">
             <Input defaultValue='Enter something you want to do!' onChange={this.onChangeWant}/>
-            <Button>Add</Button>
+          </Box>
+          <Button>Add</Button>
+        </Flex>
+        <Flex marginTop="5px" justifyContent='center'>
+          <Box width={[1, 1, 2/3]}>
+            <Button variant="secondary" width="100%">Tell me what to do!</Button>
           </Box>
         </Flex>
       </>

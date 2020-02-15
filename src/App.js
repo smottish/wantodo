@@ -31,6 +31,12 @@ const myTheme = {
   },
   buttons: {
     ...theme.buttons,
+    primary: {
+      ...theme.buttons.primary,
+      ':hover': {
+        cursor: 'pointer',
+      }
+    },
     transparent: {
       variant: 'buttons.primary',
       borderRadius: 0,
