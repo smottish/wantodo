@@ -21,13 +21,13 @@ class HomeContainer extends Component {
         <Flex justifyContent='center'>
           <Box width={[1, 1, 2/3]}>
             <Flex>
-              <Box sx={{ flexGrow: 1 }}><Input defaultValue='Enter something you want to do!' onChange={this.onChangeWant}/></Box>
-              <Box sx={{ flexGrow: 1 }}><Button sx={{ flexGrow: 1 }}>Add</Button></Box>
+              <Box flexGrow={4} m='3px'><Input placeholder='Enter something you want to do!' onChange={this.onChangeWant}/></Box>
+              <Box flexGrow={1} m='3px'><Button width="100%">Add</Button></Box>
             </Flex>
           </Box>
         </Flex>
         <Flex marginTop="5px" justifyContent='center'>
-          <Box width={[1, 1, 2/3]}>
+          <Box width={[1, 1, 2/3]} m='3px'>
             <Button variant="secondary" width="100%">Tell me what to do!</Button>
           </Box>
         </Flex>
