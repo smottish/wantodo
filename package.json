@@ -11,10 +11,11 @@
     "emotion-theming": "^10.0.19",
     "react-feather": "^2.0.3",
     "@rebass/forms": "^4.0.6",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "concurrently": "^5.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently --kill-others \"react-scripts start\" \"node server.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
