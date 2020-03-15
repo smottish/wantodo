@@ -12,7 +12,8 @@
     "react-feather": "^2.0.3",
     "@rebass/forms": "^4.0.6",
     "express": "^4.17.1",
-    "concurrently": "^5.0.2"
+    "concurrently": "^5.0.2",
+    "http-proxy-middleware": "^1.0.2"
   },
   "scripts": {
     "start": "concurrently --kill-others \"react-scripts start\" \"node server.js\"",

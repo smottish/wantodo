@@ -16,7 +16,7 @@ class HomeContainer extends Component {
   }
   
   onGetWant() {
-    fetch('/want')
+    fetch('/api/want')
       .then((response) => response.json())
       .then((data) => console.log(data))
   }
