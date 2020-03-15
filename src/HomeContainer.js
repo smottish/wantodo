@@ -7,11 +7,16 @@ class HomeContainer extends Component {
   constructor() {
     super()
     this.onChangeWant = this.onChangeWant.bind(this)
+    this.onGetWant = this.onGetWant.bind(this)
   }
   
   onChangeWant(arg1, ...args) {
     console.log(arg1)
     console.log(args)
+  }
+  
+  onGetWant() {
+    
   }
 
   render() {
@@ -28,7 +33,7 @@ class HomeContainer extends Component {
         </Flex>
         <Flex marginTop="5px" justifyContent='center'>
           <Box width={[1, 1, 2/3]} m='3px'>
-            <Button variant="secondary" width="100%">Tell me what to do!</Button>
+            <Button variant="secondary" width="100%" onClick={this.onGetWant}>Tell me what to do!</Button>
           </Box>
         </Flex>
       </>
