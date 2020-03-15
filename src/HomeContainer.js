@@ -11,11 +11,16 @@ class HomeContainer extends Component {
   }
   
   onChangeWant(arg1, ...args) {
+    // TODO: POST /api/want
+    // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+    // for how to do POST with fetch
+    // TODO: Consider using https://github.com/axios/axios instead of fetch
     console.log(arg1)
     console.log(args)
   }
   
   onGetWant() {
+    // TODO: this.setState({ want: data.want })
     fetch('/api/want')
       .then((response) => response.json())
       .then((data) => console.log(data))

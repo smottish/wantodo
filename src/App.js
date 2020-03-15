@@ -49,7 +49,7 @@ const myTheme = {
       ':focus': {
         outline: 'none',
       },
-      '-webkit-tap-highlight-color': 'transparent',
+      WebkitTapHighlightColor: 'transparent',
     },
   },
 }

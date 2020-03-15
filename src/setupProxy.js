@@ -1,3 +1,4 @@
+// See https://dev.to/glitch/create-react-app-and-express-together-on-glitch-28gi
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // This proxy redirects requests to /api endpoints to
