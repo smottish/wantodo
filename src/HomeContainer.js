@@ -10,11 +10,12 @@ class HomeContainer extends Component {
     this.onGetWant = this.onGetWant.bind(this)
   }
   
+  // TODO: add handler for Add button to send POST /api/want
+  // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+  // for how to do POST with fetch
+  // TODO: Consider using https://github.com/axios/axios instead of fetch
+  
   onChangeWant(arg1, ...args) {
-    // TODO: POST /api/want
-    // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-    // for how to do POST with fetch
-    // TODO: Consider using https://github.com/axios/axios instead of fetch
     console.log(arg1)
     console.log(args)
   }
