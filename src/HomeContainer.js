@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Heading, Flex, Box, Button } from 'rebass';
+import { Heading, Flex, Box, Button, Text} from 'rebass';
 import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
 
 class HomeContainer extends Component {
   constructor() {
     super()
+    this.state = {
+      want: null,
+    }
     this.onChangeWant = this.onChangeWant.bind(this)
     this.onGetWant = this.onGetWant.bind(this)
   }
@@ -21,10 +24,9 @@ class HomeContainer extends Component {
   }
   
   onGetWant() {
-    // TODO: this.setState({ want: data.want })
     fetch('/api/want')
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((want) => this.setState({ want }))
   }
 
   render() {
@@ -44,6 +46,9 @@ class HomeContainer extends Component {
             <Button variant="secondary" width="100%" onClick={this.onGetWant}>Tell me what to do!</Button>
           </Box>
         </Flex>
+        {this.state.want && <Flex marginTop="5px" justifyContent='center'>
+          <Text fontSize={[ 3, 4, 5 ]} fontWeight={"bold"}>{this.state.want.description}</Text>
+        </Flex>}
       </>
     )
   }

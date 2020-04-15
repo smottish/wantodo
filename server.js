@@ -7,17 +7,22 @@ var app = express();
 
 db.defaults({
   wants: [
-    { id: 1, description: "learn a new language" },
-    { id: 2, description: "run a marathon" },
-    { id: 3, description: "code my own app" }
+    { id: 1, description: "Learn a new language" },
+    { id: 2, description: "Run a marathon" },
+    { id: 3, description: "Code my own app" }
   ]
 }).write()
 
 app.get("/api/want", function (request, response) {
   const wants = db.get('wants').value()
   const index = Math.floor(Math.random() * wants.length)
-  response.send(wants.)
+  response.send(wants[index])
 });
+
+app.post("/api/want", function (request, response) {
+  db.get('wants')
+    .
+})
 
 // TODO: use process.env.PORT instead of hardcoding the port
 // See https://dev.to/glitch/create-react-app-and-express-together-on-glitch-28gi
