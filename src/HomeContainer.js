@@ -15,11 +15,6 @@ class HomeContainer extends Component {
     this.onCreateWant = this.onCreateWant.bind(this)
   }
   
-  // TODO: add handler for Add button to send POST /api/want
-  // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-  // for how to do POST with fetch
-  // TODO: Consider using https://github.com/axios/axios instead of fetch
-  
   onChangeWant(ev) {
     this.setState({ newWant: ev.target.value })
   }
@@ -31,9 +26,9 @@ class HomeContainer extends Component {
   }
   
   onCreateWant() {
-    console.log(this.state.newWant)
+    // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+    // TODO: Consider using https://github.com/axios/axios instead of fetch
     const requestBody = JSON.stringify({ description: this.state.newWant })
-    console.log(requestBody)
     fetch('/api/want', {
       method: 'POST',
       headers: {

@@ -4,8 +4,12 @@ var low = require('lowdb')
 var FileSync = require('lowdb/adapters/FileSync')
 var adapter = new FileSync('.data/db.json')
 var db = low(adapter)
-var app = express();
+var app = express()
 
+app.use(express.json())
+
+// lowdb docs: https://github.com/typicode/lowdb
+// example project: https://glitch.com/~low-db
 db.defaults({
   wants: [
     { id: shortid.generate(), description: "Learn a new language" },
@@ -21,8 +25,7 @@ app.get("/api/want", function (request, response) {
 });
 
 app.post("/api/want", function (request, response) {
-  const want = JSON.parse(request.body.data)
-  const newWant = { id: shortid.generate(), description: want.description }
+  const newWant = { id: shortid.generate(), description: request.body.description }
   db.get('wants')
     .push(newWant)
     .write()
