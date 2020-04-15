@@ -11,6 +11,7 @@ dependencies:
   react-feather: 2.0.3
   react-scripts: 3.2.0
   rebass: 4.0.7
+  shortid: 2.2.15
 packages:
   /@babel/code-frame/7.5.5:
     dependencies:
@@ -7541,6 +7542,10 @@ packages:
     optional: true
     resolution:
       integrity: sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
+  /nanoid/2.1.11:
+    dev: false
+    resolution:
+      integrity: sha512-s/snB+WGm6uwi0WjsZdaVcuf3KJXlfGl2LcxgwkEwJF0D/BWzVWAZW/XY4bFaiR7s0Jk3FPvlnepg1H1b1UwlA==
   /nanomatch/1.2.13:
     dependencies:
       arr-diff: 4.0.0
@@ -10069,6 +10074,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
+  /shortid/2.2.15:
+    dependencies:
+      nanoid: 2.1.11
+    dev: false
+    resolution:
+      integrity: sha512-5EaCy2mx2Jgc/Fdn9uuDuNIIfWBpzY4XIlhoqtXF6qsf+/+SGZ+FxDdX/ZsMZiWupIWNqAEmiNY4RC+LSmCeOw==
   /signal-exit/3.0.2:
     dev: false
     resolution:
@@ -11631,3 +11642,4 @@ specifiers:
   react-feather: ^2.0.3
   react-scripts: ^3.2.0
   rebass: ^4.0.7
+  shortid: ^2.2.15

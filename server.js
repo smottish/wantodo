@@ -1,4 +1,5 @@
-var express = require('express');
+var express = require('express')
+var shortid = require('shortid')
 var low = require('lowdb')
 var FileSync = require('lowdb/adapters/FileSync')
 var adapter = new FileSync('.data/db.json')
@@ -7,22 +8,26 @@ var app = express();
 
 db.defaults({
   wants: [
-    { id: 1, description: "Learn a new language" },
-    { id: 2, description: "Run a marathon" },
-    { id: 3, description: "Code my own app" }
+    { id: shortid.generate(), description: "Learn a new language" },
+    { id: shortid.generate(), description: "Run a marathon" },
+    { id: shortid.generate(), description: "Code my own app" }
   ]
 }).write()
 
 app.get("/api/want", function (request, response) {
-  const wants = db.get('wants').value()
+  const wants = db.get('wants').cloneDeep().value()
   const index = Math.floor(Math.random() * wants.length)
   response.send(wants[index])
 });
 
 app.post("/api/want", function (request, response) {
+  const want = JSON.parse(request.body.data)
+  const newWant = { id: shortid.generate(), description: want.description }
   db.get('wants')
-    .
-})
+    .push(newWant)
+    .write()
+  response.send(newWant)
+});
 
 // TODO: use process.env.PORT instead of hardcoding the port
 // See https://dev.to/glitch/create-react-app-and-express-together-on-glitch-28gi
