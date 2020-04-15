@@ -1,12 +1,22 @@
 var express = require('express');
+var low = require('lowdb')
+var FileSync = require('lowdb/adapters/FileSync')
+var adapter = new FileSync('.data/db.json')
+var db = low(adapter)
 var app = express();
 
-// TODO: Implement backend using lodb. See:
-// https://glitch.com/~low-db
+db.defaults({
+  wants: [
+    { id: 1, description: "learn a new language" },
+    { id: 2, description: "run a marathon" },
+    { id: 3, description: "code my own app" }
+  ]
+}).write()
 
 app.get("/api/want", function (request, response) {
-  // TODO: return a random "want"
-  response.send({ want: 'testing 123'})
+  const wants = db.get('wants').value()
+  const index = Math.floor(Math.random() * wants.length)
+  response.send(wants.)
 });
 
 // TODO: use process.env.PORT instead of hardcoding the port
