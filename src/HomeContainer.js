@@ -8,9 +8,11 @@ class HomeContainer extends Component {
     super()
     this.state = {
       want: null,
+      newWant: '',
     }
     this.onChangeWant = this.onChangeWant.bind(this)
     this.onGetWant = this.onGetWant.bind(this)
+    this.onCreateWant = this.onCreateWant.bind(this)
   }
   
   // TODO: add handler for Add button to send POST /api/want
@@ -18,15 +20,30 @@ class HomeContainer extends Component {
   // for how to do POST with fetch
   // TODO: Consider using https://github.com/axios/axios instead of fetch
   
-  onChangeWant(arg1, ...args) {
-    console.log(arg1)
-    console.log(args)
+  onChangeWant(ev) {
+    this.setState({ newWant: ev.target.value })
   }
   
   onGetWant() {
     fetch('/api/want')
       .then((response) => response.json())
       .then((want) => this.setState({ want }))
+  }
+  
+  onCreateWant() {
+    console.log(this.state.newWant)
+    const requestBody = JSON.stringify({ description: this.state.newWant })
+    console.log(requestBody)
+    fetch('/api/want', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: requestBody,
+    })
+      .then((response) => response.json())
+      .then((want) => console.log(want))
+      .then(() => this.setState({ newWant: '' }))
   }
 
   render() {
@@ -36,8 +53,8 @@ class HomeContainer extends Component {
         <Flex justifyContent='center'>
           <Box width={[1, 1, 2/3]}>
             <Flex>
-              <Box flexGrow={4} m='3px'><Input placeholder='Enter something you want to do!' onChange={this.onChangeWant}/></Box>
-              <Box flexGrow={1} m='3px'><Button width="100%">Add</Button></Box>
+              <Box flexGrow={4} m='3px'><Input value={this.state.newWant} placeholder='Enter something you want to do!' onChange={this.onChangeWant}/></Box>
+              <Box flexGrow={1} m='3px'><Button width="100%" onClick={this.onCreateWant}>Add</Button></Box>
             </Flex>
           </Box>
         </Flex>
