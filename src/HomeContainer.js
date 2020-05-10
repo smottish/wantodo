@@ -60,7 +60,7 @@ class HomeContainer extends Component {
           </Box>
         </Flex>
         <Flex justifyContent='center'>
-          <AnimateText>Loading</AnimateText>
+          <AnimateText text={'Loading'}/>
         </Flex>
         {this.state.want && <Flex marginTop="5px" justifyContent='center'>
           <Text fontSize={[ 3, 4, 5 ]} fontWeight={"bold"}>{this.state.want.description}</Text>

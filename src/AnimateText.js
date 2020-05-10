@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 const rotateY = keyframes`
@@ -11,33 +11,29 @@ const rotateY = keyframes`
 `
 
 const Letter = styled.span`
-  animation: ${rotateY} 1s linear {props => props.delay}s;
+  animation: ${rotateY} 1s linear ${props => props.delay * 0.25}s;
   display: inline-block;
 `
 
-// Create the keyframes
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
+class AnimateText extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      counter: 0,
+    }
   }
-  to {
-    transform: rotate(360deg);
+  
+  componentDidMount() {
+    if (this.props.text) {
+      
+    }
   }
-`;
-// Here we create a component that will rotate everything we pass in over two seconds
-const Rotate = styled.div`
-  display: inline-block;
-  animation: ${rotateY} 2s linear ${props = props.delay}s infinite;
-  padding: 2rem 1rem;
-  font-size: 1.2rem;
-`;
 
-// const AnimateText = (props) => {
-//   return <><Letter delay={0}>A</Letter><Letter delay={1}>B</Letter><Letter delay={2}>C</Letter></>
-// }
+  render() {
+    const charArray = this.props.text.split('')
+    return <>{charArray.map((letter, index) => <Letter delay={index}>{letter}</Letter>)}</>
+  }
 
-const AnimateText = (props) => {
-  return <Rotate delay={7}>A</Rotate>
 }
 
 export default AnimateText
