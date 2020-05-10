@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Heading, Flex, Box, Button, Text} from 'rebass';
 import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
-
-import AnimateText from './AnimateText'
+import AnimateText from './AnimateText';
 
 class HomeContainer extends Component {
   constructor() {
