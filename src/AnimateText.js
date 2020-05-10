@@ -19,13 +19,42 @@ class AnimateText extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      counter: 0,
+      timestamp: null,
     }
+    
+    this.timer = null
+  }
+  
+  startAnimationLoop() {
+    const totalSeconds = ((this.props.text.length - 1) * 0.25) + 1
+    
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
+
+    const timer = setInterval(() => {
+        console.log('tick')
+        this.setState({ timestamp: Date.now() })
+    }, totalSeconds * 1000)
+    
+    this.timer = timer
   }
   
   componentDidMount() {
     if (this.props.text) {
-      
+      this.startAnimationLoop()
+    }
+  }
+  
+  componentWillUnmount() {
+    if (this.state.timer) {
+      clearInterval(this.state.timer)
+    }
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.text !== this.props.text) {
+      this.startAnimationLoop()
     }
   }
 
