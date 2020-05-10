@@ -14,6 +14,7 @@ const rotateY = keyframes`
 const Letter = styled.span`
   animation: ${rotateY} 1s linear ${props => props.delay * 0.25}s;
   display: inline-block;
+  white-space: pre;
 `
 
 class SpinningText extends Component {
@@ -28,6 +29,8 @@ class SpinningText extends Component {
   
   updateAnimationLoop() {
     const totalSeconds = ((this.props.text.length - 1) * 0.25) + 1
+    
+    console.log(`Updating animation loop with text: ${this.props.text}`)
     
     if (this.timer) {
       clearInterval(this.timer)
@@ -53,8 +56,8 @@ class SpinningText extends Component {
     }
   }
   
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.text !== this.props.text || nextProps.loop !== this.props.loop) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.text !== this.props.text || prevProps.loop !== this.props.loop) {
       this.updateAnimationLoop()
     }
   }
