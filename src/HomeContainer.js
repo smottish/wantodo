@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Heading, Flex, Box, Button, Text} from 'rebass';
 import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
-import AnimateText from './AnimateText';
+import SpinningText from './SpinningText';
 
 class HomeContainer extends Component {
   constructor() {
@@ -59,11 +59,9 @@ class HomeContainer extends Component {
             <Button variant="secondary" width="100%" onClick={this.onGetWant}>Tell me what to do!</Button>
           </Box>
         </Flex>
-        <Flex justifyContent='center'>
-          <AnimateText text={'Loading'}/>
-        </Flex>
         {this.state.want && <Flex marginTop="5px" justifyContent='center'>
-          <Text fontSize={[ 3, 4, 5 ]} fontWeight={"bold"}>{this.state.want.description}</Text>
+          { /*<Text fontSize={[ 3, 4, 5 ]} fontWeight={"bold"}>{this.state.want.description}</Text>*/ }
+          <SpinningText text={this.state.want.description} loop={false}/>
         </Flex>}
       </>
     )

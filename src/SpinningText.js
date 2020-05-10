@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components'
 
 const rotateY = keyframes`
@@ -15,54 +16,64 @@ const Letter = styled.span`
   display: inline-block;
 `
 
-class AnimateText extends Component {
+class SpinningText extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      timestamp: null,
+      timestamp: 0,
     }
     
     this.timer = null
   }
   
-  startAnimationLoop() {
+  updateAnimationLoop() {
     const totalSeconds = ((this.props.text.length - 1) * 0.25) + 1
     
     if (this.timer) {
       clearInterval(this.timer)
     }
+    
+    if (!this.props.text || !this.props.loop) {
+      return;
+    }
 
-    const timer = setInterval(() => {
+    this.timer = setInterval(() => {
         console.log('tick')
         this.setState({ timestamp: Date.now() })
     }, totalSeconds * 1000)
-    
-    this.timer = timer
   }
   
   componentDidMount() {
-    if (this.props.text) {
-      this.startAnimationLoop()
-    }
+    this.updateAnimationLoop()
   }
   
   componentWillUnmount() {
-    if (this.state.timer) {
-      clearInterval(this.state.timer)
+    if (this.timer) {
+      clearInterval(this.timer)
     }
   }
   
   componentWillReceiveProps(nextProps) {
-    if (nextProps.text !== this.props.text) {
-      this.startAnimationLoop()
+    if (nextProps.text !== this.props.text || nextProps.loop !== this.props.loop) {
+      this.updateAnimationLoop()
     }
   }
 
   render() {
     const charArray = this.props.text.split('')
-    return <>{charArray.map((letter, index) => <Letter delay={index}>{letter}</Letter>)}</>
+    return <>{charArray.map((letter, index) => <Letter key={index + this.state.timestamp} delay={index}>{letter}</Letter>)}</>
   }
 
 }
 
-export default AnimateText
+SpinningText.propTypes = {
+  text: PropTypes.string,
+  loop: PropTypes.bool,
+}
+
+SpinningText.defaultProps = {
+  text: '',
+  loop: true,
+}
+
+export default SpinningText
