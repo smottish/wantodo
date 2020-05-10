@@ -3,6 +3,8 @@ import { Heading, Flex, Box, Button, Text} from 'rebass';
 import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
 
+import AnimateText from './AnimateText'
+
 class HomeContainer extends Component {
   constructor() {
     super()
@@ -57,6 +59,9 @@ class HomeContainer extends Component {
           <Box width={[1, 1, 2/3]} m='3px'>
             <Button variant="secondary" width="100%" onClick={this.onGetWant}>Tell me what to do!</Button>
           </Box>
+        </Flex>
+        <Flex justifyContent='center'>
+          <AnimateText>Loading</AnimateText>
         </Flex>
         {this.state.want && <Flex marginTop="5px" justifyContent='center'>
           <Text fontSize={[ 3, 4, 5 ]} fontWeight={"bold"}>{this.state.want.description}</Text>
