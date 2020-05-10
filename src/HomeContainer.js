@@ -61,7 +61,7 @@ class HomeContainer extends Component {
         </Flex>
         {this.state.want && <Flex marginTop="5px" justifyContent='center'>
           { /*<Text fontSize={[ 3, 4, 5 ]} fontWeight={"bold"}>{this.state.want.description}</Text>*/ }
-          <SpinningText text={this.state.want.description} loop={false}/>
+          <SpinningText text={this.state.want.description} loop={true}/>
         </Flex>}
       </>
     )
