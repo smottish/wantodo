@@ -15,7 +15,8 @@
     "concurrently": "^5.0.2",
     "http-proxy-middleware": "^1.0.2",
     "lowdb": "^1.0.0",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "styled-components": "^5.0.1"
   },
   "scripts": {
     "start": "concurrently --kill-others \"react-scripts start\" \"node server.js\"",
