@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components'
 
 // TODO: move this from a global to a prop or props
-const ANIMATE_ONE_LETTER_DURATION = 0.25
+const ANIMATE_LETTER_DELAY = 0.25
 
 const rotateY = keyframes`
   from {
@@ -14,10 +14,12 @@ const rotateY = keyframes`
   }
 `
 
-const Letter = styled.span`
-  animation: ${rotateY} 1s linear ${props => props.delay * ANIMATE_ONE_LETTER_DURATION}s;
+const SpinningLetter = styled.span`
+  animation: ${rotateY} 1s linear ${props => props.offset * ANIMATE_LETTER_DELAY}s;
   display: inline-block;
   white-space: pre;
+  font-size: 4em;
+  text-transform: uppercase;
 `
 
 class SpinningText extends Component {
@@ -33,7 +35,7 @@ class SpinningText extends Component {
   // Call this function everytime we want the animation to run
   // (e.g. when the component mounts or when its props change)
   runAnimationLoop() {
-    const totalSeconds = ((this.props.text.length - 1) * ANIMATE_ONE_LETTER_DURATION) + 1
+    const totalSeconds = ((this.props.text.length - 1) * ANIMATE_LETTER_DELAY) + 1
     
     if (this.timer) {
       clearInterval(this.timer)
@@ -73,7 +75,7 @@ class SpinningText extends Component {
 
   render() {
     const charArray = this.props.text.split('')
-    return <>{charArray.map((letter, index) => <Letter key={index + this.state.timestamp} delay={index}>{letter}</Letter>)}</>
+    return <>{charArray.map((letter, index) => <SpinningLetter key={index + this.state.timestamp} offset={index}>{letter}</SpinningLetter>)}</>
   }
 
 }
