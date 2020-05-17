@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components'
 
+// TODO: move this from a global to a prop or props
+const ANIMATE_ONE_LETTER_DURATION = 0.25
+
 const rotateY = keyframes`
   from {
     transform: rotateY(0deg);
@@ -12,7 +15,7 @@ const rotateY = keyframes`
 `
 
 const Letter = styled.span`
-  animation: ${rotateY} 1s linear ${props => props.delay * 0.25}s;
+  animation: ${rotateY} 1s linear ${props => props.delay * ANIMATE_ONE_LETTER_DURATION}s;
   display: inline-block;
   white-space: pre;
 `
@@ -27,10 +30,11 @@ class SpinningText extends Component {
     this.timer = null
   }
   
-  updateAnimationLoop() {
-    const totalSeconds = ((this.props.text.length - 1) * 0.25) + 1
+  // Call this function everytime we want the animation to run
+  // (e.g. when the component mounts or when its props change)
+  runAnimationLoop() {
+    const totalSeconds = ((this.props.text.length - 1) * ANIMATE_ONE_LETTER_DURATION) + 1
     
-    console.log(`Updating animation loop with text: ${this.props.text}`)
     if (this.timer) {
       clearInterval(this.timer)
     }
@@ -39,19 +43,20 @@ class SpinningText extends Component {
       return;
     }
 
-    const newTime = Date.now()
-    console.log(`Update timestamp to ${newTime}`)
-    this.setState({ timestamp: newTime })
+    // Changing the timestamp will cause components to unmount/mount,
+    // Which will cause the CSS animation to run.
+    this.setState({ timestamp: Date.now() })
+
     if (this.props.loop) {
+      // Loop the animation by changing the timestamp every `totalSeconds`
       this.timer = setInterval(() => {
-          console.log('tick')
           this.setState({ timestamp: Date.now() })
       }, totalSeconds * 1000)
     }
   }
   
   componentDidMount() {
-    this.updateAnimationLoop()
+    this.runAnimationLoop()
   }
   
   componentWillUnmount() {
@@ -62,7 +67,7 @@ class SpinningText extends Component {
   
   componentDidUpdate(prevProps) {
     if (prevProps.text !== this.props.text || prevProps.loop !== this.props.loop) {
-      this.updateAnimationLoop()
+      this.runAnimationLoop()
     }
   }
 
