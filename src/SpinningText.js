@@ -42,7 +42,10 @@ class SpinningText extends Component {
 
     this.timer = setInterval(() => {
         console.log('tick')
-        this.setState({ timestamp: Date.now() })
+        requestAnimationFrame(() => {
+          this.setState({ timestamp: Date.now() })
+        })
+        
     }, totalSeconds * 1000)
   }
   
