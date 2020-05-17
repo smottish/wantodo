@@ -31,19 +31,23 @@ class SpinningText extends Component {
     const totalSeconds = ((this.props.text.length - 1) * 0.25) + 1
     
     console.log(`Updating animation loop with text: ${this.props.text}`)
-    
     if (this.timer) {
       clearInterval(this.timer)
     }
     
-    if (!this.props.text || !this.props.loop) {
+    if (!this.props.text) {
       return;
     }
 
-    this.timer = setInterval(() => {
-        console.log('tick')
-        this.setState({ timestamp: Date.now() })
-    }, totalSeconds * 1000)
+    const newTime = Date.now()
+    console.log(`Update timestamp to ${newTime}`)
+    this.setState({ timestamp: newTime })
+    if (this.props.loop) {
+      this.timer = setInterval(() => {
+          console.log('tick')
+          this.setState({ timestamp: Date.now() })
+      }, totalSeconds * 1000)
+    }
   }
   
   componentDidMount() {
