@@ -39,13 +39,14 @@ class SpinningText extends Component {
     if (!this.props.text || !this.props.loop) {
       return;
     }
+    
+    requestAnimationFrame(() => {
+      this.setState({ timestamp: Date.now() })
+    })
 
     this.timer = setInterval(() => {
-        console.log('tick')
-        requestAnimationFrame(() => {
-          this.setState({ timestamp: Date.now() })
-        })
-        
+      console.log('tick')
+      this.setState({ timestamp: Date.now() })
     }, totalSeconds * 1000)
   }
   
