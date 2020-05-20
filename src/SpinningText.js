@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components'
 
 // TODO: move this from a global to a prop or props
-const ANIMATE_LETTER_DELAY = 0.25
-const ANIMATE_LETTER_DURATION = 1
+const ANIMATE_LETTER_DURATION = 0.4
+const ANIMATE_LETTER_DELAY = 0.1
 
 const rotateY = keyframes`
   from {
