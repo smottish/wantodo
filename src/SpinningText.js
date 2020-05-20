@@ -47,7 +47,7 @@ class SpinningText extends Component {
   // Call this function everytime we want the animation to run
   // (e.g. when the component mounts or when its props change)
   runAnimationLoop() {
-    const totalSeconds = ((this.props.text.length - 1) * ANIMATE_LETTER_DELAY) + 1
+    const totalSeconds = getTotalAnimationDuration(this.props.text)
     
     if (this.timer) {
       clearInterval(this.timer)
