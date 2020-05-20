@@ -4,6 +4,7 @@ import styled, { keyframes } from 'styled-components'
 
 // TODO: move this from a global to a prop or props
 const ANIMATE_LETTER_DELAY = 0.25
+const ANIMATE_LETTER_DURATION = 1
 
 const rotateY = keyframes`
   from {
@@ -22,8 +23,12 @@ const Letter = styled.span`
 `
 
 const SpinningLetter = styled(Letter)`
-  animation: ${rotateY} 1s linear ${props => props.offset * ANIMATE_LETTER_DELAY}s;
+  animation: ${rotateY} ${ANIMATE_LETTER_DURATION}s linear ${props => props.offset * ANIMATE_LETTER_DELAY}s;
 `
+
+const getTotalAnimationDuration = (text) => {
+  
+}
 
 class SpinningText extends Component {
   constructor(props) {
@@ -78,13 +83,14 @@ class SpinningText extends Component {
 
   render() {
     const charArray = this.props.text.split('')
+    let offset = 0
     return <>{charArray.map((letter, index) => {
-        const props = {
-          key: index + this.state.timestamp,
-          offset: index,
-        }
-        // return letter === ' ' ? <Letter {...props}>{letter}</Letter> : <SpinningLetter {...props}>{letter}</SpinningLetter>
-        return <SpinningLetter {...props}>{letter}</SpinningLetter>
+        const key = index + this.state.timestamp
+        return letter === ' ' ? (
+          <Letter key={key}>{letter}</Letter>
+        ) : (
+          <SpinningLetter key={key} offset={offset++}>{letter}</SpinningLetter>
+        )
       })
     }</>
   }
