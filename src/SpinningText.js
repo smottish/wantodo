@@ -90,7 +90,8 @@ class SpinningText extends Component {
     let offset = 0
     return <>{charArray.map((letter, index) => {
         const key = index + this.state.timestamp
-        return letter === ' ' ? (
+        // Don't animate white-space characters
+        return /\s/.test(letter) ? (
           <Letter key={key}>{letter}</Letter>
         ) : (
           <SpinningLetter key={key} offset={offset++}>{letter}</SpinningLetter>
