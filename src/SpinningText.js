@@ -27,7 +27,11 @@ const SpinningLetter = styled(Letter)`
 `
 
 const getTotalAnimationDuration = (text) => {
-  
+  const numNonWhiteSpace = text.match(/\S/g).length
+  // The last letter will begin its animation after a delay
+  // based on its zero-based index (excluding white-space)
+  // and will finish after the animation duration has passed.
+  return (( numNonWhiteSpace - 1 ) * ANIMATE_LETTER_DELAY) + ANIMATE_LETTER_DURATION
 }
 
 class SpinningText extends Component {
