@@ -14,12 +14,15 @@ const rotateY = keyframes`
   }
 `
 
-const SpinningLetter = styled.span`
-  animation: ${rotateY} 1s linear ${props => props.offset * ANIMATE_LETTER_DELAY}s;
+const Letter = styled.span`
   display: inline-block;
   white-space: pre;
   font-size: 4em;
   text-transform: uppercase;
+`
+
+const SpinningLetter = styled(Letter)`
+  animation: ${rotateY} 1s linear ${props => props.offset * ANIMATE_LETTER_DELAY}s;
 `
 
 class SpinningText extends Component {
@@ -75,7 +78,15 @@ class SpinningText extends Component {
 
   render() {
     const charArray = this.props.text.split('')
-    return <>{charArray.map((letter, index) => <SpinningLetter key={index + this.state.timestamp} offset={index}>{letter}</SpinningLetter>)}</>
+    return <>{charArray.map((letter, index) => {
+        const props = {
+          key: index + this.state.timestamp,
+          offset: index,
+        }
+        // return letter === ' ' ? <Letter {...props}>{letter}</Letter> : <SpinningLetter {...props}>{letter}</SpinningLetter>
+        return <SpinningLetter {...props}>{letter}</SpinningLetter>
+      })
+    }</>
   }
 
 }
