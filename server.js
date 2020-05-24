@@ -19,7 +19,9 @@ db.defaults({
 }).write()
 
 app.get("/api/want", function (request, response) {
-  const exclude = request.query.exclude || {}
+  console.log(request.query)
+  const exclude = request.query.exclude
+  const excludeFilter = Number.isInteger(exclude) ? { id: exclude } : {}
   console.log(exclude)
   const wants = db.get('wants').cloneDeep().remove(exclude).value()
   console.log(wants)
