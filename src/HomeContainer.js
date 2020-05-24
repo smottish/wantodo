@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Heading, Flex, Box, Button, Text} from 'rebass';
+import { Heading, Flex, Box, Button } from 'rebass';
 import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
 import SpinningText from './SpinningText';
@@ -10,8 +10,8 @@ class HomeContainer extends Component {
     this.state = {
       want: null,
       newWant: '',
-      loading: false,
     }
+
     this.onChangeWant = this.onChangeWant.bind(this)
     this.onGetWant = this.onGetWant.bind(this)
     this.onCreateWant = this.onCreateWant.bind(this)
@@ -26,14 +26,9 @@ class HomeContainer extends Component {
     if (this.state.want) {
       url = url + `?exclude=${this.state.want.id}`
     }
-    this.setState({ loading: true })
     fetch(url)
       .then((response) => response.json())
       .then((want) => this.setState({ want }))
-      .then(
-        () => this.setState({ loading: false }),
-        () => this.setState({ loading: false })
-      )
   }
   
   onCreateWant() {
@@ -70,10 +65,7 @@ class HomeContainer extends Component {
           </Box>
         </Flex>
         {this.state.want && <Flex marginTop="5px" justifyContent='center'>
-          { /*<Text fontSize={[ 3, 4, 5 ]} fontWeight={"bold"}>{this.state.want.description}</Text>*/ }
-          { this.state.loading ? (
-            <SpinningText text="Loading" loop={true}/>
-          ) : <SpinningText text={this.state.want.description} loop={false}/>}
+          <SpinningText text={this.state.want.description} loop={false}/>
         </Flex>}
       </>
     )
