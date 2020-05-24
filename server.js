@@ -19,6 +19,7 @@ db.defaults({
 }).write()
 
 app.get("/api/want", function (request, response) {
+  const filter = request.query.exclude ? 
   const wants = db.get('wants').cloneDeep().value()
   const index = Math.floor(Math.random() * wants.length)
   response.send(wants[index])
