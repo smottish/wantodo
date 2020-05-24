@@ -19,12 +19,13 @@ db.defaults({
 }).write()
 
 app.get("/api/want", function (request, response) {
-  console.log(request.query)
   const exclude = request.query.exclude
-  const excludeFilter = Number.isInteger(exclude) ? { id: exclude } : {}
-  console.log(exclude)
-  const wants = db.get('wants').cloneDeep().remove(exclude).value()
-  console.log(wants)
+  let wants = db.get('wants').cloneDeep().value()
+
+  if (exclude) {
+    wants = wants.filter((w) => w.id !== exclude )
+  }
+
   const index = Math.floor(Math.random() * wants.length)
   response.send(wants[index])
 });

@@ -10,6 +10,7 @@ class HomeContainer extends Component {
     this.state = {
       want: null,
       newWant: '',
+      loading: false,
     }
     this.onChangeWant = this.onChangeWant.bind(this)
     this.onGetWant = this.onGetWant.bind(this)
@@ -21,9 +22,18 @@ class HomeContainer extends Component {
   }
   
   onGetWant() {
-    fetch('/api/want')
+    let url = '/api/want'
+    if (this.state.want) {
+      url = url + `?exclude=${this.state.want.id}`
+    }
+    this.setState({ loading: true })
+    fetch(url)
       .then((response) => response.json())
       .then((want) => this.setState({ want }))
+      .then(
+        () => this.setState({ loading: false }),
+        () => this.setState({ loading: false })
+      )
   }
   
   onCreateWant() {
@@ -61,7 +71,9 @@ class HomeContainer extends Component {
         </Flex>
         {this.state.want && <Flex marginTop="5px" justifyContent='center'>
           { /*<Text fontSize={[ 3, 4, 5 ]} fontWeight={"bold"}>{this.state.want.description}</Text>*/ }
-          <SpinningText text={this.state.want.description} loop={false}/>
+          { this.state.loading ? (
+            <SpinningText text="Loading" loop={true}/>
+          ) : <SpinningText text={this.state.want.description} loop={false}/>}
         </Flex>}
       </>
     )
