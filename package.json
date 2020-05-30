@@ -13,7 +13,7 @@
     "@rebass/forms": "^4.0.6",
     "express": "^4.17.1",
     "concurrently": "^5.0.2",
-    "http-proxy-middleware": "^1.0.2",
+    "http-proxy-middleware": "^1.0.4",
     "lowdb": "^1.0.0",
     "shortid": "^2.2.15",
     "styled-components": "^5.0.1"

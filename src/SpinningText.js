@@ -18,7 +18,7 @@ const rotateY = keyframes`
 const Letter = styled.span`
   display: inline-block;
   white-space: pre;
-  font-size: 4em;
+  font-size: 5vw;
   text-transform: uppercase;
 `
 

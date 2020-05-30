@@ -4,7 +4,7 @@ dependencies:
   concurrently: 5.1.0
   emotion-theming: 10.0.19
   express: 4.17.1
-  http-proxy-middleware: 1.0.2
+  http-proxy-middleware: 1.0.4
   lowdb: 1.0.0
   react: 16.11.0
   react-dom: 16.11.0
@@ -2271,12 +2271,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==
-  /@types/http-proxy/1.17.3:
+  /@types/http-proxy/1.17.4:
     dependencies:
-      '@types/node': 13.9.1
+      '@types/node': 14.0.6
     dev: false
     resolution:
-      integrity: sha512-wIPqXANye5BbORbuh74exbwNzj+UWCwWyeEFJzUQ7Fq3W2NSAy+7x7nX1fgbEypr2/TdKqpeuxLnXWgzN533/Q==
+      integrity: sha512-IrSHl2u6AWXduUaDLqYpt45tLVCtYv7o4Z0s1KghBCDgIIS9oW5K1H8mZG/A2CfeLdEa7rTd1ACOiHBc1EMT2Q==
   /@types/istanbul-lib-coverage/2.0.1:
     dev: false
     resolution:
@@ -2298,10 +2298,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
-  /@types/node/13.9.1:
+  /@types/node/14.0.6:
     dev: false
     resolution:
-      integrity: sha512-E6M6N0blf/jiZx8Q3nb0vNaswQeEyn0XlupO+xN6DtJ6r6IT4nXrTry7zhIfYvFCl3/8Cu6WIysmUBKiqV0bqQ==
+      integrity: sha512-FbNmu4F67d3oZMWBV6Y4MaPER+0EpE9eIYf2yaHhCWovc1dlXCZkqGX4NLHfVVr6umt20TNBdRzrNJIzIKfdbw==
   /@types/q/1.5.2:
     dev: false
     resolution:
@@ -4967,6 +4967,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-qerSRB0p+UDEssxTtm6EDKcE7W4OaoisfIMl4CngyEhjpYglocpNg6UEqCvemdGhosAsg4sO2dXJOdyBifPGCg==
+  /eventemitter3/4.0.4:
+    dev: false
+    resolution:
+      integrity: sha512-rlaVLnVxtxvoyLsQQFBx53YmXHDxRIzzTLbdfxqi4yocpSjAxXwkU0cScM5JgSKMqEhrZpnvQ2D9gjylR0AimQ==
   /events/3.0.0:
     dev: false
     engines:
@@ -5350,6 +5354,14 @@ packages:
       node: '>=4.0'
     resolution:
       integrity: sha512-4eyLK6s6lH32nOvLLwlIOnr9zrL8Sm+OvW4pVTJNoXeGzYIkHVf+pADQi+OJ0E67hiuSLezPVPyBcIZO50TmmQ==
+  /follow-redirects/1.11.0:
+    dependencies:
+      debug: 3.2.6
+    dev: false
+    engines:
+      node: '>=4.0'
+    resolution:
+      integrity: sha512-KZm0V+ll8PfBrKwMzdo5D13b1bur9Iq9Zd/RMmAoQQcl2PxxFml8cxXPaaPYVbV0RjNjq1CU7zIzAOqtUPudmA==
   /for-in/0.1.8:
     dev: false
     engines:
@@ -5904,10 +5916,10 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-yHYTgWMQO8VvwNS22eLLloAkvungsKdKTLO8AJlftYIKNfJr3GK3zK0ZCfzDDGUBttdGc8xFy1mCitvNKQtC3Q==
-  /http-proxy-middleware/1.0.2:
+  /http-proxy-middleware/1.0.4:
     dependencies:
-      '@types/http-proxy': 1.17.3
-      http-proxy: 1.18.0
+      '@types/http-proxy': 1.17.4
+      http-proxy: 1.18.1
       is-glob: 4.0.1
       lodash: 4.17.15
       micromatch: 4.0.2
@@ -5915,7 +5927,7 @@ packages:
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-JHBdMgynLHdKXK9I3BjP8XUKERBCqxvA7dtWj2Da5Bqdo2CRCRQMuUdI36eK1FUFyh6JFIOCBQiQ2ZS+LOs7ww==
+      integrity: sha512-8wiqujNWlsZNbeTSSWMLUl/u70xbJ5VYRwPR8RcAbvsNxzAZbgwLzRvT96btbm3fAitZUmo5i8LY6WKGyHDgvA==
   /http-proxy/1.18.0:
     dependencies:
       eventemitter3: 4.0.0
@@ -5926,6 +5938,16 @@ packages:
       node: '>=6.0.0'
     resolution:
       integrity: sha512-84I2iJM/n1d4Hdgc6y2+qY5mDaz2PUVjlg9znE9byl+q0uC3DeByqBGReQu5tpLK0TAqTIXScRUV+dg7+bUPpQ==
+  /http-proxy/1.18.1:
+    dependencies:
+      eventemitter3: 4.0.4
+      follow-redirects: 1.11.0
+      requires-port: 1.0.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==
   /http-signature/1.2.0:
     dependencies:
       assert-plus: 1.0.0
@@ -7487,7 +7509,7 @@ packages:
   /micromatch/4.0.2:
     dependencies:
       braces: 3.0.2
-      picomatch: 2.2.1
+      picomatch: 2.2.2
     dev: false
     engines:
       node: '>=8'
@@ -8340,12 +8362,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
-  /picomatch/2.2.1:
+  /picomatch/2.2.2:
     dev: false
     engines:
       node: '>=8.6'
     resolution:
-      integrity: sha512-ISBaA8xQNmwELC7eOjqFKMESB2VIqt4PPDD0nsS95b/9dZXvVKOlz9keMSnoGGKcOHXfTvDD6WMaRoSc9UuhRA==
+      integrity: sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
   /pify/2.3.0:
     dev: false
     engines:
@@ -11816,7 +11838,7 @@ specifiers:
   concurrently: ^5.0.2
   emotion-theming: ^10.0.19
   express: ^4.17.1
-  http-proxy-middleware: ^1.0.2
+  http-proxy-middleware: ^1.0.4
   lowdb: ^1.0.0
   react: ^16.11.0
   react-dom: ^16.10.2
