@@ -20,6 +20,7 @@ const Letter = styled.span`
   white-space: pre;
   font-size: 5vw;
   text-transform: uppercase;
+  font-family: inherit;
 `
 
 const SpinningLetter = styled(Letter)`
