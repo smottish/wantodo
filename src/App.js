@@ -197,9 +197,6 @@ class App extends Component {
               logo={<CircleIcon text={"Wantodo"} />}
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
-              <div style={{ display: 'flex', justifyContent: 'center', width: '100%'}}>
-                <div>Testing 123...</div>
-              </div>
               { this.state.showToast ? <Toast>Testing 123...</Toast> : null }
               { this.renderCurrentPage() }
               <button onClick={() => this.setState({ showToast: true })}>Show</button>
