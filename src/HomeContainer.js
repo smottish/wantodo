@@ -3,6 +3,7 @@ import { Heading, Flex, Box, Button } from 'rebass';
 import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
 import SpinningText from './SpinningText';
+import Toast from './Toast.js';
 
 class HomeContainer extends Component {
   constructor() {
@@ -10,6 +11,7 @@ class HomeContainer extends Component {
     this.state = {
       want: null,
       newWant: '',
+      showToast: false,
     }
 
     this.onChangeWant = this.onChangeWant.bind(this)
@@ -50,6 +52,7 @@ class HomeContainer extends Component {
   render() {
     return (
       <>
+        <Toast show={this.state.showToast} message={"Testing 123..."}/>
         <Flex justifyContent='center'><Heading>I want to...</Heading></Flex>
         <Flex justifyContent='center'>
           <Box width={[1, 1, 2/3]}>
