@@ -11,7 +11,7 @@ class HomeContainer extends Component {
     this.state = {
       want: null,
       newWant: '',
-      showToast: false,
+      showToast: true,
     }
 
     this.onChangeWant = this.onChangeWant.bind(this)
@@ -53,6 +53,8 @@ class HomeContainer extends Component {
     return (
       <>
         <Toast show={this.state.showToast} message={"Testing 123..."}/>
+        <button style={{zIndex: 2}} onClick={() => this.setState({ showToast: true })}>Show</button>
+        <button style={{zIndex: 2}} onClick={() => this.setState({ showToast: false })}>Hide</button>
         <Flex justifyContent='center'><Heading>I want to...</Heading></Flex>
         <Flex justifyContent='center'>
           <Box width={[1, 1, 2/3]}>

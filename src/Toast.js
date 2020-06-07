@@ -15,12 +15,9 @@ const ToastContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  visibility: ${props => props.show ? "visible" : "hidden"};
   position: fixed;
+  animation: ${fadein} 0.5s, ${fadeout} 0.5s 2.5s;
   z-index: 1;
-  ${props => props.show ? `
-    animation: ${fadein} 0.5s, ${fadeout} 0.5s 2.5s;` : ""
-  }
 `
 
 const ToastMessage = styled.div`
@@ -34,11 +31,13 @@ const ToastMessage = styled.div`
 `
 
 const Toast = ({ show, message }) => (
-  <ToastContainer show={show}>
-    <ToastMessage>
-      {message}
-    </ToastMessage>
-  </ToastContainer>
+  show ? (
+    <ToastContainer>
+      <ToastMessage>
+        {message}
+      </ToastMessage>
+    </ToastContainer>
+  ) : null
 )
 
 export default Toast
