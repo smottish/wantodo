@@ -168,6 +168,7 @@ class App extends Component {
 
     return (
       <ThemeProvider theme={myTheme}>
+        { this.state.showToast ? <Toast>Testing 123...</Toast> : null }
         <MediaQuery
           query={`(max-width: ${MOBILE_BREAKPOINT}px)`}
           onChange={this.onBreakPointMatch}
@@ -197,7 +198,6 @@ class App extends Component {
               logo={<CircleIcon text={"Wantodo"} />}
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
-              { this.state.showToast ? <Toast>Testing 123...</Toast> : null }
               { this.renderCurrentPage() }
               <button onClick={() => this.setState({ showToast: true })}>Show</button>
               <button onClick={() => this.setState({ showToast: false })}>Hide</button>
