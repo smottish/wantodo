@@ -13,7 +13,8 @@ const fadeout = keyframes`
 
 const ToastContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-right: 30px;
   width: 100%;
   position: fixed;
   z-index: 1;
@@ -23,7 +24,6 @@ const ToastContainer = styled.div`
 
 const ToastMessage = styled.div`
   min-width: 250px;
-  margin-left: 250px;
   background-color: #333;
   color: #fff;
   text-align: center;
