@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import HomeContainer from './HomeContainer';
 import MediaQuery from './MediaQuery';
+import Toast from './Toast.js';
 
 const MOBILE_BREAKPOINT = 768
 
@@ -107,6 +108,7 @@ class App extends Component {
       sidebarOpen: true,
       isMobile: false,
       sidebarSelected: '',
+      showToast: false,
     }
 
     this.onBreakPointMatch = this.onBreakPointMatch.bind(this)
@@ -195,7 +197,10 @@ class App extends Component {
               logo={<CircleIcon text={"Wantodo"} />}
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
+              <Toast show={this.state.showToast} message={"Testing 123..."}/>
               { this.renderCurrentPage() }
+              <button onClick={() => this.setState({ showToast: true })}>Show</button>
+              <button onClick={() => this.setState({ showToast: false })}>Hide</button>
             </Main>
           </Box>
         )}

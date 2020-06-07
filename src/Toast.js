@@ -18,6 +18,7 @@ const ToastContainer = styled.div`
   position: fixed;
   animation: ${fadein} 0.5s, ${fadeout} 0.5s 2.5s;
   z-index: 1;
+  top: 30px;
 `
 
 const ToastMessage = styled.div`
