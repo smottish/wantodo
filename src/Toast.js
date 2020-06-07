@@ -21,7 +21,6 @@ const ToastContainer = styled.div`
   left: 0px;
   align-items: center;
   justify-content: flex-end;
-  animation: ${fadein} 0.5s, ${fadeout} 0.5s 2.5s;
 `
 
 const ToastMessage = styled.div`
@@ -33,11 +32,12 @@ const ToastMessage = styled.div`
   border-radius: 2px;
   padding: 16px;
   font-size: 17px;
+  animation: ${fadein} 0.5s, ${fadeout} 0.5s 2.5s;
 `
 
-const Toast = ({ children }) => (
+const Toast = ({ animationLength, children }) => (
   <ToastContainer>
-    <ToastMessage>
+    <ToastMessage animationLength={animationLength}>
       {children}
     </ToastMessage>
   </ToastContainer>
