@@ -32,7 +32,7 @@ const ToastMessage = styled.div`
   border-radius: 2px;
   padding: 16px;
   font-size: 17px;
-  animation: ${fadein} 0.5s, ${fadeout} 0.5s 2.5s;
+  animation: ${fadein} 0.5s, ${fadeout} 0.5s ${props => props.animationLength}s;
 `
 
 const Toast = ({ animationLength, children }) => (

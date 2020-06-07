@@ -168,7 +168,7 @@ class App extends Component {
 
     return (
       <ThemeProvider theme={myTheme}>
-        { this.state.showToast ? <Toast>Testing 123...</Toast> : null }
+        { this.state.showToast ? <Toast animationLength={5}>Testing 123...</Toast> : null }
         <MediaQuery
           query={`(max-width: ${MOBILE_BREAKPOINT}px)`}
           onChange={this.onBreakPointMatch}
