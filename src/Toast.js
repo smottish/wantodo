@@ -2,13 +2,13 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 
 const fadein = keyframes`
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
+  from { transform: scale(.8); opacity: 0; } 
+  to { transform: scale(1); opacity: 1; }
 `
 
 const fadeout = keyframes`
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(.8); opacity: 0; }
 `
 
 const ToastContainer = styled.div`
@@ -20,7 +20,7 @@ const ToastContainer = styled.div`
   bottom: 0px;
   left: 0px;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   animation: ${fadein} 0.5s, ${fadeout} 0.5s 2.5s;
 `
 
