@@ -12,18 +12,21 @@ const fadeout = keyframes`
 `
 
 const ToastContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 30px;
-  width: 100%;
-  position: fixed;
   z-index: 1;
-  bottom: 30px;
+  margin: 8px;
+  display: flex;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  align-items: center;
+  justify-content: flex-start;
   animation: ${fadein} 0.5s, ${fadeout} 0.5s 2.5s;
 `
 
 const ToastMessage = styled.div`
-  min-width: 250px;
+  min-width: 344px;
+  max-width: 672px;
   background-color: #333;
   color: #fff;
   text-align: center;
