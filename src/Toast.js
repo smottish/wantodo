@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 const fadein = keyframes`
@@ -36,12 +36,14 @@ const ToastMessage = styled.div`
 `
 
 const Toast = ({ autoHideDuration, open, onClose, children }) => {
-  return (
-  <ToastContainer>
-    <ToastMessage autoHideDuration={autoHideDuration}>
-      {children}
-    </ToastMessage>
-  </ToastContainer>
+  const autoHideTimer = useRef(null)
+  autoHideTimer.current = setTimeout(onClose, autoHideDuration)
+  return open && (
+    <ToastContainer>
+      <ToastMessage autoHideDuration={autoHideDuration}>
+        {children}
+      </ToastMessage>
+    </ToastContainer>
   )
 }
   
