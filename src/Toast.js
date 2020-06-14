@@ -41,7 +41,7 @@ const Toast = ({ autoHideDuration, open, onClose, children }) => {
   // in the array, even though useEffect depends on them.
   useEffect(() => {
     if (open) {
-      const timer = setTimeout(onClose, autoHideDuration * 1000);
+      const timer = setTimeout(onClose, (autoHideDuration + 0.5) * 1000);
       return () => clearTimeout(timer);
     }
   }, [open]);
