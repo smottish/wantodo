@@ -48,7 +48,7 @@ const Toast = ({ autoHideDuration, open, onClose, children }) => {
 
   return (
     open && (
-      <ToastContainer>
+      <ToastContainer open={open}>
         <ToastMessage autoHideDuration={autoHideDuration}>
           {children}
         </ToastMessage>
