@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 const fadein = keyframes`
@@ -36,8 +36,14 @@ const ToastMessage = styled.div`
 `
 
 const Toast = ({ autoHideDuration, open, onClose, children }) => {
-  const autoHideTimer = useRef(null)
-  autoHideTimer.current = setTimeout(onClose, autoHideDuration)
+  // NOTE: passing [] means this callback is only called when the Component
+  // is first mounted, and unmounted. If it should be called anytime onClose
+  // or autoHidDuration change, then put those in the array.
+  useEffect(() => {
+    const timer = setTimeout(onClose, autoHideDuration)
+    return () => clearTimeout(timer)
+  }, [])
+
   return open && (
     <ToastContainer>
       <ToastMessage autoHideDuration={autoHideDuration}>
