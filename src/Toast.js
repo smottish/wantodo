@@ -11,6 +11,17 @@ const fadeout = keyframes`
   to { transform: scale(.8); opacity: 0; }
 `;
 
+// Because animation durations and setTimeout duratiosn aren't precise,
+// onClose may get called too late, and the Toast will be displayed
+// for a brief moment before disappearing after the Toast fades out.
+// This animation keeps the Toast hidden for a little longer once the
+// fade-out animation is done. There may be a better way to do this,
+// but I'm not 
+const hide = keyframes`
+  from { opacity: 0; }
+  to { opacity: 0; }
+`;
+
 const ToastContainer = styled.div`
   z-index: 1;
   margin: 8px;
@@ -32,7 +43,7 @@ const ToastMessage = styled.div`
   border-radius: 2px;
   padding: 16px;
   font-size: 17px;
-  animation: ${fadein} 0.5s, ${fadeout} 0.5s ${props => props.autoHideDuration}s;
+  animation: ${fadein} 0.5s, ${fadeout} 0.5s ${props => props.autoHideDuration}s, ${hide} 0.5s ${props => props.autoHideDuration + 0.5}s;
 `;
 
 const Toast = ({ autoHideDuration, open, onClose, children }) => {
