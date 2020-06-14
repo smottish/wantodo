@@ -16,7 +16,7 @@ const fadeout = keyframes`
 // for a brief moment before disappearing after the Toast fades out.
 // This animation keeps the Toast hidden for a little longer once the
 // fade-out animation is done. There may be a better way to do this,
-// but I'm not 
+// but I don't know what it is.
 const hide = keyframes`
   from { opacity: 0; }
   to { opacity: 0; }
@@ -55,6 +55,8 @@ const Toast = ({ autoHideDuration, open, onClose, children }) => {
       const timer = setTimeout(onClose, (autoHideDuration + 0.5) * 1000);
       return () => clearTimeout(timer);
     }
+  // Don't complain about missing dependencies: 'autoHideDuration' and 'onClose'
+  // eslint-disable-next-line
   }, [open]);
 
   return (
