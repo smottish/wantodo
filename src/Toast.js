@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
-import styled, { keyframes } from 'styled-components'
+import React, { useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 
 const fadein = keyframes`
   from { transform: scale(.8); opacity: 0; } 
   to { transform: scale(1); opacity: 1; }
-`
+`;
 
 const fadeout = keyframes`
   from { transform: scale(1); opacity: 1; }
   to { transform: scale(.8); opacity: 0; }
-`
+`;
 
 const ToastContainer = styled.div`
   z-index: 1;
@@ -21,7 +21,7 @@ const ToastContainer = styled.div`
   left: 0px;
   align-items: center;
   justify-content: flex-end;
-`
+`;
 
 const ToastMessage = styled.div`
   min-width: 344px;
@@ -33,24 +33,28 @@ const ToastMessage = styled.div`
   padding: 16px;
   font-size: 17px;
   animation: ${fadein} 0.5s, ${fadeout} 0.5s ${props => props.autoHideDuration}s;
-`
+`;
 
 const Toast = ({ autoHideDuration, open, onClose, children }) => {
-  // NOTE: passing [] means this callback is only called when the Component
-  // is first mounted, and unmounted. If it should be called anytime onClose
-  // or autoHidDuration change, then put those in the array.
+  // NOTE: We only want useEffect to be called when the component is mounted,
+  // unmounted and open changes. So onClose and autoHideDuration arent' included
+  // in the array, even though useEffect depends on them.
   useEffect(() => {
-    const timer = setTimeout(onClose, autoHideDuration)
-    return () => clearTimeout(timer)
-  }, [])
+    if (open) {
+      const timer = setTimeout(onClose, autoHideDuration * 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
 
-  return open && (
-    <ToastContainer>
-      <ToastMessage autoHideDuration={autoHideDuration}>
-        {children}
-      </ToastMessage>
-    </ToastContainer>
-  )
-}
-  
-export default Toast
+  return (
+    open && (
+      <ToastContainer>
+        <ToastMessage autoHideDuration={autoHideDuration}>
+          {children}
+        </ToastMessage>
+      </ToastContainer>
+    )
+  );
+};
+
+export default Toast;
