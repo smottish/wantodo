@@ -32,15 +32,17 @@ const ToastMessage = styled.div`
   border-radius: 2px;
   padding: 16px;
   font-size: 17px;
-  animation: ${fadein} 0.5s, ${fadeout} 0.5s ${props => props.animationLength}s;
+  animation: ${fadein} 0.5s, ${fadeout} 0.5s ${props => props.autoHideDuration}s;
 `
 
-const Toast = ({ animationLength, children }) => (
+const Toast = ({ autoHideDuration, open, onClose, children }) => {
+  return (
   <ToastContainer>
-    <ToastMessage animationLength={animationLength}>
+    <ToastMessage autoHideDuration={autoHideDuration}>
       {children}
     </ToastMessage>
   </ToastContainer>
-)
-
+  )
+}
+  
 export default Toast
