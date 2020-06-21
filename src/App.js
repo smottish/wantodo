@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { ThemeProvider, useTheme } from 'emotion-theming';
-import theme from '@rebass/preset';
 import { Heading, Box } from 'rebass';
 import { User, Home, CheckSquare } from 'react-feather';
 import Sidebar from './Sidebar';
@@ -10,50 +9,6 @@ import MediaQuery from './MediaQuery';
 import Toast from './Toast.js';
 
 const MOBILE_BREAKPOINT = 768
-
-const myTheme = {
-  ...theme,
-  colors: {
-    ...theme.colors,
-    muted: '#f8f8fc',
-    lightGray: '#e8e8e8',
-    darkGray: 'rgb(54, 55, 64)',
-    primary: 'rgb(54, 55, 64)',
-  },
-  variants: {
-    ...theme.variants,
-    navBlock: {
-      ...theme.variants.nav,
-      display: "block",
-      ':hover': {
-        
-      }
-    }
-  },
-  buttons: {
-    ...theme.buttons,
-    primary: {
-      ...theme.buttons.primary,
-      ':hover': {
-        cursor: 'pointer',
-      }
-    },
-    transparent: {
-      variant: 'buttons.primary',
-      borderRadius: 0,
-      bg: 'transparent',
-      color: 'black',
-      cursor: 'pointer',
-    },
-    transparentNoOutline: {
-      variant: 'buttons.transparent',
-      ':focus': {
-        outline: 'none',
-      },
-      WebkitTapHighlightColor: 'transparent',
-    },
-  },
-}
 
 const CircleIcon = ({ text }) => (
   <svg width="100" height="100">
@@ -93,6 +48,16 @@ const ProfileContainer = () => (
 const WantsContainer = () => (
   <PlaceholderPage title={"My Wants"}/>
 )
+
+const ToastWrapper = (props) => {
+  return <Toast
+          open={this.state.showToast}
+          autoHideDuration={5}
+          onClose={() => this.setState({showToast: false})}
+  >
+    Testing 123...
+  </Toast>
+}
 
 const pages = {
   home: HomeContainer,
@@ -166,15 +131,8 @@ class App extends Component {
       gridColumn = sidebarOpen ? '2' : 'span 2'
     }
 
-    return (
-      <ThemeProvider theme={myTheme}>
-        <Toast
-          open={this.state.showToast}
-          autoHideDuration={5}
-          onClose={() => this.setState({showToast: false})}
-        >
-          Testing 123...
-        </Toast>
+    return <>
+        <ToastWrapper />
         <MediaQuery
           query={`(max-width: ${MOBILE_BREAKPOINT}px)`}
           onChange={this.onBreakPointMatch}
@@ -211,8 +169,7 @@ class App extends Component {
           </Box>
         )}
         </MediaQuery>
-      </ThemeProvider>
-    );
+    </>;
   }
 }
 

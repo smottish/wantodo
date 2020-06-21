@@ -20,9 +20,23 @@ const reducer = (state, action) => {
     case HIDE_TOAST:
       return {
         show: false,
-        
+        message: "",
       };
     default:
       return state;
   }
+}
+
+const ToastProvider = props => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  <ToastContext.Provider value={[state, dispatch]}>
+    { props.children }
+  </ToastContext.Provider>
+}
+
+export {
+  ToastContext,
+  ToastProvider,
+  SHOW_TOAST,
+  HIDE_TOAST,
 }
