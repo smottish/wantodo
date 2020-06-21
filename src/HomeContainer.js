@@ -49,7 +49,7 @@ class HomeContainer extends Component {
       .then((response) => response.json())
       .then((want) => console.log(want))
       .then(() => this.setState({ newWant: '' }))
-      .then(() => dispatch({ type: SHOW_TOAST, message: "Want added!"}))
+      .then(() => dispatch({ type: SHOW_TOAST, message: "Want added!" }))
   }
 
   render() {

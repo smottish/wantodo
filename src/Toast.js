@@ -35,6 +35,7 @@ const ToastContainer = styled.div`
 `;
 
 const ToastMessage = styled.div`
+  font-family: inherit;
   min-width: 344px;
   max-width: 672px;
   background-color: #333;
@@ -48,7 +49,7 @@ const ToastMessage = styled.div`
 
 const Toast = ({ autoHideDuration, open, onClose, children }) => {
   // NOTE: We only want useEffect to be called when the component is mounted,
-  // unmounted and open changes. So onClose and autoHideDuration arent' included
+  // unmounted and open changes. So onClose and autoHideDuration aren't included
   // in the array, even though useEffect depends on them.
   useEffect(() => {
     if (open) {
