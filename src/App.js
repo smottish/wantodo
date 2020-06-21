@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { ThemeProvider, useTheme } from 'emotion-theming';
+import React, { Component, useContext } from 'react';
+import { useTheme } from 'emotion-theming';
 import { Heading, Box } from 'rebass';
 import { User, Home, CheckSquare } from 'react-feather';
 import Sidebar from './Sidebar';
@@ -7,6 +7,7 @@ import Header from './Header';
 import HomeContainer from './HomeContainer';
 import MediaQuery from './MediaQuery';
 import Toast from './Toast.js';
+import { ToastContext, SHOW_TOAST, HIDE_TOAST } from './ToastProvider.js'
 
 const MOBILE_BREAKPOINT = 768
 
@@ -50,13 +51,20 @@ const WantsContainer = () => (
 )
 
 const ToastWrapper = (props) => {
+  const [state, dispatch] = useContext(ToastContext);
   return <Toast
-          open={this.state.showToast}
-          autoHideDuration={5}
-          onClose={() => this.setState({showToast: false})}
+    open={state.show}
+    autoHideDuration={5}
+    onClose={() => dispatch({type: HIDE_TOAST})}
   >
-    Testing 123...
+    {state.message}
   </Toast>
+}
+
+const ToastButton = (props) => {
+  // eslint-disable-next-line
+  const [state, dispatch] = useContext(ToastContext);
+  return <button onClick={() => dispatch({ type: SHOW_TOAST, message: "Testing, 123...." })}>Show</button>
 }
 
 const pages = {
@@ -163,8 +171,7 @@ class App extends Component {
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
               { this.renderCurrentPage() }
-              <button onClick={() => this.setState({ showToast: true })}>Show</button>
-              <button onClick={() => this.setState({ showToast: false })}>Hide</button>
+              <ToastButton/>
             </Main>
           </Box>
         )}

@@ -29,9 +29,11 @@ const reducer = (state, action) => {
 
 const ToastProvider = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  <ToastContext.Provider value={[state, dispatch]}>
-    { props.children }
-  </ToastContext.Provider>
+  return (
+    <ToastContext.Provider value={[state, dispatch]}>
+      { props.children }
+    </ToastContext.Provider>
+  )
 }
 
 export {
