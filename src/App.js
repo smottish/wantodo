@@ -61,12 +61,6 @@ const ToastWrapper = (props) => {
   </Toast>
 }
 
-const ToastButton = (props) => {
-  // eslint-disable-next-line
-  const [state, dispatch] = useContext(ToastContext);
-  return <button onClick={() => dispatch({ type: SHOW_TOAST, message: "Testing, 123...." })}>Show</button>
-}
-
 const pages = {
   home: HomeContainer,
   profile: ProfileContainer,
@@ -171,7 +165,6 @@ class App extends Component {
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
               { this.renderCurrentPage() }
-              <ToastButton/>
             </Main>
           </Box>
         )}

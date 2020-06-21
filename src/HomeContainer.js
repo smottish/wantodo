@@ -3,6 +3,7 @@ import { Heading, Flex, Box, Button } from 'rebass';
 import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
 import SpinningText from './SpinningText';
+import { ToastContext, SHOW_TOAST } from './ToastProvider.js'
 
 class HomeContainer extends Component {
   constructor() {
@@ -34,6 +35,9 @@ class HomeContainer extends Component {
   onCreateWant() {
     // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
     // TODO: Consider using https://github.com/axios/axios instead of fetch
+    
+    // eslint-disable-next-line
+    const [ state, dispatch ] = this.context
     const requestBody = JSON.stringify({ description: this.state.newWant })
     fetch('/api/want', {
       method: 'POST',
@@ -45,6 +49,7 @@ class HomeContainer extends Component {
       .then((response) => response.json())
       .then((want) => console.log(want))
       .then(() => this.setState({ newWant: '' }))
+      .then(() => dispatch({ type: SHOW_TOAST, message: "Want added!"}))
   }
 
   render() {
@@ -71,5 +76,12 @@ class HomeContainer extends Component {
     )
   }
 }
+
+// If I need to consume more than one context, then I'll need to use
+// ToastContext.Provider above. See the following docs for more details:
+// https://reactjs.org/docs/context.html#consuming-multiple-contexts
+// Or I can convert HomeContainer to a function component and use
+// useContext.
+HomeContainer.contextType = ToastContext;
 
 export default withTheme(HomeContainer);
