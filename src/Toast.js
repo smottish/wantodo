@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
+import { useTheme } from 'emotion-theming';
 
 const fadein = keyframes`
   from { transform: scale(.8); opacity: 0; } 
@@ -35,7 +36,7 @@ const ToastContainer = styled.div`
 `;
 
 const ToastMessage = styled.div`
-  font-family: inherit;
+  font-family: ${props => props.theme.fonts.default};
   min-width: 344px;
   max-width: 672px;
   background-color: #333;
@@ -48,6 +49,7 @@ const ToastMessage = styled.div`
 `;
 
 const Toast = ({ autoHideDuration, open, onClose, children }) => {
+  const theme = useTheme()
   // NOTE: We only want useEffect to be called when the component is mounted,
   // unmounted and open changes. So onClose and autoHideDuration aren't included
   // in the array, even though useEffect depends on them.
@@ -63,7 +65,7 @@ const Toast = ({ autoHideDuration, open, onClose, children }) => {
   return (
     open && (
       <ToastContainer open={open}>
-        <ToastMessage autoHideDuration={autoHideDuration}>
+        <ToastMessage autoHideDuration={autoHideDuration} theme={theme}>
           {children}
         </ToastMessage>
       </ToastContainer>

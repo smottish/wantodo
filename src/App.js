@@ -7,7 +7,7 @@ import Header from './Header';
 import HomeContainer from './HomeContainer';
 import MediaQuery from './MediaQuery';
 import Toast from './Toast.js';
-import { ToastContext, HIDE_TOAST, SHOW_TOAST } from './ToastProvider.js'
+import { ToastContext, HIDE_TOAST } from './ToastProvider.js'
 
 const MOBILE_BREAKPOINT = 768
 
@@ -59,11 +59,6 @@ const ToastWrapper = (props) => {
   >
     {state.message}
   </Toast>
-}
-
-const ToastButton = (props) => {
-  const [ state, dispatch ] = useContext(ToastContext);
-  return <button onClick={() => dispatch({ type: SHOW_TOAST, message: "testing 123..."})}>Test Toast</button>
 }
 
 const pages = {
@@ -169,7 +164,6 @@ class App extends Component {
               logo={<CircleIcon text={"Wantodo"} />}
             />
             <Main isMobile={isMobile} sidebarOpen={sidebarOpen}>
-              <ToastButton/>
               { this.renderCurrentPage() }
             </Main>
           </Box>

@@ -2,6 +2,10 @@ import theme from '@rebass/preset';
 
 export default {
   ...theme,
+  fonts: {
+    ...theme.fonts,
+    default: 'system-ui, sans-serif',
+  },
   colors: {
     ...theme.colors,
     muted: '#f8f8fc',
