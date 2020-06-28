@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useTheme } from 'emotion-theming';
 
 const Card = styled.div`
+  background-color: #fff;
   box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.2);
   padding: 5px;
   border-radius: 4px;
@@ -16,5 +17,14 @@ const CardPrimary = styled.div`
 `
 
 const CardActions = styled.div`
-
+  padding: 5px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
 `
+
+export {
+  Card,
+  CardPrimary,
+  CardActions,
+}

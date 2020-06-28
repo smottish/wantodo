@@ -5,6 +5,7 @@ import { User, Home, CheckSquare } from 'react-feather';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import HomeContainer from './HomeContainer';
+import WantsContainer from './WantsContainer';
 import MediaQuery from './MediaQuery';
 import Toast from './Toast.js';
 import { ToastContext, HIDE_TOAST } from './ToastProvider.js'
@@ -44,10 +45,6 @@ const PlaceholderPage = ({ title }) => (
 // TODO: Implement profile and wants containers/pages
 const ProfileContainer = () => (
   <PlaceholderPage title={"Profile"}/>
-)
-
-const WantsContainer = () => (
-  <PlaceholderPage title={"My Wants"}/>
 )
 
 const ToastWrapper = (props) => {
