@@ -23,7 +23,7 @@ class HomeContainer extends Component {
   }
   
   onGetWant() {
-    let url = '/api/want'
+    let url = '/api/random'
     if (this.state.want) {
       url = url + `?exclude=${this.state.want.id}`
     }

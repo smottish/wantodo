@@ -18,7 +18,7 @@ db.defaults({
   ]
 }).write()
 
-app.get("/api/want", function (request, response) {
+app.get("/api/random", function (request, response) {
   const exclude = request.query.exclude
   let wants = db.get('wants').cloneDeep().value()
 
@@ -29,6 +29,11 @@ app.get("/api/want", function (request, response) {
   const index = Math.floor(Math.random() * wants.length)
   response.send(wants[index])
 });
+
+app.get("/api/want", function (request, response) {
+  const wants = db.get('wants').value()
+  response.send(wants)
+})
 
 app.post("/api/want", function (request, response) {
   const newWant = { id: shortid.generate(), description: request.body.description }
