@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Heading, Button } from 'rebass';
+import { Heading } from 'rebass';
 import { Edit, Trash2 } from 'react-feather';
 import { Card, CardPrimary, CardActions } from './Card'
 
@@ -22,7 +22,7 @@ function WantsContainer(props) {
   }, [/* Only fire on mount */])
 
   return <>
-     {wants.map((want) => )} 
+     {wants.map((want) => <WantCard key={want.id} title={want.description}/>)} 
   </>
 }
 

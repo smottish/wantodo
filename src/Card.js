@@ -1,6 +1,8 @@
-import React from "react";
+// Uncomment React if we need to use JSX
+// import React from "react";
 import styled from "styled-components";
-import { useTheme } from 'emotion-theming';
+// Uncomment if we need to use theme info
+// import { useTheme } from 'emotion-theming';
 
 const Card = styled.div`
   background-color: #fff;
