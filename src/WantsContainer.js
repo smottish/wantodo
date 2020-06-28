@@ -4,7 +4,7 @@ import { Edit, Trash2 } from 'react-feather';
 import { Card, CardPrimary, CardActions } from './Card'
 
 const WantCard = ({ title }) => (
-  <Card>
+  <Card css="margin:5px">
     <CardPrimary><Heading>{title}</Heading></CardPrimary>
     <CardActions>
       <Trash2 />

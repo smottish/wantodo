@@ -1,6 +1,6 @@
 // Uncomment React if we need to use JSX
 // import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 // Uncomment if we need to use theme info
 // import { useTheme } from 'emotion-theming';
 
@@ -12,6 +12,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(0, 0, 0, 0.07);
+  ${props => props.css && css`${props.css}`}
 `
 
 const CardPrimary = styled.div`
