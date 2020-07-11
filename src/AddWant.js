@@ -4,6 +4,11 @@ import { Flex, Box, Button } from 'rebass';
 import { Input } from '@rebass/forms';
 import { create } from './api.js'
 
+// TODO SM (2020-07-11): Consider refactoring this module after looking at examples of how others
+// have used Hooks to do what I'm trying to do here. Objective: Try not to just replicate what I
+// would do in React (e.g. use thunk middleware and dispatch an async action that returns a function
+// that does a fetch and dispatches actions on request, receive and failure).
+
 const AddWant = ({ onCreateSuccess, onCreateError }) => {
   const [ value, setValue ] = useState('');
   function onCreate() {
