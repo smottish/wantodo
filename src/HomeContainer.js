@@ -4,14 +4,23 @@ import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
 import SpinningText from './SpinningText';
 import { ToastContext, SHOW_TOAST } from './ToastProvider.js'
+import { create } from './api.js'
 
-function createWant(dispatch) {
+function createWant(dispatch, want) {
   dispatch({ type: 'CREATE_WANT_REQUEST' })
-  return 
+  return create(want)
+    .then((want) => {
+      dispatch({ type: 'CREATE_WANT_RECEIVED', want })
+      dispatch({ type: SHOW_TOAST, message: "Want added!" })
+    })
+    .catch((error) => {
+      dispatch({ type: 'CREATE_WANT_ERROR', error })
+    })
 }
 
 const AddWant = () => {
-  const [ state, dispatch ] = useContext(ToastContext);
+  const [ toastState, toastDispatch ] = useContext(ToastContext);
+  const [ wantsState, wantDispatch ] = useContext(WantContext);
   const [ value, setValue ] = useState('');
   
   return <Flex justifyContent='center'>
