@@ -6,28 +6,14 @@ import SpinningText from './SpinningText';
 import { ToastContext, SHOW_TOAST } from './ToastProvider.js'
 import { create } from './api.js'
 
-function createWant(dispatch, want) {
-  dispatch({ type: 'CREATE_WANT_REQUEST' })
-  return create(want)
-    .then((want) => {
-      dispatch({ type: 'CREATE_WANT_RECEIVED', want })
-      dispatch({ type: SHOW_TOAST, message: "Want added!" })
-    })
-    .catch((error) => {
-      dispatch({ type: 'CREATE_WANT_ERROR', error })
-    })
-}
-
-const AddWant = () => {
-  const [ toastState, toastDispatch ] = useContext(ToastContext);
-  const [ wantsState, wantDispatch ] = useContext(WantContext);
+const AddWant = ({ onCreate }) => {
   const [ value, setValue ] = useState('');
   
   return <Flex justifyContent='center'>
     <Box width={[1, 1, 2/3]}>
       <Flex>
         <Box flexGrow={4} m='3px'><Input value={value} placeholder='Enter something you want to do!' onChange={setValue}/></Box>
-        <Box flexGrow={1} m='3px'><Button width="100%" onClick={onCreate}>Add</Button></Box>
+        <Box flexGrow={1} m='3px'><Button width="100%" onClick={onCreate(value)}>Add</Button></Box>
       </Flex>
     </Box>
   </Flex>
@@ -60,22 +46,14 @@ class HomeContainer extends Component {
       .then((want) => this.setState({ want }))
   }
   
-  onCreateWant() {
+  onCreateWant(wantText) {
     // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
     // TODO: Consider using https://github.com/axios/axios instead of fetch
     
     // eslint-disable-next-line
     const [ state, dispatch ] = this.context
     const requestBody = JSON.stringify({ description: this.state.newWant })
-    fetch('/api/want', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: requestBody,
-    })
-      .then((response) => response.json())
-      .then((want) => console.log(want))
+    create(requestBody)
       .then(() => this.setState({ newWant: '' }))
       .then(() => dispatch({ type: SHOW_TOAST, message: "Want added!" }))
   }
@@ -84,14 +62,7 @@ class HomeContainer extends Component {
     return (
       <>
         <Flex justifyContent='center'><Heading>I want to...</Heading></Flex>
-        <Flex justifyContent='center'>
-          <Box width={[1, 1, 2/3]}>
-            <Flex>
-              <Box flexGrow={4} m='3px'><Input value={this.state.newWant} placeholder='Enter something you want to do!' onChange={this.onChangeWant}/></Box>
-              <Box flexGrow={1} m='3px'><Button width="100%" onClick={this.onCreateWant}>Add</Button></Box>
-            </Flex>
-          </Box>
-        </Flex>
+        <AddWant onCreate={this.onCreateWant} />
         <Flex marginTop="5px" justifyContent='center'>
           <Box width={[1, 1, 2/3]} m='3px'>
             <Button variant="secondary" width="100%" onClick={this.onGetWant}>Tell me what to do!</Button>
