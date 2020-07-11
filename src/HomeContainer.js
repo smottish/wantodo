@@ -1,16 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, useState } from 'react';
 import { Heading, Flex, Box, Button } from 'rebass';
 import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
 import SpinningText from './SpinningText';
 import { ToastContext, SHOW_TOAST } from './ToastProvider.js'
 
+function createWant(dispatch) {
+  dispatch({ type: 'CREATE_WANT_REQUEST' })
+  return 
+}
+
 const AddWant = () => {
+  const [ state, dispatch ] = useContext(ToastContext);
+  const [ value, setValue ] = useState('');
   
   return <Flex justifyContent='center'>
     <Box width={[1, 1, 2/3]}>
       <Flex>
-        <Box flexGrow={4} m='3px'><Input value={value} placeholder='Enter something you want to do!' onChange={onChange}/></Box>
+        <Box flexGrow={4} m='3px'><Input value={value} placeholder='Enter something you want to do!' onChange={setValue}/></Box>
         <Box flexGrow={1} m='3px'><Button width="100%" onClick={onCreate}>Add</Button></Box>
       </Flex>
     </Box>
