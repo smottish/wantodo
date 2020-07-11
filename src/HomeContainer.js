@@ -5,6 +5,18 @@ import { withTheme } from 'emotion-theming';
 import SpinningText from './SpinningText';
 import { ToastContext, SHOW_TOAST } from './ToastProvider.js'
 
+const AddWant = () => {
+  
+  return <Flex justifyContent='center'>
+    <Box width={[1, 1, 2/3]}>
+      <Flex>
+        <Box flexGrow={4} m='3px'><Input value={value} placeholder='Enter something you want to do!' onChange={onChange}/></Box>
+        <Box flexGrow={1} m='3px'><Button width="100%" onClick={onCreate}>Add</Button></Box>
+      </Flex>
+    </Box>
+  </Flex>
+}
+
 class HomeContainer extends Component {
   constructor() {
     super()
