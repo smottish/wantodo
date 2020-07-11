@@ -1,48 +1,9 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { Heading, Flex, Box, Button } from 'rebass';
-import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
 import SpinningText from './SpinningText';
-import { ToastContext, SHOW_TOAST } from './ToastProvider.js'
-import { create } from './api.js'
-import PropTypes from 'prop-types';
-
-const AddWant = ({ onCreateSuccess, onCreateError }) => {
-  const [ value, setValue ] = useState('');
-  function onCreate() {
-    const want = JSON.stringify({ description: value })
-    return create(want)
-      .then((want) => {
-        onCreateSuccess(want)
-        setValue('')
-        return want
-      })
-      .catch(onCreateError)
-  }
-  
-  function onChange(ev) {
-    setValue(ev.target.value)
-  }
-  
-  return <Flex justifyContent='center'>
-    <Box width={[1, 1, 2/3]}>
-      <Flex>
-        <Box flexGrow={4} m='3px'><Input value={value} placeholder='Enter something you want to do!' onChange={onChange}/></Box>
-        <Box flexGrow={1} m='3px'><Button width="100%" onClick={onCreate}>Add</Button></Box>
-      </Flex>
-    </Box>
-  </Flex>
-}
-
-AddWant.propTypes = {
-  onCreateSuccess: PropTypes.func,
-  onCreateError: PropTypes.func,
-}
-
-AddWant.defaultProps = {
-  onCreateSuccess: () => {},
-  onCreateError: () => {},
-}
+import { ToastContext, SHOW_TOAST } from './ToastProvider'
+import AddWant from './AddWant';
 
 class HomeContainer extends Component {
   constructor() {
