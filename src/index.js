@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import theme from './theme.js'
 import { ToastProvider } from './ToastProvider.js'
 import { ThemeProvider } from 'emotion-theming';
+import { WantsProvider } from './WantsProvider.js'
 import './index.css'
 
 ReactDOM.render(
