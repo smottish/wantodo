@@ -1,22 +1,47 @@
-import React, { Component, useContext, useState } from 'react';
+import React, { Component, useState } from 'react';
 import { Heading, Flex, Box, Button } from 'rebass';
 import { Input } from '@rebass/forms';
 import { withTheme } from 'emotion-theming';
 import SpinningText from './SpinningText';
 import { ToastContext, SHOW_TOAST } from './ToastProvider.js'
 import { create } from './api.js'
+import PropTypes from 'prop-types';
 
-const AddWant = ({ onCreate }) => {
+const AddWant = ({ onCreateSuccess, onCreateError }) => {
   const [ value, setValue ] = useState('');
+  function onCreate() {
+    const want = JSON.stringify({ description: value })
+    return create(want)
+      .then((want) => {
+        onCreateSuccess(want)
+        setValue('')
+        return want
+      })
+      .catch(onCreateError)
+  }
+  
+  function onChange(ev) {
+    setValue(ev.target.value)
+  }
   
   return <Flex justifyContent='center'>
     <Box width={[1, 1, 2/3]}>
       <Flex>
-        <Box flexGrow={4} m='3px'><Input value={value} placeholder='Enter something you want to do!' onChange={setValue}/></Box>
-        <Box flexGrow={1} m='3px'><Button width="100%" onClick={onCreate(value)}>Add</Button></Box>
+        <Box flexGrow={4} m='3px'><Input value={value} placeholder='Enter something you want to do!' onChange={onChange}/></Box>
+        <Box flexGrow={1} m='3px'><Button width="100%" onClick={onCreate}>Add</Button></Box>
       </Flex>
     </Box>
   </Flex>
+}
+
+AddWant.propTypes = {
+  onCreateSuccess: PropTypes.func,
+  onCreateError: PropTypes.func,
+}
+
+AddWant.defaultProps = {
+  onCreateSuccess: () => {},
+  onCreateError: () => {},
 }
 
 class HomeContainer extends Component {
@@ -29,7 +54,7 @@ class HomeContainer extends Component {
 
     this.onChangeWant = this.onChangeWant.bind(this)
     this.onGetWant = this.onGetWant.bind(this)
-    this.onCreateWant = this.onCreateWant.bind(this)
+    this.onCreateWantSuccess = this.onCreateWantSuccess.bind(this)
   }
   
   onChangeWant(ev) {
@@ -46,23 +71,20 @@ class HomeContainer extends Component {
       .then((want) => this.setState({ want }))
   }
   
-  onCreateWant(wantText) {
+  onCreateWantSuccess(want) {
     // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
     // TODO: Consider using https://github.com/axios/axios instead of fetch
     
     // eslint-disable-next-line
     const [ state, dispatch ] = this.context
-    const requestBody = JSON.stringify({ description: this.state.newWant })
-    create(requestBody)
-      .then(() => this.setState({ newWant: '' }))
-      .then(() => dispatch({ type: SHOW_TOAST, message: "Want added!" }))
+    dispatch({ type: SHOW_TOAST, message: "Want added!" })
   }
 
   render() {
     return (
       <>
         <Flex justifyContent='center'><Heading>I want to...</Heading></Flex>
-        <AddWant onCreate={this.onCreateWant} />
+        <AddWant onCreateSuccess={this.onCreateWantSuccess} />
         <Flex marginTop="5px" justifyContent='center'>
           <Box width={[1, 1, 2/3]} m='3px'>
             <Button variant="secondary" width="100%" onClick={this.onGetWant}>Tell me what to do!</Button>
