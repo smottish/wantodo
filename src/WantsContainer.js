@@ -9,7 +9,7 @@ const WantCardReadOnly = ({ title, onEdit, onDelete }) => (
     <CardPrimary><Heading>{title}</Heading></CardPrimary>
     <CardActions>
       <Trash2 size={32} style={{ cursor: 'pointer' }} onClick={onDelete}/>
-      <Edit style={{ cursor: 'pointer' }} onClick={onEdit}/>
+      <Edit size={32} style={{ cursor: 'pointer', marginRight: '10px' }} onClick={onEdit}/>
     </CardActions>
   </Card>
 )
