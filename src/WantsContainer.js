@@ -14,12 +14,35 @@ const WantCardReadOnly = ({ title, onEdit, onDelete }) => (
   </Card>
 )
 
-const WantCardEditable = ({ title, onChange }) => {
-  [ ]
+const WantCardEditable = ({ title }) => {
+  const [ editableTitle, setEditableTitle ] = useState(title)
+  useEffect(() => {
+    // If title prop changes, update editable title
+    setEditableTitle(title)
+  }, [title] /* Only fire when title changes */)
+  const changeTitle = (ev) => setEditableTitle(ev.target.value)
+  
+  return <Card css="margin:10px">
+    <CardPrimary><input value={editableTitle} onChange={changeTitle} /></CardPrimary>
+    <CardActions>
+      <Trash2 size={32} style={{ cursor: 'pointer' }}/>
+      <Edit size={32} style={{ cursor: 'pointer', marginRight: '10px' }}/>
+    </CardActions>
+  </Card>
+  
+}
+
+const WantCardContainer = ({ id, editable, ...props }) => {
+  if (id === editable) {
+    return <WantCardEditable {...props}/>
+  } else {
+    return <WantCardReadOnly {...props}/>
+  }
 }
 
 function WantsContainer(props) {
   const [ wants, setWants ] = useState([])
+  const [ editable, setEditable ] = useState(null)
   useEffect(() => {
     fetch('/api/want')
       .then((response) => response.json())
@@ -33,7 +56,7 @@ function WantsContainer(props) {
 
   return <>
     <AddWant onCreateSuccess={onCreateSuccess} />
-    {wants.map((want) => <WantCardReadOnly key={want.id} title={want.description} onEdit={() => alert('test')}/>)} 
+    {wants.map((want) => <WantCardContainer key={want.id} id={want.id} editable={editable} title={want.description} onEdit={() => setEditable(want.id)}/>)} 
   </>
 }
 
