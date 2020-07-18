@@ -15,7 +15,7 @@ const WantCardReadOnly = ({ title, onEdit, onDelete }) => (
 )
 
 const WantCardEditable = ({ title, onChange }) => {
-  
+  [ ]
 }
 
 function WantsContainer(props) {
