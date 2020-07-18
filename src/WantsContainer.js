@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Heading } from 'rebass';
-import { Edit, Trash2 } from 'react-feather';
+import { Input } from '@rebass/forms';
+import { Edit, Trash2, Check } from 'react-feather';
 import { Card, CardPrimary, CardActions } from './Card'
 import AddWant from './AddWant'
 
@@ -14,7 +15,7 @@ const WantCardReadOnly = ({ title, onEdit, onDelete }) => (
   </Card>
 )
 
-const WantCardEditable = ({ title }) => {
+const WantCardEditable = ({ id, title, onSave }) => {
   const [ editableTitle, setEditableTitle ] = useState(title)
   useEffect(() => {
     // If title prop changes, update editable title
@@ -23,10 +24,10 @@ const WantCardEditable = ({ title }) => {
   const changeTitle = (ev) => setEditableTitle(ev.target.value)
   
   return <Card css="margin:10px">
-    <CardPrimary><input value={editableTitle} onChange={changeTitle} /></CardPrimary>
+    <CardPrimary><Input value={editableTitle} onChange={changeTitle} /></CardPrimary>
     <CardActions>
       <Trash2 size={32} style={{ cursor: 'pointer' }}/>
-      <Edit size={32} style={{ cursor: 'pointer', marginRight: '10px' }}/>
+      <Check size={32} style={{ cursor: 'pointer', marginRight: '10px' }} onClick={() => onSave(id, editableTitle)}/>
     </CardActions>
   </Card>
   
@@ -34,7 +35,7 @@ const WantCardEditable = ({ title }) => {
 
 const WantCardContainer = ({ id, editable, ...props }) => {
   if (id === editable) {
-    return <WantCardEditable {...props}/>
+    return <WantCardEditable id={id} {...props}/>
   } else {
     return <WantCardReadOnly {...props}/>
   }
@@ -53,10 +54,29 @@ function WantsContainer(props) {
     // TODO SM (2020-07-11): For now, just add the want to the end of the list
     setWants([ ...wants, want ])
   }
+  
+  const onSave = (id, title) => {
+    // TODO SM (2020-07-18): Call API to update want, and only update local wants
+    // if we succeed.
+    const wantsUpdated = wants.map((want) => {
+      if (want.id === id) {
+        return { ...want, description: title }
+      } else {
+        return want
+      }
+    })
+    
+    console.log(id)
+    console.log(title)
+    console.log(wantsUpdated)
+    
+    setWants(wantsUpdated)
+    setEditable(null)
+  }
 
   return <>
     <AddWant onCreateSuccess={onCreateSuccess} />
-    {wants.map((want) => <WantCardContainer key={want.id} id={want.id} editable={editable} title={want.description} onEdit={() => setEditable(want.id)}/>)} 
+    {wants.map((want) => <WantCardContainer key={want.id} id={want.id} editable={editable} title={want.description} onEdit={() => setEditable(want.id)} onSave={onSave}/>)} 
   </>
 }
 
