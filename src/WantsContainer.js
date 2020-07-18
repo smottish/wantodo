@@ -14,6 +14,10 @@ const WantCardReadOnly = ({ title, onEdit, onDelete }) => (
   </Card>
 )
 
+const WantCardEditable = ({ title, onChange }) => {
+  
+}
+
 function WantsContainer(props) {
   const [ wants, setWants ] = useState([])
   useEffect(() => {
