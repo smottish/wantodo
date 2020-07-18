@@ -4,12 +4,12 @@ import { Edit, Trash2 } from 'react-feather';
 import { Card, CardPrimary, CardActions } from './Card'
 import AddWant from './AddWant'
 
-const WantCard = ({ title }) => (
+const WantCardReadOnly = ({ title, onEdit, onDelete }) => (
   <Card css="margin:10px">
     <CardPrimary><Heading>{title}</Heading></CardPrimary>
     <CardActions>
-      <Trash2 />
-      <Edit />
+      <Trash2 size={32} style={{ cursor: 'pointer' }} onClick={onDelete}/>
+      <Edit style={{ cursor: 'pointer' }} onClick={onEdit}/>
     </CardActions>
   </Card>
 )
@@ -29,7 +29,7 @@ function WantsContainer(props) {
 
   return <>
     <AddWant onCreateSuccess={onCreateSuccess} />
-    {wants.map((want) => <WantCard key={want.id} title={want.description}/>)} 
+    {wants.map((want) => <WantCardReadOnly key={want.id} title={want.description} onEdit={() => alert('test')}/>)} 
   </>
 }
 
