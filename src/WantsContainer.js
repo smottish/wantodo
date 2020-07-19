@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Heading } from 'rebass';
 import { Input } from '@rebass/forms';
-import { Edit, Trash2, Check } from 'react-feather';
+import { Edit, Trash2, Check, X } from 'react-feather';
 import { Card, CardPrimary, CardActions } from './Card'
 import AddWant from './AddWant'
 
-const WantCardReadOnly = ({ title, onEdit, onDelete }) => (
+const WantCardReadOnly = ({ want, onEdit, onDelete }) => (
   <Card css="margin:10px">
-    <CardPrimary><Heading>{title}</Heading></CardPrimary>
+    <CardPrimary><Heading>{want.description}</Heading></CardPrimary>
     <CardActions>
       <Trash2 size={32} style={{ cursor: 'pointer' }} onClick={onDelete}/>
       <Edit size={32} style={{ cursor: 'pointer', marginRight: '10px' }} onClick={onEdit}/>
@@ -15,29 +15,34 @@ const WantCardReadOnly = ({ title, onEdit, onDelete }) => (
   </Card>
 )
 
-const WantCardEditable = ({ id, title, onSave }) => {
-  const [ editableTitle, setEditableTitle ] = useState(title)
+const WantCardEditable = ({ want, onSave, onCancel }) => {
+  const [ editableWant, setEditableWant ] = useState(want)
   useEffect(() => {
-    // If title prop changes, update editable title
-    setEditableTitle(title)
-  }, [title] /* Only fire when title changes */)
-  const changeTitle = (ev) => setEditableTitle(ev.target.value)
+    // If want prop changes, update editable title
+    setEditableWant(want)
+  }, [want] /* Only fire when title changes */)
+  const changeDesc = (ev) => 
+    setEditableWant({ ...editableWant, description: ev.target.value})
   
   return <Card css="margin:10px">
-    <CardPrimary><Input value={editableTitle} onChange={changeTitle} /></CardPrimary>
+    <CardPrimary><Input value={editableWant.description} onChange={changeDesc} /></CardPrimary>
     <CardActions>
-      <Trash2 size={32} style={{ cursor: 'pointer' }}/>
-      <Check size={32} style={{ cursor: 'pointer', marginRight: '10px' }} onClick={() => onSave(id, editableTitle)}/>
+      <X size={32} style={{ cursor: 'pointer' }} onClick={() => onCancel()}/>
+      <Check
+        size={32}
+        style={{ cursor: 'pointer', marginRight: '10px' }}
+        onClick={() => onSave(editableWant)}
+      />
     </CardActions>
   </Card>
   
 }
 
-const WantCardContainer = ({ id, editable, ...props }) => {
-  if (id === editable) {
-    return <WantCardEditable id={id} {...props}/>
+const WantCardContainer = ({ editable, want, ...props }) => {
+  if (want.id === editable) {
+    return <WantCardEditable want={want} {...props}/>
   } else {
-    return <WantCardReadOnly {...props}/>
+    return <WantCardReadOnly want={want} {...props}/>
   }
 }
 
@@ -55,28 +60,36 @@ function WantsContainer(props) {
     setWants([ ...wants, want ])
   }
   
-  const onSave = (id, title) => {
+  function onSave(updatedWant) {
     // TODO SM (2020-07-18): Call API to update want, and only update local wants
     // if we succeed.
-    const wantsUpdated = wants.map((want) => {
-      if (want.id === id) {
-        return { ...want, description: title }
+    const updatedWants = wants.map((want) => {
+      if (want.id === updatedWant.id) {
+        return updatedWant
       } else {
         return want
       }
     })
     
-    console.log(id)
-    console.log(title)
-    console.log(wantsUpdated)
-    
-    setWants(wantsUpdated)
+    setWants(updatedWants)
+    setEditable(null)
+  }
+  
+  function onCancel() {
     setEditable(null)
   }
 
   return <>
     <AddWant onCreateSuccess={onCreateSuccess} />
-    {wants.map((want) => <WantCardContainer key={want.id} id={want.id} editable={editable} title={want.description} onEdit={() => setEditable(want.id)} onSave={onSave}/>)} 
+    {wants.map((want) => (
+      <WantCardContainer
+        key={want.id}
+        want={want}
+        editable={editable}
+        onEdit={() => setEditable(want.id)}
+        onSave={onSave} onCancel={onCancel}
+      />
+    )} 
   </>
 }
 
