@@ -15,31 +15,19 @@ const WantCardReadOnly = ({ want, onEdit, onDelete }) => (
   </Card>
 )
 
-const WantCardEditable = ({ want, onSave, onCancel }) => {
-  // TODO SM (2020-07-18): Do some more research on best practices for implementing
-  // editable forms that get populated from API data. Another approach would be to
-  // implement this as a controlled form, which just means there'd be no component
-  // state and the parent would be responsible for handling changes to props that
-  // get passed here. The following resources are where I got the inspiration for
-  // using useEffect + useState:
-  // https://www.taniarascia.com/crud-app-in-react-with-hooks/
-  // https://learnwithparam.com/blog/how-to-pass-props-to-state-properly-in-react-hooks/
-  const [ editableWant, setEditableWant ] = useState(want)
-  useEffect(() => {
-    // If want prop changes, update editable want
-    setEditableWant(want)
-  }, [want] /* Only fire when title changes */)
-  const changeDesc = (ev) =>
-    setEditableWant({ ...editableWant, description: ev.target.value})
+const WantCardEditable = ({ want, onSave, onCancel, onChange }) => {
+  const handleChange = (ev) => onChange(ev.target.name, ev.target.value)
   
   return <Card css="margin:10px">
-    <CardPrimary><Input value={editableWant.description} onChange={changeDesc} /></CardPrimary>
+    <CardPrimary>
+      <Input name="description" value={want.description} onChange={handleChange} />
+    </CardPrimary>
     <CardActions>
       <X size={32} style={{ cursor: 'pointer' }} onClick={() => onCancel()}/>
       <Check
         size={32}
         style={{ cursor: 'pointer', marginRight: '10px' }}
-        onClick={() => onSave(editableWant)}
+        onClick={() => onSave(want)}
       />
     </CardActions>
   </Card>
@@ -69,7 +57,7 @@ function WantsContainer(props) {
   }
   
   function onChange(name, value) {
-    setEditable({ ...editable, })
+    setEditable({ ...editable, [name]: value })
   }
   
   function onSave(updatedWant) {
@@ -101,6 +89,7 @@ function WantsContainer(props) {
         onEdit={() => setEditable({ ...want })}
         onSave={onSave}
         onCancel={onCancel}
+        onChange={onChange}
       />
     ))} 
   </>
