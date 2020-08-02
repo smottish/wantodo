@@ -43,13 +43,13 @@ app.post("/api/want", function (request, response) {
   response.send(newWant)
 });
 
-app.patch("/api/want/:id", function (request, response, next) {
+app.patch("/api/want/:id", function (request, response) {
   const { id, ...updatedWant } = request.body
-  const result = db.get('wants')
-    .find({ id })
-    .merge(updatedWant)
-    .write()
-  console.log(result)
+  const handle = db.get('wants')
+  console.log(handle.find({ id }).value())
+    // .merge(updatedWant)
+    // .write()
+  response.send({})
 })
 
 // TODO: use process.env.PORT instead of hardcoding the port
