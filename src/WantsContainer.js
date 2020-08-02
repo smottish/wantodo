@@ -3,6 +3,7 @@ import { Heading } from 'rebass';
 import { Input } from '@rebass/forms';
 import { Edit, Trash2, Check, X } from 'react-feather';
 import { Card, CardPrimary, CardActions } from './Card'
+import { update } from './api';
 import AddWant from './AddWant'
 
 const WantCardReadOnly = ({ want, onEdit, onDelete }) => (
@@ -60,9 +61,12 @@ function WantsContainer(props) {
     setEditable({ ...editable, [name]: value })
   }
   
-  function onSave(updatedWant) {
-    // TODO SM (2020-07-18): Call API to update want, and only update local wants
-    // if we succeed.
+  function onSave(want) {
+    update(want)
+      .then(onSaveSuccess)
+  }
+  
+  function onSaveSuccess(updatedWant) {
     const updatedWants = wants.map((want) => {
       if (want.id === updatedWant.id) {
         return updatedWant

@@ -43,6 +43,10 @@ app.post("/api/want", function (request, response) {
   response.send(newWant)
 });
 
+app.patch("/api/want/:id", function (request, response) {
+  const 
+})
+
 // TODO: use process.env.PORT instead of hardcoding the port
 // See https://dev.to/glitch/create-react-app-and-express-together-on-glitch-28gi
 // To explain why we're listening on 3001 (not the default 3000 or some other port)
