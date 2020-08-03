@@ -1,3 +1,12 @@
+// TODO SM (2020-08-02): This is just a placeholder for now,
+// needs to be fully implemented.
+class APIError extends Error {
+  constructor(message, response) {
+    super(message)
+    this.response = response
+  }
+}
+
 function create(want) {
   return fetch('/api/want', {
     method: 'POST',
@@ -17,7 +26,13 @@ function update(want) {
     },
     body: want,
   })
-  .then((response) => response.json())
+  .then((response) => {
+    if (response.status !== 200) {
+      throw new APIError("Error updating want", response)
+    }
+    
+    return response.json()
+  })
 }
 
 export {

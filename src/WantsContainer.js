@@ -63,9 +63,10 @@ function WantsContainer(props) {
   
   function onSave(want) {
     // TODO SM (2020-08-02): Add error handling
+    console.log(want)
     update(want)
       .then(onSaveSuccess)
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err.response))
   }
   
   function onSaveSuccess(updatedWant) {
