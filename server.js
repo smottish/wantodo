@@ -43,9 +43,12 @@ app.post("/api/want", function (request, response) {
   response.send(newWant)
 });
 
+// TODO SM (2020-08-02): Is there a performance hit to calling db.get() twice?
+// Is there a better way to update a want if it exists and return an error otherwise?
 app.patch("/api/want/:id", function (request, response, next) {
   const { id, ...updatedWant } = request.body
-  if (!db.find({ id: request.params.id }).value()) {
+  
+  if (!db.get('wants').find({ id: request.params.id }).value()) {
     const err = new Error()
     err.status = 404
     err.message = `Want ${request.params.id} does not exist`
