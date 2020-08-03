@@ -46,9 +46,11 @@ app.post("/api/want", function (request, response) {
 app.patch("/api/want/:id", function (request, response) {
   const { id, ...updatedWant } = request.body
   const handle = db.get('wants')
-  console.log(handle.find({ id }).value())
-    // .merge(updatedWant)
-    // .write()
+  if ()
+    .find({ id: request.params.id })
+    .merge(updatedWant)
+    .write()
+  console.log(result)
   response.send({})
 })
 
