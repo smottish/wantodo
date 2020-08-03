@@ -43,15 +43,22 @@ app.post("/api/want", function (request, response) {
   response.send(newWant)
 });
 
-app.patch("/api/want/:id", function (request, response) {
+app.patch("/api/want/:id", function (request, response, next) {
   const { id, ...updatedWant } = request.body
-  const handle = db.get('wants')
-  if ()
+  if (!db.find({ id: request.params.id }).value()) {
+    const err = new Error()
+    err.status = 404
+    err.message = `Want ${request.params.id} does not exist`
+    next(err)
+    return;
+  }
+
+  db.get('wants')
     .find({ id: request.params.id })
     .merge(updatedWant)
     .write()
-  console.log(result)
-  response.send({})
+
+  response.send({ id, ...updatedWant })
 })
 
 // TODO: use process.env.PORT instead of hardcoding the port
