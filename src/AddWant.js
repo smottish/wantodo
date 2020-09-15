@@ -12,8 +12,8 @@ import { create } from './api.js'
 const AddWant = ({ onCreateSuccess, onCreateError }) => {
   const [ value, setValue ] = useState('');
   function onCreate() {
-    const want = JSON.stringify({ description: value })
-    return create(want)
+    const newWant = { description: value }
+    return create(newWant)
       .then((want) => {
         onCreateSuccess(want)
         setValue('')
