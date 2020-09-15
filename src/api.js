@@ -24,7 +24,7 @@ function update(want) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: want,
+    body: JSON.stringify(want),
   })
   .then((response) => {
     if (response.status !== 200) {
