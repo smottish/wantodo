@@ -39,7 +39,12 @@ function del(id) {
   return fetch(`/api/want/${id}`, {
     method: 'DELETE',
   })
-  .then((response) => response.json())
+  .then((response) => {
+    if (response.status !== 200) {
+      throw new APIError("Error deleting want", response)
+    }
+    return response.json()
+  })
 }
 
 export {

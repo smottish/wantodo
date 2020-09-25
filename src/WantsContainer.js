@@ -86,15 +86,17 @@ function WantsContainer(props) {
     setEditable(null)
   }
   
-  function onDelete(deleteId) {
+  function onDelete(id) {
     // TODO SM (2020-09-24): Add error handling
-    del(deleteId)
+    // del(id)
+    del('abcd')
       .then(() => {
-        setWants(wants.filter((id) => (
-          id !== deleteId
+        setWants(wants.filter((want) => (
+          want.id !== id
         )))
       })
-      .catch((err) => console.log(err.response))
+      .catch((err) => err.response.json())
+      .then((json) => console.log(json))
   }
 
   return <>
