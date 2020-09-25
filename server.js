@@ -65,10 +65,20 @@ app.patch("/api/want/:id", function (request, response, next) {
 })
 
 app.delete("/api/want/:id", function(request, response) {
-  db.get('wants')
-    .remove({ id: request.params.id })
-    .write()
-  response.send({})
+  const id = request.params.id
+  const want = db
+    .get('wants')
+    .find({ id })
+    .value()
+  
+  if (!want) {
+    response.status(404).send({ id, message: 'Not found' })
+  } else {
+    db.get('wants')
+      .remove({ id })
+      .write()
+    response.send(want)
+  }
 })
 
 // TODO: use process.env.PORT instead of hardcoding the port

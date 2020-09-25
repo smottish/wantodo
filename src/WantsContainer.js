@@ -10,7 +10,7 @@ const WantCardReadOnly = ({ want, onEdit, onDelete }) => (
   <Card css="margin:10px">
     <CardPrimary><Heading>{want.description}</Heading></CardPrimary>
     <CardActions>
-      <Trash2 size={32} style={{ cursor: 'pointer' }} onClick={() => onDelete(want)}/>
+      <Trash2 size={32} style={{ cursor: 'pointer' }} onClick={() => onDelete(want.id)}/>
       <Edit size={32} style={{ cursor: 'pointer', marginRight: '10px' }} onClick={onEdit}/>
     </CardActions>
   </Card>
@@ -108,6 +108,7 @@ function WantsContainer(props) {
         onSave={onSave}
         onCancel={onCancel}
         onChange={onChange}
+        onDelete={onDelete}
       />
     ))} 
   </>
