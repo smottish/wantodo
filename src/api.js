@@ -35,7 +35,7 @@ function update(want) {
   })
 }
 
-function delete(id) {
+function del(id) {
   return fetch(`/api/want/${id}`, {
     method: 'DELETE',
   })
