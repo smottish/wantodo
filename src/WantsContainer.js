@@ -3,14 +3,14 @@ import { Heading } from 'rebass';
 import { Input } from '@rebass/forms';
 import { Edit, Trash2, Check, X } from 'react-feather';
 import { Card, CardPrimary, CardActions } from './Card'
-import { update } from './api';
+import { update, delete } from './api';
 import AddWant from './AddWant'
 
 const WantCardReadOnly = ({ want, onEdit, onDelete }) => (
   <Card css="margin:10px">
     <CardPrimary><Heading>{want.description}</Heading></CardPrimary>
     <CardActions>
-      <Trash2 size={32} style={{ cursor: 'pointer' }} onClick={onDelete}/>
+      <Trash2 size={32} style={{ cursor: 'pointer' }} onClick={() => onDelete(want)}/>
       <Edit size={32} style={{ cursor: 'pointer', marginRight: '10px' }} onClick={onEdit}/>
     </CardActions>
   </Card>
@@ -84,6 +84,10 @@ function WantsContainer(props) {
   
   function onCancel() {
     setEditable(null)
+  }
+  
+  function onDelete(want) {
+    
   }
 
   return <>

@@ -35,7 +35,12 @@ function update(want) {
   })
 }
 
+function del(id) {
+  
+}
+
 export {
   create,
   update,
+  del,
 }
