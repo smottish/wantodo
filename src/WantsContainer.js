@@ -88,15 +88,17 @@ function WantsContainer(props) {
   
   function onDelete(id) {
     // TODO SM (2020-09-24): Add error handling
-    // del(id)
-    del('abcd')
+    del(id)
       .then(() => {
         setWants(wants.filter((want) => (
           want.id !== id
         )))
       })
-      .catch((err) => err.response.json())
-      .then((json) => console.log(json))
+      .catch((err) => {
+        err.response
+          .json()
+          .then((json) => console.log(json))
+    })
   }
 
   return <>
