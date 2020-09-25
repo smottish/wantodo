@@ -36,7 +36,13 @@ function update(want) {
 }
 
 function del(id) {
-  
+  return fetch(`/api/want/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  .then((response) => response.json())
 }
 
 export {

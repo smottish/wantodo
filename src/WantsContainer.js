@@ -3,7 +3,7 @@ import { Heading } from 'rebass';
 import { Input } from '@rebass/forms';
 import { Edit, Trash2, Check, X } from 'react-feather';
 import { Card, CardPrimary, CardActions } from './Card'
-import { update, delete } from './api';
+import { update, del } from './api';
 import AddWant from './AddWant'
 
 const WantCardReadOnly = ({ want, onEdit, onDelete }) => (
@@ -86,8 +86,15 @@ function WantsContainer(props) {
     setEditable(null)
   }
   
-  function onDelete(want) {
-    
+  function onDelete(deleteId) {
+    // TODO SM (2020-09-24): Add error handling
+    del(deleteId)
+      .then(() => {
+        setWants(wants.filter((id) => (
+          id !== deleteId
+        )))
+      })
+      .catch((err) => console.log(err.response))
   }
 
   return <>
