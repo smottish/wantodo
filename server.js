@@ -8,7 +8,7 @@ var app = express()
 var path = require('path')
 
 app.use(express.json())
-app.use(express.static(path.join(__dirname, '../build')))
+app.use(express.static(path.join(__dirname, './build')))
 
 // lowdb docs: https://github.com/typicode/lowdb
 // example project: https://glitch.com/~low-db
@@ -84,7 +84,7 @@ app.delete("/api/want/:id", function(request, response) {
 })
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build'))
+    res.sendFile(path.join(__dirname, './build'))
 })
 
 // TODO: use process.env.PORT instead of hardcoding the port
