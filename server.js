@@ -95,6 +95,11 @@ app.get('*', (req, res) => {
 // var listener = app.listen(process.env.PORT, function () {
 //   console.log('Your app is listening on port ' + listener.address().port);
 // });
-var listener = app.listen(3001, function () {
+
+// In production, Heroku assigns the port and adds it to env. In local
+// development, the app will listen on port port 3001. By adding "proxy": ... to
+// package.json, I can run a react server locally to host the frontend, and
+// react will proxy API requests to localhost:3001.
+var listener = app.listen(process.env.PORT || 3001, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
