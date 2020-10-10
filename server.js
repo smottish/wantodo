@@ -5,8 +5,10 @@ var FileSync = require('lowdb/adapters/FileSync')
 var adapter = new FileSync('.data/db.json')
 var db = low(adapter)
 var app = express()
+var path = require('path')
 
 app.use(express.json())
+app.use(express.static(path.join(__dirname, '../build')))
 
 // lowdb docs: https://github.com/typicode/lowdb
 // example project: https://glitch.com/~low-db
@@ -47,7 +49,7 @@ app.post("/api/want", function (request, response) {
 // Is there a better way to update a want if it exists and return an error otherwise?
 app.patch("/api/want/:id", function (request, response, next) {
   const { id, ...updatedWant } = request.body
-  
+
   if (!db.get('wants').find({ id: request.params.id }).value()) {
     const err = new Error()
     err.status = 404
@@ -70,7 +72,7 @@ app.delete("/api/want/:id", function(request, response) {
     .get('wants')
     .find({ id })
     .value()
-  
+
   if (!want) {
     response.status(404).send({ id, message: 'Not found' })
   } else {
@@ -79,6 +81,10 @@ app.delete("/api/want/:id", function(request, response) {
       .write()
     response.send(want)
   }
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
 })
 
 // TODO: use process.env.PORT instead of hardcoding the port
