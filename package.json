@@ -3,23 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "react": "^16.11.0",
-    "react-dom": "^16.10.2",
-    "react-scripts": "^3.2.0",
-    "rebass": "^4.0.7",
-    "@rebass/preset": "^4.0.5",
-    "emotion-theming": "^10.0.19",
-    "react-feather": "^2.0.3",
     "@rebass/forms": "^4.0.6",
-    "express": "^4.17.1",
+    "@rebass/preset": "^4.0.5",
     "concurrently": "^5.0.2",
+    "emotion-theming": "^10.0.19",
+    "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.4",
     "lowdb": "^1.0.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.10.2",
+    "react-feather": "^2.0.3",
+    "react-scripts": "^3.2.0",
+    "rebass": "^4.0.7",
     "shortid": "^2.2.15",
     "styled-components": "^5.0.1"
   },
   "scripts": {
     "glitch_start": "concurrently --kill-others \"react-scripts start\" \"node server.js\"",
+    "frontend": "react-scripts start",
+    "backend": "nodemon server.js",
     "start": "node server.js",
     "build": "react-scripts build",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
@@ -35,5 +37,12 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "nodemonConfig": {
+    "ignore": ["src/*", "public/*", "my-app/*"],
+    "ext": "js"
+  }
 }
