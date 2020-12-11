@@ -78,15 +78,15 @@ class App extends Component {
     this.onBreakPointMatch = this.onBreakPointMatch.bind(this)
     this.onSideBarSelect = this.onSideBarSelect.bind(this)
   }
-  
+
   setMobileMode() {
     this.setState({ isMobile: true, sidebarOpen: false })
   }
-  
+
   setDesktopMode() {
     this.setState({ isMobile: false, sidebarOpen: true })
   }
-  
+
   onBreakPointMatch(matches) {
     if (matches) {
       this.setMobileMode()
@@ -94,12 +94,12 @@ class App extends Component {
       this.setDesktopMode()
     }
   }
-  
+
   onSideBarSelect(ev, key) {
     let newState = {
       sidebarSelected: key
     }
-    
+
     if (this.state.isMobile) {
       newState = {
         ...newState,
@@ -108,7 +108,7 @@ class App extends Component {
     }
     this.setState(newState)
   }
-  
+
   renderCurrentPage() {
     const page = this.state.sidebarSelected || 'default'
     const Page = pages[page]
@@ -120,10 +120,11 @@ class App extends Component {
     const sidebarItems = [
       { icon: <Home />, text: 'Home', key: 'home' },
       { icon: <CheckSquare/>, text: 'My Wants', key: 'wants' },
-      { icon: <User/>, text: 'Profile', key: 'profile' },
+      // TODO: Add profile page
+      // { icon: <User/>, text: 'Profile', key: 'profile' },
     ]
     let gridColumn
-    
+
     if (isMobile) {
       gridColumn = 'span 2'
     } else {
