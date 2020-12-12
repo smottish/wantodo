@@ -1,7 +1,7 @@
 import React, { Component, useContext } from 'react';
 import { useTheme } from 'emotion-theming';
 import { Heading, Box } from 'rebass';
-import { User, Home, CheckSquare } from 'react-feather';
+import { Home, CheckSquare } from 'react-feather';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import HomeContainer from './HomeContainer';

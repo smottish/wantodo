@@ -17,8 +17,8 @@ const Header = ({onHelpClick, onMenuClick, showMenuButton, sx, ...props}) => {
           borderBottom: `1px solid ${theme.colors.lightGray}`,
           padding: '5px',
       }}>
-        {showMenuButton && <Button fontSize={4} variant='transparentNoOutline' onClick={onHelpClick}>&#9776;</Button>}
-        <Button variant='transparent' sx={{width: '38px', height: '38px', padding: 0}}>
+        {showMenuButton && <Button fontSize={4} variant='transparentNoOutline' onClick={onMenuClick}>&#9776;</Button>}
+        <Button onClick={onHelpClick} variant='transparent' sx={{width: '38px', height: '38px', padding: 0}}>
           <HelpCircle size={38}/>
         </Button>
         {/* TODO: Add a profile and/or settings menu */}
