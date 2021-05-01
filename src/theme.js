@@ -19,7 +19,7 @@ export default {
       ...theme.variants.nav,
       display: "block",
       ':hover': {
-        
+
       }
     }
   },

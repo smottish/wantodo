@@ -61,7 +61,7 @@ const Sidebar = ({isOpen, isMobile, onClose, items, onSelect, selected, logo, ..
     top: '0',
     left: '0',
   }
- 
+
   const styleProps = isMobile ? mobileProps : desktopProps
 
   if (!isOpen) {

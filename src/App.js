@@ -1,6 +1,6 @@
 import React, { Component, useContext } from 'react';
-import { useTheme } from 'emotion-theming';
-import { Heading, Box } from 'rebass';
+import { useTheme, withTheme } from 'emotion-theming';
+import { Heading, Box, Button } from 'rebass';
 import { Home, CheckSquare } from 'react-feather';
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -9,6 +9,16 @@ import WantsContainer from './WantsContainer';
 import MediaQuery from './MediaQuery';
 import Toast from './Toast.js';
 import { ToastContext, HIDE_TOAST } from './ToastProvider.js'
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalClose,
+  ModalBody,
+  ModalFooter,
+} from './Modal.js'
+
+const modalRoot = document.getElementById('modal-root')
 
 const MOBILE_BREAKPOINT = 768
 
@@ -73,10 +83,16 @@ class App extends Component {
       isMobile: false,
       sidebarSelected: '',
       showToast: false,
+      showHelp: false,
     }
 
     this.onBreakPointMatch = this.onBreakPointMatch.bind(this)
     this.onSideBarSelect = this.onSideBarSelect.bind(this)
+    this.onHelpClose = this.onHelpClose.bind(this)
+  }
+
+  onHelpClose() {
+    this.setState({ showHelp: false })
   }
 
   setMobileMode() {
@@ -116,6 +132,7 @@ class App extends Component {
   }
 
   render() {
+    const theme = this.props.theme
     const { sidebarOpen, isMobile } = this.state
     const sidebarItems = [
       { icon: <Home />, text: 'Home', key: 'home' },
@@ -132,7 +149,29 @@ class App extends Component {
     }
 
     return <>
-        <ToastWrapper />
+      <ToastWrapper />
+      <Modal
+        isOpen={this.state.showHelp}
+        container={modalRoot}
+        onClick={this.onHelpClose}
+      >
+        <ModalContent theme={theme}>
+          <ModalHeader theme={theme}>
+            <span style={{fontSize: '1.5em'}}>How to use Wantodo</span>
+            <ModalClose
+              onClick={this.onHelpClose}
+            >
+              &times;
+            </ModalClose>
+          </ModalHeader>
+          <ModalBody theme={theme}>
+            Test
+          </ModalBody>
+          <ModalFooter theme={theme}>
+            <Button onClick={this.onHelpClose}>OK</Button>
+          </ModalFooter>
+        </ModalContent>
+        </Modal>
         <MediaQuery
           query={`(max-width: ${MOBILE_BREAKPOINT}px)`}
           onChange={this.onBreakPointMatch}
@@ -150,6 +189,7 @@ class App extends Component {
             <Header
               showMenuButton={isMobile}
               onMenuClick={() => this.setState({sidebarOpen: !sidebarOpen})}
+              onHelpClick={() => this.setState({ showHelp: true })}
               sx={{ gridColumn }}
             />
             <Sidebar
@@ -171,4 +211,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withTheme(App);
