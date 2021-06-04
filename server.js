@@ -21,15 +21,12 @@ const client = new MongoClient(uri, {
 // Shared reference to the database
 let database
 
-// lowdb docs: https://github.com/typicode/lowdb
-// example project: https://glitch.com/~low-db
-db.defaults({
-  wants: [
-    { id: shortid.generate(), description: "Learn a new language" },
-    { id: shortid.generate(), description: "Run a marathon" },
-    { id: shortid.generate(), description: "Code my own app" }
-  ]
-}).write()
+// TODO: Populate the 'wants' collection for a new user with these
+const DEFAULT_WANTS = [
+  { description: "Learn a new language" },
+  { description: "Exercise 30 min a day" },
+  { description: "Read for 15 minutes" },
+]
 
 /**
  * Important note about Express route handlers and async / await: If the route
@@ -62,8 +59,8 @@ app.get("/api/random", async function (request, response) {
   }
 });
 
-app.get("/api/want", function (request, response) {
-  const wants = db.get('wants').value()
+app.get("/api/want", async function (request, response) {
+  const wants = await database.collection('wants').find({}).toArray()
   response.send(wants)
 })
 
@@ -74,42 +71,51 @@ app.post("/api/want", async function (request, response) {
   response.send(newWant)
 });
 
-// TODO SM (2020-08-02): Is there a performance hit to calling db.get() twice?
-// Is there a better way to update a want if it exists and return an error otherwise?
-app.patch("/api/want/:id", function (request, response, next) {
-  const { id, ...updatedWant } = request.body
+app.patch("/api/want/:id", async function (request, response) {
+  const { _id, ...updatedWant } = request.body
+  let queryId
 
-  if (!db.get('wants').find({ id: request.params.id }).value()) {
-    const err = new Error()
-    err.status = 404
-    err.message = `Want ${request.params.id} does not exist`
-    next(err)
-    return;
+  try {
+    queryId = ObjectId(request.params.id)
+  } catch(e) {
+    // invalid ObjectId
+    response.status(400).send({
+      error: 'Invalid id'
+    })
+    return
   }
 
-  db.get('wants')
-    .find({ id: request.params.id })
-    .merge(updatedWant)
-    .write()
+  const result = await database.collection('wants')
+    .updateOne({ _id: queryId }, { $set: updatedWant })
 
-  response.send({ id, ...updatedWant })
+  if (result.matchedCount == 0) {
+    response.status(404).send({
+      error: `Want ${request.params.id} does not exist`
+    })
+  } else {
+    response.send({
+      _id: request.params.id,
+      ...updatedWant
+    })
+  }
 })
 
-app.delete("/api/want/:id", function(request, response) {
-  const id = request.params.id
-  const want = db
-    .get('wants')
-    .find({ id })
-    .value()
+app.delete("/api/want/:id", async function(request, response) {
+  let queryId
 
-  if (!want) {
-    response.status(404).send({ id, message: 'Not found' })
-  } else {
-    db.get('wants')
-      .remove({ id })
-      .write()
-    response.send(want)
+  try {
+    queryId = ObjectId(request.params.id)
+  } catch(e) {
+    // invalid ObjectId
+    response.status(400).send({
+      error: 'Invalid id'
+    })
+    return
   }
+
+  const result = await database.collection('wants')
+    .deleteOne({ _id: queryId })
+  response.status(200).send({ _id: request.params.id })
 })
 
 app.get('*', (req, res) => {

@@ -17,25 +17,25 @@ class HomeContainer extends Component {
     this.onGetWant = this.onGetWant.bind(this)
     this.onCreateWantSuccess = this.onCreateWantSuccess.bind(this)
   }
-  
+
   onChangeWant(ev) {
     this.setState({ newWant: ev.target.value })
   }
-  
+
   onGetWant() {
     let url = '/api/random'
     if (this.state.want) {
-      url = url + `?exclude=${this.state.want.id}`
+      url = url + `?exclude=${this.state.want._id}`
     }
     fetch(url)
       .then((response) => response.json())
       .then((want) => this.setState({ want }))
   }
-  
+
   onCreateWantSuccess(want) {
     // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
     // TODO: Consider using https://github.com/axios/axios instead of fetch
-    
+
     // eslint-disable-next-line
     const [ state, dispatch ] = this.context
     dispatch({ type: SHOW_TOAST, message: "Want added!" })

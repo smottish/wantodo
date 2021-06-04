@@ -19,7 +19,7 @@ function create(want) {
 }
 
 function update(want) {
-  return fetch(`/api/want/${want.id}`, {
+  return fetch(`/api/want/${want._id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
@@ -30,9 +30,13 @@ function update(want) {
     if (response.status !== 200) {
       throw new APIError("Error updating want", response)
     }
-    
+
     return response.json()
   })
+  .then((updatedFields) => ({
+    ...want,
+    ...updatedFields,
+  }))
 }
 
 function del(id) {
