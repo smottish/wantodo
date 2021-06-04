@@ -1,10 +1,6 @@
 var express = require('express')
 var { MongoClient, ObjectId } = require('mongodb')
 var shortid = require('shortid')
-var low = require('lowdb')
-var FileSync = require('lowdb/adapters/FileSync')
-var adapter = new FileSync('./db.json')
-var db = low(adapter)
 var app = express()
 var path = require('path')
 
