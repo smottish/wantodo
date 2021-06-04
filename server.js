@@ -8,7 +8,8 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))
 
 // TODO: Get this from an environment variable or .env file
-const uri = "mongodb+srv://wantodo:mongodb@cluster0.fwmjy.mongodb.net/?retryWrites=true&w=majority"
+const devUri = "mongodb+srv://wantodo:mongodb@cluster0.fwmjy.mongodb.net/?retryWrites=true&w=majority"
+const uri = process.env.MONGODB_URI || devUri
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
