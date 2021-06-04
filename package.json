@@ -10,6 +10,7 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.4",
     "lowdb": "^1.0.0",
+    "mongodb": "^3.6.9",
     "react": "^16.11.0",
     "react-dom": "^16.10.2",
     "react-feather": "^2.0.3",
@@ -42,7 +43,11 @@
     "nodemon": "^2.0.6"
   },
   "nodemonConfig": {
-    "ignore": ["src/*", "public/*", "my-app/*"],
+    "ignore": [
+      "src/*",
+      "public/*",
+      "my-app/*"
+    ],
     "ext": "js"
   }
 }

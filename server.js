@@ -1,4 +1,5 @@
 var express = require('express')
+var { MongoClient, ObjectId } = require('mongodb')
 var shortid = require('shortid')
 var low = require('lowdb')
 var FileSync = require('lowdb/adapters/FileSync')
@@ -10,6 +11,16 @@ var path = require('path')
 app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))
 
+// TODO: Get this from an environment variable or .env file
+const uri = "mongodb+srv://wantodo:mongodb@cluster0.fwmjy.mongodb.net/?retryWrites=true&w=majority"
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+
+// Shared reference to the database
+let database
+
 // lowdb docs: https://github.com/typicode/lowdb
 // example project: https://glitch.com/~low-db
 db.defaults({
@@ -20,16 +31,35 @@ db.defaults({
   ]
 }).write()
 
-app.get("/api/random", function (request, response) {
+/**
+ * Important note about Express route handlers and async / await: If the route
+ * handler is an async function and you call await doSomething(), if
+ * doSomething() rejects or throws, Express will handler it. So you don't need
+ * to wrap the 'await' in a try/catch statement.
+ */
+
+app.get("/api/random", async function (request, response) {
   const exclude = request.query.exclude
-  let wants = db.get('wants').cloneDeep().value()
+  let pipeline = [
+    { $sample: { size: 1 } }, // Get a random document
+  ]
 
   if (exclude) {
-    wants = wants.filter((w) => w.id !== exclude )
+    pipeline = [
+      // Only include documents where _id doesn't equal `exclude`
+      { $match: { _id: { $ne: ObjectId(exclude) } } }
+    ].concat(pipeline)
   }
 
-  const index = Math.floor(Math.random() * wants.length)
-  response.send(wants[index])
+  const result = await database.collection('wants')
+    .aggregate(pipeline)
+    .toArray()
+
+  if (result.length < 1) {
+    response.status(404).send({ error: 'Not found'})
+  } else {
+    response.send(result[0])
+  }
 });
 
 app.get("/api/want", function (request, response) {
@@ -37,11 +67,10 @@ app.get("/api/want", function (request, response) {
   response.send(wants)
 })
 
-app.post("/api/want", function (request, response) {
-  const newWant = { id: shortid.generate(), description: request.body.description }
-  db.get('wants')
-    .push(newWant)
-    .write()
+app.post("/api/want", async function (request, response) {
+  const newWant = { description: request.body.description }
+  // This automatically sets _id in newWant
+  await database.collection('wants').insertOne(newWant)
   response.send(newWant)
 });
 
@@ -100,6 +129,14 @@ app.get('*', (req, res) => {
 // development, the app will listen on port port 3001. By adding "proxy": ... to
 // package.json, I can run a react server locally to host the frontend, and
 // react will proxy API requests to localhost:3001.
-var listener = app.listen(process.env.PORT || 3001, function () {
+var listener = app.listen(process.env.PORT || 3001, async function () {
+  try {
+    await client.connect()
+    database = client.db('wantodo')
+  } catch (e) {
+    console.log('Error Connecting to MongoDB Atlas')
+    console.log(e)
+  }
+
   console.log('Your app is listening on port ' + listener.address().port);
 });
