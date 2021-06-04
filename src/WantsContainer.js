@@ -10,7 +10,7 @@ const WantCardReadOnly = ({ want, onEdit, onDelete }) => (
   <Card css="margin:10px">
     <CardPrimary><Heading>{want.description}</Heading></CardPrimary>
     <CardActions>
-      <Trash2 size={32} style={{ cursor: 'pointer' }} onClick={() => onDelete(want.id)}/>
+      <Trash2 size={32} style={{ cursor: 'pointer' }} onClick={() => onDelete(want._id)}/>
       <Edit size={32} style={{ cursor: 'pointer', marginRight: '10px' }} onClick={onEdit}/>
     </CardActions>
   </Card>
@@ -18,7 +18,7 @@ const WantCardReadOnly = ({ want, onEdit, onDelete }) => (
 
 const WantCardEditable = ({ want, onSave, onCancel, onChange }) => {
   const handleChange = (ev) => onChange(ev.target.name, ev.target.value)
-  
+
   return <Card css="margin:10px">
     <CardPrimary>
       <Input name="description" value={want.description} onChange={handleChange} />
@@ -32,11 +32,11 @@ const WantCardEditable = ({ want, onSave, onCancel, onChange }) => {
       />
     </CardActions>
   </Card>
-  
+
 }
 
 const WantCardContainer = ({ editable, want, ...props }) => {
-  if (editable && want.id === editable.id) {
+  if (editable && want._id === editable._id) {
     return <WantCardEditable want={editable} {...props}/>
   } else {
     return <WantCardReadOnly want={want} {...props}/>
@@ -51,16 +51,16 @@ function WantsContainer(props) {
       .then((response) => response.json())
       .then((wants) => setWants(wants))
   }, [/* Only fire on mount */])
-  
+
   function onCreateSuccess(want) {
     // TODO SM (2020-07-11): For now, just add the want to the end of the list
     setWants([ ...wants, want ])
   }
-  
+
   function onChange(name, value) {
     setEditable({ ...editable, [name]: value })
   }
-  
+
   function onSave(want) {
     // TODO SM (2020-08-02): Add error handling
     console.log(want)
@@ -68,30 +68,30 @@ function WantsContainer(props) {
       .then(onSaveSuccess)
       .catch((err) => console.log(err.response))
   }
-  
+
   function onSaveSuccess(updatedWant) {
     const updatedWants = wants.map((want) => {
-      if (want.id === updatedWant.id) {
+      if (want._id === updatedWant._id) {
         return updatedWant
       } else {
         return want
       }
     })
-    
+
     setWants(updatedWants)
     setEditable(null)
   }
-  
+
   function onCancel() {
     setEditable(null)
   }
-  
+
   function onDelete(id) {
     // TODO SM (2020-09-24): Add error handling
     del(id)
       .then(() => {
         setWants(wants.filter((want) => (
-          want.id !== id
+          want._id !== id
         )))
       })
       .catch((err) => {
@@ -105,7 +105,7 @@ function WantsContainer(props) {
     <AddWant onCreateSuccess={onCreateSuccess} />
     {wants.map((want) => (
       <WantCardContainer
-        key={want.id}
+        key={want._id}
         want={want}
         editable={editable}
         onEdit={() => setEditable({ ...want })}
@@ -114,7 +114,7 @@ function WantsContainer(props) {
         onChange={onChange}
         onDelete={onDelete}
       />
-    ))} 
+    ))}
   </>
 }
 
