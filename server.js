@@ -1,11 +1,13 @@
 var express = require('express')
 var { MongoClient, ObjectId } = require('mongodb')
-var shortid = require('shortid')
-var app = express()
+var passport = require('passport')
+var { UniqueTokenStrategy } = require('passport-unique-token')
 var path = require('path')
 
+var app = express()
 app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))
+app.use(passport.initialize())
 
 // TODO: Get this from an environment variable or .env file
 const devUri = "mongodb+srv://wantodo:mongodb@cluster0.fwmjy.mongodb.net/?retryWrites=true&w=majority"
@@ -18,12 +20,27 @@ const client = new MongoClient(uri, {
 // Shared reference to the database
 let database
 
-// TODO: Populate the 'wants' collection for a new user with these
-const DEFAULT_WANTS = [
-  { description: "Learn a new language" },
-  { description: "Exercise 30 min a day" },
-  { description: "Read for 15 minutes" },
-]
+function getUser(token) {
+  return database.collection('users').findOne({ accessCode: token })
+}
+
+passport.use(new UniqueTokenStrategy(async (token, done) => {
+  try {
+    const user = await getUser(token)
+    if (!user) {
+      return done(null, false)
+    }
+
+    return done(null, user)
+  } catch(err) {
+    return done(err)
+  }
+}))
+
+// passportjs complains that it can't serializer user into a session
+// (perhaps because I'm not using the passport.session() middleware) so
+// disable sessions.
+const authenticate = passport.authenticate('token', { session: false })
 
 /**
  * Important note about Express route handlers and async / await: If the route
@@ -31,6 +48,10 @@ const DEFAULT_WANTS = [
  * doSomething() rejects or throws, Express will handler it. So you don't need
  * to wrap the 'await' in a try/catch statement.
  */
+
+app.post("/api/login", authenticate, (request, response) => {
+  response.send({ token: request.user.accessCode })
+})
 
 app.get("/api/random", async function (request, response) {
   const exclude = request.query.exclude
