@@ -53,18 +53,25 @@ app.post("/api/login", authenticate, (request, response) => {
   response.send({ token: request.user.accessCode })
 })
 
-app.get("/api/random", async function (request, response) {
+app.get("/api/random", authenticate, async function (request, response) {
   const exclude = request.query.exclude
   let pipeline = [
-    { $sample: { size: 1 } }, // Get a random document
+    { $match: { ownerId: request.user._id } }
   ]
 
   if (exclude) {
-    pipeline = [
-      // Only include documents where _id doesn't equal `exclude`
-      { $match: { _id: { $ne: ObjectId(exclude) } } }
-    ].concat(pipeline)
+    try {
+      pipeline.push(
+        // Only include documents where _id doesn't equal `exclude`
+        { $match: { _id: { $ne: ObjectId(exclude) } } }
+      )
+    } catch(err) {
+      console.log(`Not excluding id=${exclude} (invalid ID)`)
+    }
   }
+
+  // Get a random document
+  pipeline.push({ $sample: { size: 1 } })
 
   const result = await database.collection('wants')
     .aggregate(pipeline)
@@ -77,19 +84,24 @@ app.get("/api/random", async function (request, response) {
   }
 });
 
-app.get("/api/want", async function (request, response) {
-  const wants = await database.collection('wants').find({}).toArray()
+app.get("/api/want", authenticate, async function (request, response) {
+  const wants = await database.collection('wants')
+    .find({ ownerId: request.user._id })
+    .toArray()
   response.send(wants)
 })
 
-app.post("/api/want", async function (request, response) {
-  const newWant = { description: request.body.description }
+app.post("/api/want", authenticate, async function (request, response) {
+  const newWant = {
+    description: request.body.description,
+    ownerId: request.user._id,
+  }
   // This automatically sets _id in newWant
   await database.collection('wants').insertOne(newWant)
   response.send(newWant)
 });
 
-app.patch("/api/want/:id", async function (request, response) {
+app.patch("/api/want/:id", authenticate, async function (request, response) {
   const { _id, ...updatedWant } = request.body
   let queryId
 
@@ -104,9 +116,12 @@ app.patch("/api/want/:id", async function (request, response) {
   }
 
   const result = await database.collection('wants')
-    .updateOne({ _id: queryId }, { $set: updatedWant })
+    .updateOne(
+      { _id: queryId, ownerId: request.user._id },
+      { $set: updatedWant }
+    )
 
-  if (result.matchedCount == 0) {
+  if (result.matchedCount === 0) {
     response.status(404).send({
       error: `Want ${request.params.id} does not exist`
     })
@@ -118,7 +133,7 @@ app.patch("/api/want/:id", async function (request, response) {
   }
 })
 
-app.delete("/api/want/:id", async function(request, response) {
+app.delete("/api/want/:id", authenticate, async function(request, response) {
   let queryId
 
   try {
@@ -132,7 +147,7 @@ app.delete("/api/want/:id", async function(request, response) {
   }
 
   const result = await database.collection('wants')
-    .deleteOne({ _id: queryId })
+    .deleteOne({ _id: queryId, ownerId: request.user._id })
   response.status(200).send({ _id: request.params.id })
 })
 
