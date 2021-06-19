@@ -1,11 +1,13 @@
 var express = require('express')
 var { MongoClient, ObjectId } = require('mongodb')
-var shortid = require('shortid')
-var app = express()
+var passport = require('passport')
+var { UniqueTokenStrategy } = require('passport-unique-token')
 var path = require('path')
 
+var app = express()
 app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))
+app.use(passport.initialize())
 
 // TODO: Get this from an environment variable or .env file
 const devUri = "mongodb+srv://wantodo:mongodb@cluster0.fwmjy.mongodb.net/?retryWrites=true&w=majority"
@@ -18,12 +20,27 @@ const client = new MongoClient(uri, {
 // Shared reference to the database
 let database
 
-// TODO: Populate the 'wants' collection for a new user with these
-const DEFAULT_WANTS = [
-  { description: "Learn a new language" },
-  { description: "Exercise 30 min a day" },
-  { description: "Read for 15 minutes" },
-]
+function getUser(token) {
+  return database.collection('users').findOne({ accessCode: token })
+}
+
+passport.use(new UniqueTokenStrategy(async (token, done) => {
+  try {
+    const user = await getUser(token)
+    if (!user) {
+      return done(null, false)
+    }
+
+    return done(null, user)
+  } catch(err) {
+    return done(err)
+  }
+}))
+
+// passportjs complains that it can't serializer user into a session
+// (perhaps because I'm not using the passport.session() middleware) so
+// disable sessions.
+const authenticate = passport.authenticate('token', { session: false })
 
 /**
  * Important note about Express route handlers and async / await: If the route
@@ -32,18 +49,29 @@ const DEFAULT_WANTS = [
  * to wrap the 'await' in a try/catch statement.
  */
 
-app.get("/api/random", async function (request, response) {
+app.post("/api/login", authenticate, (request, response) => {
+  response.send({ token: request.user.accessCode })
+})
+
+app.get("/api/random", authenticate, async function (request, response) {
   const exclude = request.query.exclude
   let pipeline = [
-    { $sample: { size: 1 } }, // Get a random document
+    { $match: { ownerId: request.user._id } }
   ]
 
   if (exclude) {
-    pipeline = [
-      // Only include documents where _id doesn't equal `exclude`
-      { $match: { _id: { $ne: ObjectId(exclude) } } }
-    ].concat(pipeline)
+    try {
+      pipeline.push(
+        // Only include documents where _id doesn't equal `exclude`
+        { $match: { _id: { $ne: ObjectId(exclude) } } }
+      )
+    } catch(err) {
+      console.log(`Not excluding id=${exclude} (invalid ID)`)
+    }
   }
+
+  // Get a random document
+  pipeline.push({ $sample: { size: 1 } })
 
   const result = await database.collection('wants')
     .aggregate(pipeline)
@@ -56,20 +84,25 @@ app.get("/api/random", async function (request, response) {
   }
 });
 
-app.get("/api/want", async function (request, response) {
-  const wants = await database.collection('wants').find({}).toArray()
+app.get("/api/want", authenticate, async function (request, response) {
+  const wants = await database.collection('wants')
+    .find({ ownerId: request.user._id })
+    .toArray()
   response.send(wants)
 })
 
-app.post("/api/want", async function (request, response) {
-  const newWant = { description: request.body.description }
+app.post("/api/want", authenticate, async function (request, response) {
+  const newWant = {
+    description: request.body.description,
+    ownerId: request.user._id,
+  }
   // This automatically sets _id in newWant
   await database.collection('wants').insertOne(newWant)
   response.send(newWant)
 });
 
-app.patch("/api/want/:id", async function (request, response) {
-  const { _id, ...updatedWant } = request.body
+app.patch("/api/want/:id", authenticate, async function (request, response) {
+  const { _id, ownerId, ...updatedWant } = request.body
   let queryId
 
   try {
@@ -83,21 +116,25 @@ app.patch("/api/want/:id", async function (request, response) {
   }
 
   const result = await database.collection('wants')
-    .updateOne({ _id: queryId }, { $set: updatedWant })
+    .updateOne(
+      { _id: queryId, ownerId: request.user._id },
+      { $set: updatedWant }
+    )
 
-  if (result.matchedCount == 0) {
+  if (result.matchedCount === 0) {
     response.status(404).send({
       error: `Want ${request.params.id} does not exist`
     })
   } else {
     response.send({
       _id: request.params.id,
+      ownerId,
       ...updatedWant
     })
   }
 })
 
-app.delete("/api/want/:id", async function(request, response) {
+app.delete("/api/want/:id", authenticate, async function(request, response) {
   let queryId
 
   try {
@@ -111,7 +148,7 @@ app.delete("/api/want/:id", async function(request, response) {
   }
 
   const result = await database.collection('wants')
-    .deleteOne({ _id: queryId })
+    .deleteOne({ _id: queryId, ownerId: request.user._id })
   response.status(200).send({ _id: request.params.id })
 })
 

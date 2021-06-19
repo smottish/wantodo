@@ -17,6 +17,8 @@ import {
   ModalBody,
   ModalFooter,
 } from './Modal.js'
+import LoginModal from './LoginModal.js'
+import { setToken, login } from './api'
 
 const modalRoot = document.getElementById('modal-root')
 
@@ -84,11 +86,15 @@ class App extends Component {
       sidebarSelected: '',
       showToast: false,
       showHelp: false,
+      isLoggedIn: false,
+      loginError: '',
     }
 
     this.onBreakPointMatch = this.onBreakPointMatch.bind(this)
     this.onSideBarSelect = this.onSideBarSelect.bind(this)
     this.onHelpClose = this.onHelpClose.bind(this)
+    this.onLogin = this.onLogin.bind(this)
+    this.onLoginChange = this.onLoginChange.bind(this)
   }
 
   onHelpClose() {
@@ -125,10 +131,36 @@ class App extends Component {
     this.setState(newState)
   }
 
+  onLogin(code) {
+    this.setState({ loginError: '' })
+    login(code)
+      .then(() => {
+        window.localStorage.setItem('token', code)
+        this.setState({ isLoggedIn: true })
+      })
+      .catch((err) => {
+        this.setState({ loginError: 'Invalid code' })
+      })
+  }
+
+  onLoginChange(ev) {
+    if (this.state.loginError !== '') {
+      this.setState({ loginError: '' })
+    }
+  }
+
   renderCurrentPage() {
     const page = this.state.sidebarSelected || 'default'
     const Page = pages[page]
     return <Page/>
+  }
+
+  componentWillMount() {
+    const token = window.localStorage.getItem('token')
+    if (token) {
+      setToken(token)
+      this.setState({ isLoggedIn: true })
+    }
   }
 
   render() {
@@ -150,12 +182,20 @@ class App extends Component {
 
     return <>
       <ToastWrapper />
+      <LoginModal
+        isOpen={!this.state.isLoggedIn}
+        container={modalRoot}
+        theme={theme}
+        onLogin={this.onLogin}
+        onChange={this.onLoginChange}
+        error={this.state.loginError}
+      />
       <Modal
         isOpen={this.state.showHelp}
         container={modalRoot}
         onClick={this.onHelpClose}
       >
-        <ModalContent theme={theme}>
+        <ModalContent theme={theme} style={{ top: '10%', width: '70%'}}>
           <ModalHeader theme={theme}>
             <span style={{fontSize: '1.5em'}}>How to use Wantodo</span>
             <ModalClose

@@ -3,7 +3,7 @@ import { Heading } from 'rebass';
 import { Input } from '@rebass/forms';
 import { Edit, Trash2, Check, X } from 'react-feather';
 import { Card, CardPrimary, CardActions } from './Card'
-import { update, del } from './api';
+import { update, del, list } from './api';
 import AddWant from './AddWant'
 
 const WantCardReadOnly = ({ want, onEdit, onDelete }) => (
@@ -47,9 +47,7 @@ function WantsContainer(props) {
   const [ wants, setWants ] = useState([])
   const [ editable, setEditable ] = useState(null)
   useEffect(() => {
-    fetch('/api/want')
-      .then((response) => response.json())
-      .then((wants) => setWants(wants))
+    list().then((wants) => setWants(wants))
   }, [/* Only fire on mount */])
 
   function onCreateSuccess(want) {
@@ -63,7 +61,6 @@ function WantsContainer(props) {
 
   function onSave(want) {
     // TODO SM (2020-08-02): Add error handling
-    console.log(want)
     update(want)
       .then(onSaveSuccess)
       .catch((err) => console.log(err.response))
