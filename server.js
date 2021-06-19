@@ -102,7 +102,7 @@ app.post("/api/want", authenticate, async function (request, response) {
 });
 
 app.patch("/api/want/:id", authenticate, async function (request, response) {
-  const { _id, ...updatedWant } = request.body
+  const { _id, ownerId, ...updatedWant } = request.body
   let queryId
 
   try {
@@ -128,6 +128,7 @@ app.patch("/api/want/:id", authenticate, async function (request, response) {
   } else {
     response.send({
       _id: request.params.id,
+      ownerId,
       ...updatedWant
     })
   }

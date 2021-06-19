@@ -2,12 +2,6 @@ import React, { useRef } from 'react'
 import ReactDOM from 'react-dom';
 import styled from "styled-components"
 
-const defaultTheme = {
-  colors: {
-    lightGray: 'gray'
-  }
-}
-
 const ModalBackdrop = styled.div`
   position: fixed;
   z-index: 1;
@@ -19,15 +13,18 @@ const ModalBackdrop = styled.div`
   background-color: rgba(0,0,0,0.4);
 `
 
+// TODO: get theme from context/react hook. Right now it needs to be passed
+// explicitly
 const ModalContent = styled.div`
   background-color: ${props => props.theme.colors.lightGray};
   color: ${props => props.theme.colors.darkGray};
   font-family: ${props => props.theme.fonts.default};
   position: relative;
   margin: auto;
-  padding: 0;
+  padding: ${props => (props.style && props.style.padding) || '10px'};
   border: 1px solid #888;
-  width: 80%;
+  width: ${props => (props.style && props.style.width) || '80%'};
+  top: ${props => (props.style && props.style.top) || 0};
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
 `
 

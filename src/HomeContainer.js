@@ -4,6 +4,7 @@ import { withTheme } from 'emotion-theming';
 import SpinningText from './SpinningText';
 import { ToastContext, SHOW_TOAST } from './ToastProvider'
 import AddWant from './AddWant';
+import { random } from './api';
 
 class HomeContainer extends Component {
   constructor() {
@@ -16,6 +17,7 @@ class HomeContainer extends Component {
     this.onChangeWant = this.onChangeWant.bind(this)
     this.onGetWant = this.onGetWant.bind(this)
     this.onCreateWantSuccess = this.onCreateWantSuccess.bind(this)
+    this.onCreateWantError = this.onCreateWantError.bind(this)
   }
 
   onChangeWant(ev) {
@@ -23,12 +25,12 @@ class HomeContainer extends Component {
   }
 
   onGetWant() {
-    let url = '/api/random'
+    let exclude = null
     if (this.state.want) {
-      url = url + `?exclude=${this.state.want._id}`
+      exclude = this.state.want._id
     }
-    fetch(url)
-      .then((response) => response.json())
+
+    random(exclude)
       .then((want) => this.setState({ want }))
   }
 
@@ -41,11 +43,20 @@ class HomeContainer extends Component {
     dispatch({ type: SHOW_TOAST, message: "Want added!" })
   }
 
+  onCreateWantError(err) {
+      // TODO: error handling
+      console.error(err)
+      console.error(err.response)
+  }
+
   render() {
     return (
       <>
         <Flex justifyContent='center'><Heading>I want to...</Heading></Flex>
-        <AddWant onCreateSuccess={this.onCreateWantSuccess} />
+        <AddWant
+          onCreateSuccess={this.onCreateWantSuccess}
+          onCreateError={this.onCreateWantError}
+        />
         <Flex marginTop="5px" justifyContent='center'>
           <Box width={[1, 1, 2/3]} m='3px'>
             <Button variant="secondary" width="100%" onClick={this.onGetWant}>Tell me what to do!</Button>
