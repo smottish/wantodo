@@ -30,9 +30,9 @@ function login(accessCode) {
   })
   .then(checkStatus(200))
   .then((response) => response.json())
-  .then((data) => {
-    setToken(data.token)
-    return token
+  .then((user) => {
+    setToken(user.accessCode)
+    return user
   })
 }
 
@@ -110,6 +110,15 @@ function random(exclude=null) {
   .then((response) => response.json())
 }
 
+function getUser() {
+  return fetch('/api/user', {
+    method: 'GET',
+    headers: { 'token': token },
+  })
+  .then(checkStatus(200))
+  .then((response) => response.json())
+}
+
 export {
   create,
   update,
@@ -117,5 +126,6 @@ export {
   list,
   login,
   random,
+  getUser,
   setToken,
 }

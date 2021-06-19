@@ -50,7 +50,11 @@ const authenticate = passport.authenticate('token', { session: false })
  */
 
 app.post("/api/login", authenticate, (request, response) => {
-  response.send({ token: request.user.accessCode })
+  response.send({ ...request.user })
+})
+
+app.get("/api/user", authenticate, (request, response) => {
+  response.send({ ...request.user })
 })
 
 app.get("/api/random", authenticate, async function (request, response) {

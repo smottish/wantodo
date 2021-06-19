@@ -1,6 +1,6 @@
 import React, { Component, useContext } from 'react';
 import { useTheme, withTheme } from 'emotion-theming';
-import { Heading, Box, Button, Text } from 'rebass';
+import { Heading, Box, Button } from 'rebass';
 import { Home, CheckSquare } from 'react-feather';
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -18,7 +18,7 @@ import {
   ModalFooter,
 } from './Modal.js'
 import LoginModal from './LoginModal.js'
-import { setToken, login } from './api'
+import { setToken, login, getUser } from './api'
 
 const modalRoot = document.getElementById('modal-root')
 
@@ -111,6 +111,7 @@ class App extends Component {
       showHelp: false,
       isLoggedIn: false,
       loginError: '',
+      user: {},
     }
 
     this.onBreakPointMatch = this.onBreakPointMatch.bind(this)
@@ -157,9 +158,9 @@ class App extends Component {
   onLogin(code) {
     this.setState({ loginError: '' })
     login(code)
-      .then(() => {
+      .then((user) => {
         window.localStorage.setItem('token', code)
-        this.setState({ isLoggedIn: true })
+        this.setState({ isLoggedIn: true, user: { ...user } })
       })
       .catch((err) => {
         this.setState({ loginError: 'Invalid code' })
@@ -183,6 +184,7 @@ class App extends Component {
     if (token) {
       setToken(token)
       this.setState({ isLoggedIn: true })
+      getUser().then((user) => this.setState({ user: { ...user }}))
     }
   }
 
@@ -257,6 +259,7 @@ class App extends Component {
               showMenuButton={isMobile}
               onMenuClick={() => this.setState({sidebarOpen: !sidebarOpen})}
               onHelpClick={() => this.setState({ showHelp: true })}
+              user={this.state.user}
               sx={{ gridColumn }}
             />
             <Sidebar
