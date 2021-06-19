@@ -1,6 +1,6 @@
 import React, { Component, useContext } from 'react';
 import { useTheme, withTheme } from 'emotion-theming';
-import { Heading, Box, Button } from 'rebass';
+import { Heading, Box, Button, Text } from 'rebass';
 import { Home, CheckSquare } from 'react-feather';
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -69,6 +69,29 @@ const ToastWrapper = (props) => {
     {state.message}
   </Toast>
 }
+
+const HelpContent = () => <>
+  <p>Do you ever feel like sometimes when you have free time on your
+  hands, you genuinely don't know what to do? So you end up
+  browsing social media or binging Netflix only to later remember all
+  the things you'd like to do, if only you had the time.</p>
+
+  <p>This is not another "Todo" app to track all the things you "need"
+  to do. This is a tool to provide inspiration for things you "want"
+  to do during those fleeting and rare pockets of free time.</p>
+
+  <h4>When you find yourself thinking "what should I do?"</h4>
+
+  <p>Just click or tap "Tell me what to do!"</p>
+
+  <h4>When inpsiration strikes...</h4>
+  <p>...and you think of something you'd like to
+  do, type it into where it says "Enter something you want to do" and
+  click "Add." You can manage all the things you want to do from the
+  "Wants" page.</p>
+
+  <p>Are you ready to get started?</p>
+</>
 
 const pages = {
   home: HomeContainer,
@@ -195,22 +218,26 @@ class App extends Component {
         container={modalRoot}
         onClick={this.onHelpClose}
       >
-        <ModalContent theme={theme} style={{ top: '10%', width: '70%'}}>
-          <ModalHeader theme={theme}>
-            <span style={{fontSize: '1.5em'}}>How to use Wantodo</span>
-            <ModalClose
-              onClick={this.onHelpClose}
-            >
-              &times;
-            </ModalClose>
-          </ModalHeader>
-          <ModalBody theme={theme}>
-            Test
-          </ModalBody>
-          <ModalFooter theme={theme}>
-            <Button onClick={this.onHelpClose}>OK</Button>
-          </ModalFooter>
-        </ModalContent>
+        <MediaQuery
+          query={`(max-width: ${MOBILE_BREAKPOINT}px)`}
+        >{(matches) => (
+          <ModalContent theme={theme} style={{ top: '20px', width: matches ? '80%' : '50%' }}>
+            <ModalHeader theme={theme}>
+              <span style={{fontSize: '1.5em'}}>How to use Wantodo</span>
+              <ModalClose
+                onClick={this.onHelpClose}
+              >
+                &times;
+              </ModalClose>
+            </ModalHeader>
+            <ModalBody theme={theme}>
+              <HelpContent />
+            </ModalBody>
+            <ModalFooter theme={theme}>
+              <Button onClick={this.onHelpClose}>Yes!</Button>
+            </ModalFooter>
+          </ModalContent>
+        )}</MediaQuery>
         </Modal>
         <MediaQuery
           query={`(max-width: ${MOBILE_BREAKPOINT}px)`}
