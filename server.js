@@ -9,9 +9,7 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))
 app.use(passport.initialize())
 
-// TODO: Get this from an environment variable or .env file
-const devUri = "mongodb+srv://wantodo:mongodb@cluster0.fwmjy.mongodb.net/?retryWrites=true&w=majority"
-const uri = process.env.MONGODB_URI || devUri
+const uri = process.env.MONGODB_URI
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -37,7 +35,7 @@ passport.use(new UniqueTokenStrategy(async (token, done) => {
   }
 }))
 
-// passportjs complains that it can't serializer user into a session
+// passportjs complains that it can't serialize user into a session
 // (perhaps because I'm not using the passport.session() middleware) so
 // disable sessions.
 const authenticate = passport.authenticate('token', { session: false })
@@ -45,7 +43,7 @@ const authenticate = passport.authenticate('token', { session: false })
 /**
  * Important note about Express route handlers and async / await: If the route
  * handler is an async function and you call await doSomething(), if
- * doSomething() rejects or throws, Express will handler it. So you don't need
+ * doSomething() rejects or throws, Express will handle it. So you don't need
  * to wrap the 'await' in a try/catch statement.
  */
 
